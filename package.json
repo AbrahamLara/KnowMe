@@ -1,0 +1,14 @@
+{
+  "name": "know-me-backend-server",
+  "version": "1.0.0",
+  "description": "Backend server for KnowMe web app",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Abraham Lara",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}
