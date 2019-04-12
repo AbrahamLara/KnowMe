@@ -1,10 +1,9 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const config = require('config');
+const port = 5000;
 
 const app = express();
-
-const port = 3001;
 
 app.use(express.json());
 
@@ -17,6 +16,8 @@ mongoose
   .then(() => console.log('Connected to MongoDB'))
   .catch(e => console.log(e));
 
+// To keep routes organized specific api calls
+// will be handled by their respective routes
 app.use('/api/users', require('./routes/api/users'));
 app.use('/api/auth', require('./routes/api/auth'));
 

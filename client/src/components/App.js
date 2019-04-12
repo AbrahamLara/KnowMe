@@ -10,6 +10,8 @@ import {
   NavLink,
   Container
 } from 'reactstrap';
+import { loadUser } from '../actions/shared';
+import { connect } from 'react-redux';
 
 class App extends Component {
   constructor (props) {
@@ -21,6 +23,13 @@ class App extends Component {
     };
   }
 
+  componentDidMount () {
+    this.props.dispatch(loadUser());
+  }
+
+  // When viewing app in mobile browsers the
+  // user can toggle between displaying or hiding
+  // navbar links
   toggle() {
     this.setState(({ isOpen }) => ({
       isOpen: !isOpen
@@ -66,4 +75,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default connect()(App);

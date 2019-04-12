@@ -7,7 +7,7 @@ const auth = require('../../middleware/auth');
 const User = require('../../models/User');
 
 // @router  GET apli/users
-// @desc    Get All users
+// @desc    Get all user info
 // @access  Public
 router.get('/', (req, res) => {
   User.find()
@@ -16,21 +16,24 @@ router.get('/', (req, res) => {
     .then(users => res.json(users));
 });
 
-// @router  POST apli/users
+// @router  POST api/users
 // @desc    Create new user
 // @access  Public
 router.post('/', (req, res) => {
   const { name, email, password } = req.body;
 
-  // Simple verification
+  // We return a 400 status of there doesn't
+  // exist values for name, email, password
   if (!name || !email || !password) {
     return res.status(400).json({ msg: 'Please enter all fields'});
   }
 
-  // Check for existing users
+  // Using the given email we check if there alreay exists
+  // a user with the given email. If so we return a 400 status
+  // with a message
   User.findOne({ email })
     .then(user => {
-      if (user) return res.status.json({ msg: 'User already exists'});
+      if (user) return res.status(400).json({ msg: 'User already exists'});
 
       const newUser = new User({
         name,
@@ -38,7 +41,9 @@ router.post('/', (req, res) => {
         password
       });
 
-      // Create salt and hash
+      // All passwords must be hashed and salted before they it 
+      // can be stored in in the database along with the rest of
+      // the given information
       bcrypt.genSalt(10, (err, salt) => {
         bcrypt.hash(newUser.password, salt, (err, hash) => {
           if (err) throw err;
@@ -46,9 +51,7 @@ router.post('/', (req, res) => {
           newUser.password = hash;
           newUser.save()
             .then(user => {
-
               res.json({ msg: 'Successfully registered user'});
-
             })
             .catch(err => res.status(400).json({  msg: 'Failed to register user'}));
         });
