@@ -1,0 +1,4 @@
+{
+  "mongoURI": "mongodb://admin:admin@localhost:27017/knowme",
+  "jwtSecret": "km_jwtSecret"
+}

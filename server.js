@@ -1,7 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-
-const users = require('./routes/api/users');
+const config = require('config');
 
 const app = express();
 
@@ -11,14 +10,15 @@ app.use(express.json());
 
 // MongoDB setup
 mongoose
-  .connect('mongodb://admin:admin@localhost:27017/knowme', {
+  .connect(config.get('mongoURI'), {
     useNewUrlParser: true,
     useCreateIndex: true
   })
   .then(() => console.log('Connected to MongoDB'))
   .catch(e => console.log(e));
 
-app.use('/api/users', users);
+app.use('/api/users', require('./routes/api/users'));
+app.use('/api/auth', require('./routes/api/auth'));
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);

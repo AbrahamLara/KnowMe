@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
+const auth = require('../../middleware/auth');
 
 // User Model
 const User = require('../../models/User');
@@ -10,6 +11,7 @@ const User = require('../../models/User');
 // @access  Public
 router.get('/', (req, res) => {
   User.find()
+    .select('-password')
     .sort({ name: 1 })
     .then(users => res.json(users));
 });
@@ -22,13 +24,13 @@ router.post('/', (req, res) => {
 
   // Simple verification
   if (!name || !email || !password) {
-    return res.status(400).json({ msg: 'Please enter all fields.'});
+    return res.status(400).json({ msg: 'Please enter all fields'});
   }
 
   // Check for existing users
   User.findOne({ email })
     .then(user => {
-      if (user) return res.status.json({ msg: 'User already exists.'});
+      if (user) return res.status.json({ msg: 'User already exists'});
 
       const newUser = new User({
         name,
@@ -44,34 +46,25 @@ router.post('/', (req, res) => {
           newUser.password = hash;
           newUser.save()
             .then(user => {
-              res.json({
-                user: {
-                  id: user.id,
-                  name: user.name,
-                  email: user.email
-                }
-              })
+
+              res.json({ msg: 'Successfully registered user'});
+
             })
-            .catch(err => res.status(400).json({  msg: 'Failed to register user.'}));
+            .catch(err => res.status(400).json({  msg: 'Failed to register user'}));
         });
       });
     });
-  
-  const newUser = new User({
-    name: req.body.name,
-    email: req.body.email,
-    password: req.body.password
-  });
-
-  newUser.save()
-    .then(user => res.json(user));
 });
 
 // @router  DELETE apli/users
-// @desc    DELETE a user
-// @access  Public
-router.delete('/:id', (req, res) => {
-  User.findById(req.params.id)
+// @desc    Deletes a user
+// @access  Private
+router.delete('/:id', auth, (req, res) => {
+  const { user, params } = req;
+
+  if (user.id !== params.id) return res.status(401).json({ msg: 'Authorization denided'});
+
+  User.findById(params.id)
     .then(user => user.remove().then(() => res.json({ success: true })))
     .catch(err => res.status(404).json({ success: false }));
 });
