@@ -1,3 +1,3 @@
-## Client side folder
+## KnowMe React frontend server
 
-This is a the client side of the web app; the frontend;
+The client side of the application exists here!
