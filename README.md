@@ -1,10 +1,26 @@
-## KnowMe Backend Server
+## KnowMe
 
-This is the backend server that is utilized by the KnowMe frontend server
+This is my full stack web development project KnowMe!
 
-## Setup
+## Database Setup
+
+__Assuming MongoDB is already installed__
+
+* Start MongoDB without access control: `mongod --port 27017 --dbpath /data/db`
+* Connect to instance: `mongo --port 27017`
+* Run inside instance:
+```
+use knowme
+db.createUser({
+  user: "admin",
+  pwd: "admin",
+  roles: [{ role: "readWrite", db: "knowme" }]
+})
+```
+
+## Web App Setup
 
 * clone repo: `git clone https://github.com/AbrahamLara/KnowMe-backend-server.git`
-* change directory: `cd KnowMe-backend-server/`
-* install dependencies: `npm install`
-* start server: `node server.js`
+* install server dependencies: `npm install`
+* install client dependencies: `npm client-install`
+* run server: `npm run dev`
