@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import {
   NavItem,
   NavLink,
@@ -10,10 +10,13 @@ import {
   Label,
   Input,
   Button,
+  Alert
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { register } from '../../actions/shared';
+import { REGISTER_FAIL } from '../../actions/auth';
+import { clearErrors } from '../../actions/error';
 
 class RegisterModal extends Component {
   state = {
@@ -27,12 +30,38 @@ class RegisterModal extends Component {
   static propTypes = {
     isAuthenticated: PropTypes.bool,
     error: PropTypes.object.isRequired,
-    register: PropTypes.func.isRequired
+    register: PropTypes.func.isRequired,
+    clearErrors: PropTypes.func.isRequired
+  }
+
+  // After attempting to register we check whether
+  // any errors were produced upon registration so that
+  // the error message may be displayed. If registration
+  // was successful we close the modal
+  componentDidUpdate (prevProps) {
+    const { error, isAuthenticated } = this.props;
+    
+    if (error !== prevProps.error) {
+      this.setState({
+        msg: error.id === REGISTER_FAIL
+          ? error.msg.msg
+          :null
+      });
+    }
+    
+    if (this.state.isOpen && isAuthenticated) {
+      this.toggle();
+    }
   }
 
   // Toggles modal's visibility to
-  // set it open or not
+  // set it open or hidden while also clearing
+  // any errors in redux state;
   toggle = () => {
+    if (this.props.error.status) {
+      this.props.clearErrors();
+    }
+    
     this.setState((currState) => ({
       isOpen: !currState.isOpen
     }));
@@ -63,12 +92,10 @@ class RegisterModal extends Component {
     };
 
     this.props.register(newUser);
-
-    this.toggle();
   }
 
   render() {
-    const { isOpen } = this.state;
+    const { isOpen, msg } = this.state;
 
     return (
       <NavItem onClick={this.toggle}>
@@ -78,6 +105,9 @@ class RegisterModal extends Component {
             Placeholder
           </ModalHeader>
           <ModalBody>
+            { this.state.msg &&
+              <Alert color='danger'>{ msg }</Alert>
+            }
             <Form onSubmit={this.handleSubmit}>
               <FormGroup>
                 <Label for='name'>Name:</Label>
@@ -125,4 +155,7 @@ function mapStateToProps ({ auth: { isAuthenticated }, error }) {
   }
 }
  
-export default connect(mapStateToProps, { register })(RegisterModal);
+export default connect (
+  mapStateToProps,
+  { register, clearErrors }
+)(RegisterModal);
