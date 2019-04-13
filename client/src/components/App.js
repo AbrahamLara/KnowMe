@@ -1,59 +1,14 @@
 import React, { Component } from 'react';
 import '../css/App.css';
-import {
-  Navbar,
-  NavbarBrand,
-  NavbarToggler,
-  Collapse,
-  Nav,
-  NavItem,
-  Container
-} from 'reactstrap';
+import { Container } from 'reactstrap';
 import { connect } from 'react-redux';
-import RegisterModal from './auth/RegisterModal';
-import LoginModal from './auth/LoginModal';
-import Logout from './auth/Logout';
+import AppNavbar from './AppNavbar';
 
 class App extends Component {
-  constructor (props) {
-    super(props);
-
-    this.toggle = this.toggle.bind(this);
-    this.state = {
-      isOpen: false
-    };
-  }
-
-  // When viewing app in mobile browsers the
-  // user can toggle between displaying or hiding
-  // navbar links
-  toggle() {
-    this.setState(({ isOpen }) => ({
-      isOpen: !isOpen
-    }));
-  }
-
   render() {
-
     return (
       <div className="App">
-        <Navbar color='dark' dark expand="md">
-          <Container>
-            <NavbarBrand className='text-white' href='/'>
-              <strong>KnowMe</strong>
-            </NavbarBrand>
-            <NavbarToggler onClick={this.toggle} />
-            <Collapse isOpen={this.state.isOpen} navbar>
-              <Nav className='ml-auto' navbar>
-                <LoginModal />
-                <RegisterModal />
-                <NavItem>
-                  <Logout />
-                </NavItem>
-              </Nav>
-            </Collapse>
-          </Container>
-        </Navbar>
+        <AppNavbar />
         <Container className='mt-10'>
           <h1 className='page-phrase text-center'>Get to KnowMe!!!</h1>
           <p className='app-description text-center'>
