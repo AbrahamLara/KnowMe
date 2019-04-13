@@ -10,18 +10,44 @@ export const REGISTER_FAIL = 'REGISTER_FAIL';
 export function userLoading () {
   return {
     type: USER_LOADING
-  }
+  };
 }
 
 export function userLoaded (payload) {
   return {
     type: USER_LOADED,
     payload
-  }
+  };
 }
 
 export function authError () {
   return {
     type: AUTH_ERROR
-  }
+  };
+}
+
+export function registerSuccess (payload) {
+  return {
+    type: REGISTER_SUCCESS,
+    payload
+  };
+}
+
+export function registerFail () {
+  return {
+    type: REGISTER_FAIL,
+  };
+}
+
+export function logoutSuccess () {
+  return {
+    type: LOGOUT_SUCCESS
+  };
+}
+
+// It's only purpose is to remove the
+// user's token from localStorage and reset
+// auth state in redux store
+export function logout () {
+  return logoutSuccess();
 }

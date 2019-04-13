@@ -6,11 +6,7 @@ export const tokenConfig = getState => {
   let token = getState().auth.token;
 
   // Headers configuration
-  const config = {
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  }
+  const config = defaultConfig();
 
   // If token exists, then add it to headers
   if (token) {
@@ -18,4 +14,13 @@ export const tokenConfig = getState => {
   }
 
   return config;
+}
+
+// Default headers configuration
+export function defaultConfig () {
+  return {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
 }

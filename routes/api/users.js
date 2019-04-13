@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const auth = require('../../middleware/auth');
+const jwt = require('jsonwebtoken');
+const config = require('config');
 
 // User Model
 const User = require('../../models/User');
@@ -51,7 +53,23 @@ router.post('/', (req, res) => {
           newUser.password = hash;
           newUser.save()
             .then(user => {
-              res.json({ msg: 'Successfully registered user'});
+              jwt.sign(
+                { id: user.id },
+                config.get('jwtSecret'),
+                { expiresIn: 30 },
+                (err, token) => {
+                  if (err) throw err; 
+    
+                  res.json({
+                    token,
+                    user: {
+                      id: user.id,
+                      name: user.name,
+                      email: user.email
+                    }
+                  });
+                }
+              );
             })
             .catch(err => res.status(400).json({  msg: 'Failed to register user'}));
         });

@@ -10,8 +10,9 @@ import {
   NavLink,
   Container
 } from 'reactstrap';
-import { loadUser } from '../actions/shared';
 import { connect } from 'react-redux';
+import RegisterModal from './auth/RegisterModal';
+import Logout from './auth/Logout';
 
 class App extends Component {
   constructor (props) {
@@ -21,10 +22,6 @@ class App extends Component {
     this.state = {
       isOpen: false
     };
-  }
-
-  componentDidMount () {
-    this.props.dispatch(loadUser());
   }
 
   // When viewing app in mobile browsers the
@@ -51,8 +48,9 @@ class App extends Component {
                 <NavItem>
                   <NavLink className='text-white' href='#login'>Login</NavLink>
                 </NavItem>
+                <RegisterModal register={() => console.log('hello')}/>
                 <NavItem>
-                  <NavLink className='text-white' href='#signup'>Sign Up</NavLink>
+                  <Logout />
                 </NavItem>
               </Nav>
             </Collapse>
