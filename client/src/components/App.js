@@ -3,8 +3,15 @@ import '../css/App.css';
 import { Container } from 'reactstrap';
 import { connect } from 'react-redux';
 import AppNavbar from './AppNavbar';
+import { loadUser } from '../actions/shared';
 
 class App extends Component {
+  constructor (props) {
+    super(props);
+
+    this.props.loadUser();
+  }
+
   render() {
     return (
       <div className="App">
@@ -26,4 +33,4 @@ class App extends Component {
   }
 }
 
-export default connect()(App);
+export default connect(null, { loadUser })(App);

@@ -13,7 +13,7 @@ const User = require('../../models/User');
 // @access  Public
 router.get('/', (req, res) => {
   User.find()
-    .select('-password')
+    .select(['-password', '-__v'])
     .sort({ name: 1 })
     .then(users => res.json(users));
 });
