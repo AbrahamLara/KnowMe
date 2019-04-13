@@ -14,14 +14,13 @@ import {
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { register } from '../../actions/shared';
-import { REGISTER_FAIL } from '../../actions/auth';
+import { login } from '../../actions/shared';
+import { LOGIN_FAIL } from '../../actions/auth';
 import { clearErrors } from '../../actions/error';
 
-class RegisterModal extends Component {
+class LoginModal extends Component {
   state = {
     isOpen: false,
-    name: '',
     email: '',
     password: '',
     msg: null
@@ -30,20 +29,20 @@ class RegisterModal extends Component {
   static propTypes = {
     isAuthenticated: PropTypes.bool,
     error: PropTypes.object.isRequired,
-    register: PropTypes.func.isRequired,
+    login: PropTypes.func.isRequired,
     clearErrors: PropTypes.func.isRequired
   }
 
-  // After attempting to register we check whether
-  // any errors were produced upon registration so that
-  // the error message may be displayed. If registration
-  // was successful we close the modal
+  // After attempting to login we check whether
+  // any errors were produced so that
+  // the error message may be displayed. If login
+  // is successful we close the modal
   componentDidUpdate (prevProps) {
     const { error, isAuthenticated } = this.props;
     
     if (error !== prevProps.error) {
       this.setState({
-        msg: error.id === REGISTER_FAIL
+        msg: error.id === LOGIN_FAIL
           ? error.msg.msg
           :null
       });
@@ -77,21 +76,20 @@ class RegisterModal extends Component {
   }
 
   // Once the user clicks submit their inputs
-  // will be saved as a new user object to send
-  // to registration function to make api request
-  // to register the user
+  // will be saved as a user object to send
+  // to the login function to make api request
+  // to login the user
   handleSubmit = (e) => {
     e.preventDefault();
 
-    const { name, email, password } = this.state;
+    const { email, password } = this.state;
 
-    const newUser = {
-      name,
+    const user = {
       email,
       password
     };
 
-    this.props.register(newUser);
+    this.props.login(user);
   }
 
   render() {
@@ -99,26 +97,16 @@ class RegisterModal extends Component {
 
     return (
       <NavItem onClick={this.toggle}>
-        <NavLink className='text-white' href='#signup'>Sign Up</NavLink>
+        <NavLink className='text-white' href='#login'>Login</NavLink>
         <Modal isOpen={isOpen} toggle={this.toggle} centered>
           <ModalHeader toggle={this.toggle}>
-            Register
+            Login
           </ModalHeader>
           <ModalBody>
             { msg &&
               <Alert color='danger'>{ msg }</Alert>
             }
             <Form onSubmit={this.handleSubmit}>
-              <FormGroup>
-                <Label for='name'>Name:</Label>
-                <Input
-                  id='name'
-                  name='name'
-                  type='text'
-                  placeholder='Name'
-                  onChange={this.handleChange}
-                />
-              </FormGroup>
               <FormGroup>
                 <Label for='email'>Email:</Label>
                 <Input
@@ -157,5 +145,5 @@ function mapStateToProps ({ auth: { isAuthenticated }, error }) {
  
 export default connect (
   mapStateToProps,
-  { register, clearErrors }
-)(RegisterModal);
+  { login, clearErrors }
+)(LoginModal);

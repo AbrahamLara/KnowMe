@@ -7,11 +7,11 @@ import {
   Collapse,
   Nav,
   NavItem,
-  NavLink,
   Container
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import RegisterModal from './auth/RegisterModal';
+import LoginModal from './auth/LoginModal';
 import Logout from './auth/Logout';
 
 class App extends Component {
@@ -45,10 +45,8 @@ class App extends Component {
             <NavbarToggler onClick={this.toggle} />
             <Collapse isOpen={this.state.isOpen} navbar>
               <Nav className='ml-auto' navbar>
-                <NavItem>
-                  <NavLink className='text-white' href='#login'>Login</NavLink>
-                </NavItem>
-                <RegisterModal register={() => console.log('hello')}/>
+                <LoginModal />
+                <RegisterModal />
                 <NavItem>
                   <Logout />
                 </NavItem>

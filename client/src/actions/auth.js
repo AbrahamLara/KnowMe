@@ -26,6 +26,25 @@ export function authError () {
   };
 }
 
+export function loginSuccess (payload) {
+  return {
+    type: LOGIN_SUCCESS,
+    payload
+  }
+}
+
+export function loginFail () {
+  return {
+    type: LOGIN_FAIL
+  }
+}
+
+export function logoutSuccess () {
+  return {
+    type: LOGOUT_SUCCESS
+  };
+}
+
 export function registerSuccess (payload) {
   return {
     type: REGISTER_SUCCESS,
@@ -36,12 +55,6 @@ export function registerSuccess (payload) {
 export function registerFail () {
   return {
     type: REGISTER_FAIL,
-  };
-}
-
-export function logoutSuccess () {
-  return {
-    type: LOGOUT_SUCCESS
   };
 }
 

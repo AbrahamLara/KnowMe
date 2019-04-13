@@ -5,7 +5,10 @@ import {
   userLoaded,
   authError,
   registerSuccess,
-  registerFail
+  registerFail,
+  loginSuccess,
+  loginFail,
+  LOGIN_FAIL
 } from './auth';
 import { getErrors } from './error'
 import { tokenConfig, defaultConfig } from '../utils/helpers';
@@ -25,7 +28,7 @@ export const loadUser = () => (dispatch, getState) => {
     });
 }
 
-// We take the user's inputs put then in an object that is
+// We take the user's inputs and put them in an object that is
 // then stringified to be sent as data to complete post
 // request at the given path so that the user may be registered
 // in the database
@@ -39,5 +42,22 @@ export const register = ({ name, email, password }) => dispatch => {
     .catch(err => {
       dispatch(registerFail());
       dispatch(getErrors(err.response.data, err.response.status, REGISTER_FAIL));
+    });
+}
+
+// We take the user's inputs and put them in an object that is
+// then stringified to be sent as data to complete post
+// request at the given path so that the user's token may be generated
+// to allow for authorization so that the user may start using the platform
+export const login = ({ email, password }) => dispatch => {
+  const config = defaultConfig();
+
+  const body = JSON.stringify({ email, password });
+
+  axios.post('/api/auth', body, config)
+    .then(res => dispatch(loginSuccess(res.data)))
+    .catch(err => {
+      dispatch(loginFail());
+      dispatch(getErrors(err.response.data, err.response.status, LOGIN_FAIL));
     });
 }
