@@ -15,12 +15,17 @@ import { tokenConfig, defaultConfig } from '../utils/helpers';
 
 // This function is used to load the currently
 // authenticated user using their token in order
-// authenticate them
+// authenticate them. If there is no token in the user's
+// browser we just dispatch and auth error and do nothing
 export const loadUser = () => (dispatch, getState) => {
   // Loading the user
   dispatch(userLoading());
 
-  return axios.get('/api/auth/user', tokenConfig(getState))
+  const config = tokenConfig(getState);
+
+  if (!config.token) return dispatch(authError());
+
+  return axios.get('/api/auth/user', config)
     .then(res => dispatch(userLoaded(res.data)))
     .catch(err => {
       dispatch(getErrors(err.response.data, err.response.status));
