@@ -15,18 +15,19 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 class AppNavbar extends Component {
+  state = {
+    isOpen: false
+  };
+
   constructor (props) {
     super(props);
 
     this.toggle = this.toggle.bind(this);
-    this.state = {
-      isOpen: false
-    };
   }
 
   static propTypes = {
     auth: PropTypes.object.isRequired
-  }
+  };
 
   // When viewing app in mobile browsers the
   // user can toggle between displaying or hiding
@@ -40,6 +41,19 @@ class AppNavbar extends Component {
   render() {
     const { isAuthenticated } = this.props.auth;
 
+    const authLinks = (
+      <Fragment>
+        <LoginModal />
+        <RegisterModal />
+      </Fragment>
+    );
+
+    const userLinks = (
+      <NavItem>
+        <Logout />
+      </NavItem>
+    );
+
     return (
       <Navbar color='dark' dark expand="md">
         <Container>
@@ -50,13 +64,8 @@ class AppNavbar extends Component {
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className='ml-auto' navbar>
               { isAuthenticated
-                ? <NavItem>
-                    <Logout />
-                  </NavItem>
-                : <Fragment>
-                    <LoginModal />
-                    <RegisterModal />
-                  </Fragment>
+                ? userLinks
+                : authLinks
               }
             </Nav>
           </Collapse>
@@ -69,7 +78,7 @@ class AppNavbar extends Component {
 function mapStateToProps ({ auth }) {
   return {
     auth
-  }
+  };
 }
  
 export default connect(mapStateToProps)(AppNavbar);

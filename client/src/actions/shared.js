@@ -8,7 +8,8 @@ import {
   registerFail,
   loginSuccess,
   loginFail,
-  LOGIN_FAIL
+  LOGIN_FAIL,
+  stopLoading
 } from './auth';
 import { getErrors } from './error'
 import { tokenConfig, defaultConfig } from '../utils/helpers';
@@ -16,16 +17,16 @@ import { tokenConfig, defaultConfig } from '../utils/helpers';
 // This function is used to load the currently
 // authenticated user using their token in order
 // authenticate them. If there is no token in the user's
-// browser we just dispatch and auth error and do nothing
+// browser we just dispatch stopLoading and do nothing
 export const loadUser = () => (dispatch, getState) => {
   // Loading the user
   dispatch(userLoading());
 
   const config = tokenConfig(getState);
 
-  if (!config.token) return dispatch(authError());
+  if (!config.headers['x-auth-token']) return dispatch(stopLoading());
 
-  return axios.get('/api/auth/user', config)
+  axios.get('/api/auth/user', config)
     .then(res => dispatch(userLoaded(res.data)))
     .catch(err => {
       dispatch(getErrors(err.response.data, err.response.status));

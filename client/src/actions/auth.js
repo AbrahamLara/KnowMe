@@ -1,5 +1,6 @@
 export const USER_LOADING = 'USER_LOADING';
 export const USER_LOADED = 'USER_LOADED';
+export const STOP_LOADING = 'STOP_LOADING';
 export const AUTH_ERROR = 'AUTH_ERROR';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAIL = 'LOGIN_FAIL';
@@ -18,6 +19,12 @@ export function userLoaded (payload) {
     type: USER_LOADED,
     payload
   };
+}
+
+export function stopLoading() {
+  return {
+    type: STOP_LOADING
+  }
 }
 
 export function authError () {
