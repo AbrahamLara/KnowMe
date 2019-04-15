@@ -1,7 +1,5 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import {
-  NavItem,
-  NavLink,
   Modal,
   ModalHeader,
   ModalBody,
@@ -96,8 +94,15 @@ class LoginModal extends Component {
     const { isOpen, msg } = this.state;
 
     return (
-      <NavItem onClick={this.toggle}>
-        <NavLink className='text-white' href='#login'>Login</NavLink>
+      <Fragment>
+        <Button
+          className='text-white'
+          color='link'
+          onClick={this.toggle}
+          block
+        >
+          Login
+        </Button>
         <Modal isOpen={isOpen} toggle={this.toggle} centered>
           <ModalHeader toggle={this.toggle}>
             Login
@@ -131,7 +136,7 @@ class LoginModal extends Component {
             </Form>
           </ModalBody>
         </Modal>
-      </NavItem>
+      </Fragment>
     );
   }
 }

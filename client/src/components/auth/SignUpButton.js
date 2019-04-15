@@ -1,7 +1,5 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import {
-  NavItem,
-  NavLink,
   Modal,
   ModalHeader,
   ModalBody,
@@ -18,21 +16,21 @@ import { register } from '../../actions/shared';
 import { REGISTER_FAIL } from '../../actions/auth';
 import { clearErrors } from '../../actions/error';
 
-class RegisterModal extends Component {
+class SignUpButton extends Component {
   state = {
     isOpen: false,
     name: '',
     email: '',
     password: '',
     msg: null
-  }
+  };
 
   static propTypes = {
     isAuthenticated: PropTypes.bool,
     error: PropTypes.object.isRequired,
     register: PropTypes.func.isRequired,
     clearErrors: PropTypes.func.isRequired
-  }
+  };
 
   // After attempting to register we check whether
   // any errors were produced upon registration so that
@@ -98,8 +96,14 @@ class RegisterModal extends Component {
     const { isOpen, msg } = this.state;
 
     return (
-      <NavItem onClick={this.toggle}>
-        <NavLink className='text-white' href='#signup'>Sign Up</NavLink>
+      <Fragment>
+        <Button
+          className='text-white'
+          onClick={this.toggle}
+          block
+        >
+          Sign Up
+        </Button>
         <Modal isOpen={isOpen} toggle={this.toggle} centered>
           <ModalHeader toggle={this.toggle}>
             Register
@@ -143,7 +147,7 @@ class RegisterModal extends Component {
             </Form>
           </ModalBody>
         </Modal>
-      </NavItem>
+      </Fragment>
     );
   }
 }
@@ -158,4 +162,4 @@ function mapStateToProps ({ auth: { isAuthenticated }, error }) {
 export default connect (
   mapStateToProps,
   { register, clearErrors }
-)(RegisterModal);
+)(SignUpButton);

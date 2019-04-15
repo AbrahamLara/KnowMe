@@ -6,11 +6,11 @@ import {
   NavbarToggler,
   Collapse,
   Nav,
-  NavItem,
+  NavItem
 } from 'reactstrap';
-import RegisterModal from './auth/RegisterModal';
-import LoginModal from './auth/LoginModal';
-import Logout from './auth/Logout';
+import SignUpButton from './auth/SignUpButton';
+import LoginButton from './auth/LoginButton';
+import LogoutButton from './auth/LogoutButton';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -43,14 +43,18 @@ class AppNavbar extends Component {
 
     const authLinks = (
       <Fragment>
-        <LoginModal />
-        <RegisterModal />
+        <NavItem>
+          <LoginButton />
+        </NavItem>
+        <NavItem>
+          <SignUpButton />
+        </NavItem>
       </Fragment>
     );
 
     const userLinks = (
       <NavItem>
-        <Logout />
+        <LogoutButton />
       </NavItem>
     );
 
