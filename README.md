@@ -26,5 +26,6 @@ At this point in development Mailtrap is being utilized to test and view emails 
 
 * clone repo: `git clone https://github.com/AbrahamLara/KnowMe-backend-server.git`
 * install server dependencies: `npm install`
+* install emailing dependencies: `npm emailing-install`
 * install client dependencies: `npm client-install`
-* run server: `npm run dev`
+* run web app: `npm run dev`
