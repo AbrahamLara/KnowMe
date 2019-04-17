@@ -1,5 +1,6 @@
 const nodemailer = require('nodemailer');
 const credentials = require('./utils/mailtrap_creds');
+const helper = require('./utils/helpers');
 
 // This function creates a transport object that will be
 // able to send mail by providing a host, port, and for
@@ -7,7 +8,7 @@ const credentials = require('./utils/mailtrap_creds');
 // the email of the user receiving the email and a callback
 // function to perform some action based on success or failure
 // of sending the email.
-async function sendEmailTo (email, callback) {
+async function sendEmailTo (email, name, callback) {
 
   let transporter = nodemailer.createTransport({
     host: 'smtp.mailtrap.io',
@@ -22,7 +23,7 @@ async function sendEmailTo (email, callback) {
     from: credentials.email,
     to: email,
     subject: 'TEST EMAIL SENDING',
-    html: '<p>Hello world!!!</p>'
+    html: await helper.getEmailTemplate(name)
   }, callback);
 }
 
