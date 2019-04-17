@@ -18,6 +18,10 @@ db.createUser({
 })
 ```
 
+## Emailing service
+
+At this point in development Mailtrap is being utilized to test and view emails sent out to user's after they have succesfully registered to the platform to avoid spamming real emails.
+
 ## Web App Setup
 
 * clone repo: `git clone https://github.com/AbrahamLara/KnowMe-backend-server.git`

@@ -19,7 +19,6 @@ import { tokenConfig, defaultConfig } from '../utils/helpers';
 // authenticate them. If there is no token in the user's
 // browser we just dispatch stopLoading and do nothing
 export const loadUser = () => (dispatch, getState) => {
-  // Loading the user
   dispatch(userLoading());
 
   const config = tokenConfig(getState);
@@ -30,7 +29,7 @@ export const loadUser = () => (dispatch, getState) => {
     .then(res => dispatch(userLoaded(res.data)))
     .catch(err => {
       dispatch(getErrors(err.response.data, err.response.status));
-      dispatch(authError())
+      dispatch(authError());
     });
 }
 
@@ -45,9 +44,9 @@ export const register = ({ name, email, password }) => dispatch => {
 
   axios.post('/api/users', body, config)
     .then(res => dispatch(registerSuccess(res.data)))
-    .catch(err => {
+    .catch(({ response }) => {
       dispatch(registerFail());
-      dispatch(getErrors(err.response.data, err.response.status, REGISTER_FAIL));
+      dispatch(getErrors(response.data, response.status, REGISTER_FAIL));
     });
 }
 
