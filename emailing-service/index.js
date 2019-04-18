@@ -21,8 +21,8 @@ async function sendEmailTo (email, name, callback) {
   
   await transporter.sendMail({
     from: credentials.email,
-    to: email,
-    subject: 'TEST EMAIL SENDING',
+    to: `<${email}>`,
+    subject: 'KnowMe Registration Confirmation!!!',
     html: await helper.getEmailTemplate(name)
   }, callback);
 }
