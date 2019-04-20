@@ -20,7 +20,7 @@ db.createUser({
 
 ## Emailing server
 
-At this point in development Mailtrap is being utilized to test and view emails sent out to user's after they have succesfully registered to the platform to avoid spamming real emails. In order to be able to send out multiple emails in the event users are registering to the platform at the same time RabbitMQ will be used as our dedicated queue manager.<br>We run the consumer process first since we would want a queue to exist before we start receiving messages.
+At this point in development Mailtrap is being utilized to test and view emails sent out to user's after they have succesfully registered to the platform to avoid spamming real emails. In order to be able to send out multiple emails in the event users are registering to the platform at the same time RabbitMQ will be used as our dedicated queue manager.<br>We have to run the receiver.js file in a seperate shell if we want to create more than one worker.
 
 ## Web App Setup
 

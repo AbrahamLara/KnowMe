@@ -7,16 +7,27 @@ amqp.connect('amqp://localhost', function (err, conn) {
   // placed in the queue by the producer (sender) for
   // us to handle
   conn.createChannel(function (err, ch) {
-    const queue = 'emails';
+    const q = 'emails';
     // To receive we:
     // Delcare a queue for us to use. A queue will be
-    // created if one does not already exist
-    ch.assertQueue(queue, { durable: false });
+    // created if one does not already exist. If we don't
+    // want RabbitMQ to lose our queue if it crashes set
+    // durable to true. We specify exclusive so that no other
+    // worker can receive messages from the same queue as another
+    // worker and so that the queue can be deleted when we are done
+    // with the worker
+    ch.assertQueue(q, { durable: false, exclusive: false });
+    // This tells RabbitMQ not to dispatch more than the given 
+    // number of messages (which is 1 in this case) to a worker 
+    // until it has processed and Ack'ed the previous message.
+    ch.prefetch(1);
     // We tell the server that we want to start receiving
-    // messages
-    console.log('Waiting to recieve messges...');
-    ch.consume(queue, function (msg) {
+    // messages. If we want RabbitMQ to discard a message only
+    // after it has received an acknowledgment set noAck to false
+    console.log('Waiting to receive messges...');
+    ch.consume(q, function (msg) {
       console.log('Received message:', msg.content.toString());
-    }, { noAck: true});
+      ch.ack(msg);
+    }, { noAck: false });
   });
 });

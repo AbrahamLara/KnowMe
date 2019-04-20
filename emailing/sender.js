@@ -7,14 +7,12 @@ amqp.connect('amqp://localhost', function (err, conn) {
   // placing messages in the queue for the consumer (receiver)
   // to complete
   conn.createChannel(function (err, ch) {
-    const queue = 'emails';
+    const q = 'emails';
     const msg = 'Hello World!';
-    // To send we:
-    // Delcare a queue for us to use. A queue will be
-    // created if one does not already exist
-    ch.assertQueue(queue, { durable: false });
-    // Publish the messages to the queue
-    ch.sendToQueue(queue, new Buffer(msg));
+    // Publish the messages to the queue, we can also
+    // give the messages an option object and make persistent
+    // true
+    ch.sendToQueue(q, Buffer.alloc(msg.length, msg), { persistent: false });
     console.log('Message has been sent:', msg);
 
     // We close the connection and exit
