@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs');
 const auth = require('../../middleware/auth');
 const jwt = require('jsonwebtoken');
 const config = require('config');
+const emailing = require('../../emailing');
 
 // User Model
 const User = require('../../models/User');
@@ -58,8 +59,10 @@ router.post('/', (req, res) => {
                 config.get('jwtSecret'),
                 { expiresIn: 60 },
                 (err, token) => {
-                  if (err) throw err; 
-    
+                  if (err) throw err;
+
+                  emailing.send(user.email, user.name);
+
                   res.json({
                     token,
                     user: {

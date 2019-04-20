@@ -1,4 +1,5 @@
 const amqp = require('amqplib/callback_api');
+const helpers = require('./utils/helpers');
 
 // We connect our consumer (receiver) to the rabbitmq server
 // that will receive messages to handle
@@ -27,7 +28,13 @@ amqp.connect('amqp://localhost', function (err, conn) {
     console.log('Waiting to receive messges...');
     ch.consume(q, function (msg) {
       console.log('Received message:', msg.content.toString());
-      ch.ack(msg);
+      const user = JSON.parse(msg.content.toString());
+      // We take the msg and parse it using JSON to extract the
+      // email and name of the user to send an email so that we may
+      // send an Ack to RabbitMQ
+      helpers.sendEmailTo(user.email, user.name, (err, info) => {
+        ch.ack(msg);
+      });
     }, { noAck: false });
   });
 });

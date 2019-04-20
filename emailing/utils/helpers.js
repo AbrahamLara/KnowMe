@@ -1,4 +1,6 @@
 const fs = require('fs');
+const nodemailer = require('nodemailer');
+const credentials = require('../utils/mailtrap_creds');
 
 // This function returns a promise that is used to get the content's
 // of a file from the given path relative to this file's location
@@ -21,7 +23,32 @@ function getEmailTemplate (name) {
     .catch(err => console.log(err));
 }
 
+// This function creates a transport object that will be
+// able to send mail by providing a host, port, and for
+// authentication user and password. It takes two agruments;
+// the email of the user receiving the email and a callback
+// function to perform some action based on success or failure
+// of sending the email.
+async function sendEmailTo (email, name, callback) {
+  let transporter = nodemailer.createTransport({
+    host: 'smtp.mailtrap.io',
+    port: 2525,
+    auth: {
+      user: credentials.user,
+      pass: credentials.pass
+    }
+  });
+  
+  await transporter.sendMail({
+    from: credentials.email,
+    to: `<${email}>`,
+    subject: 'KnowMe Registration Confirmation!!!',
+    html: await getEmailTemplate(name)
+  }, callback);
+}
+
 module.exports = {
   fileContentToString,
-  getEmailTemplate
+  getEmailTemplate,
+  sendEmailTo
 }

@@ -10,7 +10,7 @@ __Assuming you have MongoDB already installed__
 * connect to instance: `mongo --port 27017`
 * run inside instance:
 ```
-use knowm
+use knowme
 db.createUser({
   user: "admin",
   pwd: "admin",
