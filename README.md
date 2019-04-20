@@ -30,7 +30,7 @@ __Assuming you have RabbitMQ already installed__
 
 ## Web App Setup
 
-* clone repo: `git clone https://github.com/AbrahamLara/KnowMe-backend-server.git`
+* clone repo: `git clone https://github.com/AbrahamLara/KnowMe.git`
 * install server dependencies: `npm install`
 * install emailing dependencies: `npm emailing-install`
 * install client dependencies: `npm client-install`
