@@ -1,6 +1,9 @@
 ## KnowMe
 
-This is my full stack web development project KnowMe!
+This is my full stack web development project KnowMe! The backend to this project exists in this directory. This project allows for user authentication with jsonWebTokens and an emailing service for sending confirmation to newly registered users. There are still more features planned for this project.
+
+* Learn more about the client side [here](client/README.md).
+* Learn more about the emailing service [here](emailing/README.md).
 
 ## Database Setup
 
@@ -20,8 +23,6 @@ quit()
 ```
 
 ## Emailing Setup
-
-At this point in development Mailtrap is being utilized to test and view emails sent out to user's after they have succesfully registered to the platform to avoid spamming real emails. In order to make sure users receive an email in a timely manner we will need to run more than one consumer process (only neccessary for production). When you start the web app only one consumer process will be running.
 
 __Assuming you have RabbitMQ already installed__
 
