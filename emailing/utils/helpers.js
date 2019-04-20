@@ -3,10 +3,11 @@ const nodemailer = require('nodemailer');
 const credentials = require('../utils/mailtrap_creds');
 
 // This function returns a promise that is used to get the content's
-// of a file from the given path relative to this file's location
+// of a file from the given path relative to the file in which this
+// this function is being utilized from
 async function fileContentToString (path) {
   return await new Promise((resolve, reject) => {
-    fs.readFile(__dirname.concat(path), 'utf-8', (err, data) => {
+    fs.readFile(path, 'utf-8', (err, data) => {
       if (err) throw err;
       
       resolve(data);
@@ -17,8 +18,8 @@ async function fileContentToString (path) {
 // We use the fileContentToString method to get the contents of
 // the email.html file as a string and replace NAME in the html
 // html string with the name of the newly registered user
-function getEmailTemplate (name) {
-  return fileContentToString('/../templates/email.html')
+function getEmailTemplateWithName (name) {
+  return fileContentToString(__dirname.concat('/../templates/email.html'))
     .then(html => html.replace(/NAME/, name))
     .catch(err => console.log(err));
 }
@@ -43,12 +44,12 @@ async function sendEmailTo (email, name, callback) {
     from: credentials.email,
     to: `<${email}>`,
     subject: 'KnowMe Registration Confirmation!!!',
-    html: await getEmailTemplate(name)
+    html: await getEmailTemplateWithName(name)
   }, callback);
 }
 
 module.exports = {
   fileContentToString,
-  getEmailTemplate,
+  getEmailTemplateWithName,
   sendEmailTo
 }

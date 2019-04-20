@@ -1,9 +1,9 @@
 const amqp = require('amqplib/callback_api');
 const helpers = require('./utils/helpers');
-
+const config = require('config');
 // We connect our consumer (receiver) to the rabbitmq server
 // that will receive messages to handle
-amqp.connect('amqp://localhost', function (err, conn) {
+amqp.connect(config.get('rabbitURI'), function (err, conn) {
   // We create a channel where we will get the messages
   // placed in the queue by the producer (sender) for
   // us to handle

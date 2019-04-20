@@ -1,16 +1,17 @@
 const amqp = require('amqplib/callback_api');
+const config = require('config');
 
-// This function takes in a user object and the name of the queue
-// the sender will send the messages through
-function enqueueMessage (user, q) {
+// This function takes in a message and the name of the queue
+// the sender will send the message through
+async function enqueueMessage (data, q) {
   // We connect our producer (sender) to the rabbitmq server
   // that will allow us to send messages
-  amqp.connect('amqp://localhost', function (err, conn) {
+  amqp.connect(config.get('rabbitURI'), function (err, conn) {
     // We create a channel that will handle the work on
     // placing messages in the queue for the consumer (receiver)
     // to complete
     conn.createChannel(function (err, ch) {
-      const msg = JSON.stringify(user);
+      const msg = typeof data === 'object' ? JSON.stringify(data) : data;
       // Publish the messages to the queue, we can also
       // give the messages an option object and make persistent
       // true

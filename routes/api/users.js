@@ -61,6 +61,7 @@ router.post('/', (req, res) => {
                 (err, token) => {
                   if (err) throw err;
 
+                  // We send the newly registered user an email
                   emailing.send(user.email, user.name);
 
                   res.json({
