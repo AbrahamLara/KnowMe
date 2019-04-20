@@ -4,23 +4,28 @@ This is my full stack web development project KnowMe!
 
 ## Database Setup
 
-__Assuming MongoDB is already installed__
+__Assuming you have MongoDB already installed__
 
-* Start MongoDB without access control: `mongod --port 27017 --dbpath /data/db`
-* Connect to instance: `mongo --port 27017`
-* Run inside instance:
+* start MongoDB without access control: `mongod --port 27017 --dbpath /data/db`
+* connect to instance: `mongo --port 27017`
+* run inside instance:
 ```
-use knowme
+use knowm
 db.createUser({
   user: "admin",
   pwd: "admin",
   roles: [{ role: "readWrite", db: "knowme" }]
 })
+quit()
 ```
 
-## Emailing server
+## Emailing Setup
 
-At this point in development Mailtrap is being utilized to test and view emails sent out to user's after they have succesfully registered to the platform to avoid spamming real emails. In order to be able to send out multiple emails in the event users are registering to the platform at the same time RabbitMQ will be used as our dedicated queue manager.<br>We have to run the receiver.js file in a seperate shell if we want to create more than one worker.
+At this point in development Mailtrap is being utilized to test and view emails sent out to user's after they have succesfully registered to the platform to avoid spamming real emails. In order to make sure users receive an email in a timely manner we will need to run more than one consumer process (only neccessary for production). When you start the web app only one consumer process will be running.
+
+__Assuming you have RabbitMQ already installed__
+
+* start RabbitMQ server: `rabbitmq-server`
 
 ## Web App Setup
 

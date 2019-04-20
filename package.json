@@ -9,7 +9,8 @@
     "start": "node server.js",
     "server": "nodemon server.js",
     "client": "npm start --prefix client",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "emailing": "npm run receive --prefix emailing",
+    "dev": "concurrently \"npm run server\" \"npm run client\" \"npm run emailing\""
   },
   "author": "Abraham Lara",
   "license": "ISC",
