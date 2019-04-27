@@ -96,7 +96,7 @@ class LoginModal extends Component {
     return (
       <Fragment>
         <Button
-          className='text-white'
+          className='text-dark'
           color='link'
           onClick={this.toggle}
           block

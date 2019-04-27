@@ -13,6 +13,7 @@ import LoginButton from './auth/LoginButton';
 import LogoutButton from './auth/LogoutButton';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import '../css/AppNavBar.css';
 
 class AppNavbar extends Component {
   state = {
@@ -59,9 +60,9 @@ class AppNavbar extends Component {
     );
 
     return (
-      <Navbar color='dark' dark expand="md">
-        <Container>
-          <NavbarBrand className='text-white' href='/'>
+      <Navbar className='AppNavBar w-100 position-fixed' light expand="md">
+      <Container>
+          <NavbarBrand className='text-dark' href='/'>
             <strong>KnowMe</strong>
           </NavbarBrand>
           <NavbarToggler onClick={this.toggle} />

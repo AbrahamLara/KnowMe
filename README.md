@@ -5,6 +5,11 @@ This is my full stack web development project KnowMe! The backend to this projec
 * Learn more about the client side [here](client/README.md).
 * Learn more about the emailing service [here](emailing/README.md).
 
+## Requirements
+* npm (Node Package Manager) latest version
+* MongoDB
+* RabbitMQ
+
 ## Database Setup
 
 __Assuming you have MongoDB already installed__

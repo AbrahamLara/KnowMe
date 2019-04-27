@@ -98,7 +98,7 @@ class SignUpButton extends Component {
     return (
       <Fragment>
         <Button
-          className='text-white'
+          className='bg-dark text-white'
           onClick={this.toggle}
           block
         >

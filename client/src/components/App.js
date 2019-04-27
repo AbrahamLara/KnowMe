@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import '../css/App.css';
-import { Container } from 'reactstrap';
+import { Container, CardGroup, Card, CardBody, CardTitle, CardText } from 'reactstrap';
 import { connect } from 'react-redux';
 import AppNavbar from './AppNavbar';
 import { loadUser } from '../actions/shared';
@@ -16,17 +16,40 @@ class App extends Component {
     return (
       <div className="App">
         <AppNavbar />
-        <Container className='mt-10'>
-          <h1 className='page-phrase text-center'>Get to KnowMe!!!</h1>
-          <p className='app-description text-center'>
-            Welcome to <strong>KnowMe</strong> where the main goal is to let others <strong>know</strong> about <strong>you</strong>. This platform aims to allow you to have <strong>your</strong> own <strong>page</strong> that allows others to know who you are and what <strong>define</strong>s <strong>you</strong>.
-          </p>
-          <p className='app-description text-center'>
-            <strong>Discovering</strong> others allows you to make new friends that can lead to a <strong>network</strong> of people that <strong>share</strong> your interests. You don't need to have existing friends on this platform! But you should totally get them on board as well if they are not already <strong>here</strong>!
-          </p>
-          <p className='app-description text-center'>
-            We <strong>don't</strong> encourage you ditch your current friends and <strong>immediately</strong> start to <strong>trust</strong> complete <strong>strangers</strong>. Of course it is completely up to you what you would want to share about yourself, but you should also be careful about what information you share.
-          </p>
+        <Container className='vh-100 d-flex flex-column justify-content-center align-items-center mt-10 AppContainer'>
+          <h1 className='page-phrase text-center'>Welcome to KnowMe!!!</h1>
+          <CardGroup>
+            <Card>
+              <CardBody>
+                <CardTitle className='text-center'>
+                  <h2>Learn</h2>
+                </CardTitle>
+                <CardText>
+                  We build and become a part of communities that allow us to learn more about one another which leads to connections and creating an understanding as not only groups but as individuals as well. 
+                </CardText>
+              </CardBody>
+            </Card>
+            <Card>
+              <CardBody>
+                <CardTitle className='text-center'>
+                  <h2>Discover</h2>
+                </CardTitle>
+                <CardText>
+                </CardText>
+                  There are many types of people in the world! Many who may not share your interests but also many that may. All it takes is a simple non-professional introduction to get to know somebody.
+              </CardBody>
+            </Card>
+            <Card>
+              <CardBody>
+                <CardTitle className='text-center'>
+                  <h2>Define</h2>
+                </CardTitle>
+                <CardText>
+                  Make yourself known! Let others know about you. Distinguish yourself from others and meet other amazing you would have never met had you not been on this platform.
+                </CardText>
+              </CardBody>
+            </Card>
+          </CardGroup>
         </Container>
       </div>
     );
