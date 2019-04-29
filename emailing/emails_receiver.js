@@ -4,6 +4,7 @@ const config = require('config');
 // We connect our consumer (receiver) to the rabbitmq server
 // that will receive messages to handle
 amqp.connect(config.get('rabbitURI'), function (err, conn) {
+  if (err) return console.log('Failed to connect to RabbitMQ');
   // We create a channel where we will get the messages
   // placed in the queue by the producer (sender) for
   // us to handle

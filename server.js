@@ -14,7 +14,7 @@ mongoose
     useCreateIndex: true
   })
   .then(() => console.log('Connected to MongoDB'))
-  .catch(e => console.log(e));
+  .catch(e => console.log('Failed to connect to MongoDB'));
 
 // To keep routes organized specific api calls
 // will be handled by their respective routes

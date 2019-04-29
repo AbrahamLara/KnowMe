@@ -22,7 +22,8 @@
     "express": "^4.16.4",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.5.1",
-    "prop-types": "^15.7.2"
+    "prop-types": "^15.7.2",
+    "react-router-dom": "^5.0.0"
   },
   "devDependencies": {
     "nodemon": "^1.18.11"

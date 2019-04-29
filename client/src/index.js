@@ -7,11 +7,14 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import reducers from './reducers';
 import middleware from './middleware';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 const store = createStore(reducers, middleware);
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <Router>
+      <App />
+    </Router>
   </Provider>
 , document.getElementById('root'));

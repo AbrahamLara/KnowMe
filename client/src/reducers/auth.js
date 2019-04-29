@@ -6,7 +6,8 @@ import {
   AUTH_ERROR,
   LOGIN_FAIL,
   LOGOUT_SUCCESS,
-  REGISTER_FAIL
+  REGISTER_FAIL,
+  STOP_LOADING
 } from "../actions/auth";
 
 // For authentication purposes we ge the
@@ -43,6 +44,7 @@ export default function auth (state = initialState, action) {
           isAuthenticated: true,
           isLoading: false,
         };
+      case STOP_LOADING:
       case AUTH_ERROR:
       case LOGIN_FAIL:
       case LOGOUT_SUCCESS:
