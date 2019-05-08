@@ -6,6 +6,7 @@ import { loadUser } from '../actions/shared';
 import { Route } from 'react-router-dom';
 import Loadingbar from 'react-redux-loading';
 import SplashPage from './SplashPage';
+import KnowPage from './KnowPage';
 
 class App extends Component {
   constructor (props) {
@@ -20,8 +21,8 @@ class App extends Component {
         <Loadingbar />
         <div className="App">
           <AppNavbar />
-          <Route path='/' exact render={SplashPage} />
-          <Route path='/know/:name' render={SplashPage} />
+          <Route path='/' exact component={SplashPage} />
+          <Route path='/know/:name' component={KnowPage} />
         </div>
       </Fragment>
     );

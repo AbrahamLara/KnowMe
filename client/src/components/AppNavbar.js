@@ -60,7 +60,7 @@ class AppNavbar extends Component {
     );
 
     return (
-      <Navbar className='AppNavBar w-100 position-fixed' light expand="md">
+      <Navbar className='AppNavBar w-100 position-fixed bg-white' light expand="md">
       <Container>
           <NavbarBrand className='text-dark' href='/'>
             <strong>KnowMe</strong>

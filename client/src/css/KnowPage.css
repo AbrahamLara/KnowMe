@@ -1,0 +1,9 @@
+.kp-user-profile-image {
+  width: 150px;
+  height: 150px;
+  border-radius: 80px;
+}
+
+.kp-user-description {
+  font-size: 1.3em;
+}

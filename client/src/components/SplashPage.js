@@ -8,10 +8,16 @@ import {
   CardText
 } from 'reactstrap';
 import '../css/SplashPage.css';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
-export default function SplashPage () {
+function SplashPage ({ auth }) {
+  if (auth.isAuthenticated) {
+    return <Redirect to={`/know/${auth.user.name}`} />
+  }
+
   return (
-    <Container className='SplashPage vh-100 d-flex flex-column justify-content-center align-items-center mt-10'>
+    <Container className='SplashPage vh-100 d-flex flex-column justify-content-center align-items-center'>
       <h1 className='sp-phrase text-center'>Welcome to KnowMe!!!</h1>
       <CardGroup>
         <Card>
@@ -48,3 +54,11 @@ export default function SplashPage () {
     </Container>
   );
 }
+
+function mapStateToProps ({ auth }) {
+  return {
+    auth
+  }
+}
+
+export default connect(mapStateToProps)(SplashPage);
