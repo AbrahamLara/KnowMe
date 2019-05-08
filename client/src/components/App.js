@@ -21,6 +21,7 @@ class App extends Component {
         <div className="App">
           <AppNavbar />
           <Route path='/' exact render={SplashPage} />
+          <Route path='/know/:name' render={SplashPage} />
         </div>
       </Fragment>
     );

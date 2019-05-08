@@ -11,7 +11,7 @@ import '../css/SplashPage.css';
 
 export default function SplashPage () {
   return (
-    <Container className='vh-100 d-flex flex-column justify-content-center align-items-center mt-10 SplashPage'>
+    <Container className='SplashPage vh-100 d-flex flex-column justify-content-center align-items-center mt-10'>
       <h1 className='sp-phrase text-center'>Welcome to KnowMe!!!</h1>
       <CardGroup>
         <Card>

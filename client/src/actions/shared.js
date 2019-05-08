@@ -47,15 +47,20 @@ export const loadUser = () => (dispatch, getState) => {
 // request at the given path so that the user may be registered
 // in the database
 export const register = ({ name, email, password }) => dispatch => {
+  dispatch(showLoading());
   const config = defaultConfig();
 
   const body = JSON.stringify({ name, email, password });
 
   axios.post('/api/users', body, config)
-    .then(res => dispatch(registerSuccess(res.data)))
+    .then(res => {
+      dispatch(registerSuccess(res.data));
+      dispatch(hideLoading());
+    })
     .catch(({ response }) => {
       dispatch(registerFail());
       dispatch(getErrors(response.data, response.status, REGISTER_FAIL));
+      dispatch(hideLoading());
     });
 }
 
@@ -64,14 +69,19 @@ export const register = ({ name, email, password }) => dispatch => {
 // request at the given path so that the user's token may be generated
 // to allow for authorization so that the user may start using the platform
 export const login = ({ email, password }) => dispatch => {
+  dispatch(showLoading());
   const config = defaultConfig();
 
   const body = JSON.stringify({ email, password });
 
   axios.post('/api/auth', body, config)
-    .then(res => dispatch(loginSuccess(res.data)))
+    .then(res => {
+      dispatch(loginSuccess(res.data));
+      dispatch(hideLoading());
+    })
     .catch(err => {
       dispatch(loginFail());
       dispatch(getErrors(err.response.data, err.response.status, LOGIN_FAIL));
+      dispatch(hideLoading());
     });
 }
