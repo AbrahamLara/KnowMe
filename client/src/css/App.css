@@ -1,3 +1,11 @@
 .pt-6 {
   padding-top: 3.5rem !important;
 }
+
+.flex-1 {
+  flex: 1 !important;
+}
+
+.fd-col {
+  flex-direction: column !important;
+}

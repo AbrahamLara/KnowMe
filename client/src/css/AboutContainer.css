@@ -1,0 +1,11 @@
+.AboutContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+@media screen and (max-width: 824px) {
+  .AboutContainer {
+    margin-left: 0 !important;
+  }
+}

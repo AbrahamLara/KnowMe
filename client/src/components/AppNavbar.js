@@ -3,12 +3,9 @@ import {
   Navbar,
   Container,
   NavbarBrand,
-  NavbarToggler,
-  Collapse,
   Nav,
   NavItem
 } from 'reactstrap';
-import SignUpButton from './auth/SignUpButton';
 import LoginButton from './auth/LoginButton';
 import LogoutButton from './auth/LogoutButton';
 import PropTypes from 'prop-types';
@@ -48,7 +45,6 @@ class AppNavbar extends Component {
           <LoginButton />
         </NavItem>
         <NavItem>
-          <SignUpButton />
         </NavItem>
       </Fragment>
     );
@@ -60,20 +56,17 @@ class AppNavbar extends Component {
     );
 
     return (
-      <Navbar className='AppNavBar w-100 position-fixed bg-white' light expand="md">
+      <Navbar className='AppNavBar bg-white' light expand="md">
       <Container>
           <NavbarBrand className='text-dark' href='/'>
             <strong>KnowMe</strong>
           </NavbarBrand>
-          <NavbarToggler onClick={this.toggle} />
-          <Collapse isOpen={this.state.isOpen} navbar>
-            <Nav className='ml-auto' navbar>
-              { !isLoading && (isAuthenticated
-                ? userLinks
-                : authLinks)
-              }
-            </Nav>
-          </Collapse>
+          <Nav className='ml-auto' navbar>
+            { !isLoading && (isAuthenticated
+              ? userLinks
+              : authLinks)
+            }
+          </Nav>
         </Container>
       </Navbar>
     );

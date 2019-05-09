@@ -1,8 +1,5 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import {
-  Modal,
-  ModalHeader,
-  ModalBody,
   Form,
   FormGroup,
   Label,
@@ -16,9 +13,8 @@ import { register } from '../../actions/shared';
 import { REGISTER_FAIL } from '../../actions/auth';
 import { clearErrors } from '../../actions/error';
 
-class SignUpButton extends Component {
+class SignUpForm extends Component {
   state = {
-    isOpen: false,
     name: '',
     email: '',
     password: '',
@@ -47,7 +43,7 @@ class SignUpButton extends Component {
       });
     }
     
-    if (this.state.isOpen && isAuthenticated) {
+    if (isAuthenticated) {
       this.toggle();
     }
   }
@@ -59,10 +55,6 @@ class SignUpButton extends Component {
     if (this.props.error.status) {
       this.props.clearErrors();
     }
-    
-    this.setState((currState) => ({
-      isOpen: !currState.isOpen
-    }));
   }
 
   // As the user types in each field their
@@ -93,61 +85,65 @@ class SignUpButton extends Component {
   }
 
   render() {
-    const { isOpen, msg } = this.state;
+    const { msg } = this.state;
 
     return (
-      <Fragment>
-        <Button
-          className='bg-dark text-white'
-          onClick={this.toggle}
-          block
-        >
-          Sign Up
-        </Button>
-        <Modal isOpen={isOpen} toggle={this.toggle} centered>
-          <ModalHeader toggle={this.toggle}>
-            Register
-          </ModalHeader>
-          <ModalBody>
-            { msg &&
-              <Alert color='danger'>{ msg }</Alert>
-            }
-            <Form onSubmit={this.handleSubmit}>
-              <FormGroup>
-                <Label for='name'>Name:</Label>
-                <Input
-                  id='name'
-                  name='name'
-                  type='text'
-                  placeholder='Name'
-                  onChange={this.handleChange}
-                />
-              </FormGroup>
-              <FormGroup>
-                <Label for='email'>Email:</Label>
-                <Input
-                  id='email'
-                  name='email'
-                  type='email'
-                  placeholder='Email'
-                  onChange={this.handleChange}
-                  />
-              </FormGroup>
-              <FormGroup>
-                <Label for='password'>Password:</Label>
-                <Input
-                  id='password'
-                  name='password'
-                  type='password'
-                  placeholder='Password'
-                  onChange={this.handleChange}
-                />
-              </FormGroup>
-              <Button color='dark' block>Submit</Button>
-            </Form>
-          </ModalBody>
-        </Modal>
-      </Fragment>
+      <div className='SignUpForm'>
+        <h3>Sign Up</h3>
+        { msg &&
+          <Alert color='danger'>{ msg }</Alert>
+        }
+        <Form onSubmit={this.handleSubmit}>
+          <div className='d-flex'>
+            <FormGroup className='flex-1'>
+              <Label for='first_name'>First Name:</Label>
+              <Input
+                id='first_name'
+                name='first_name'
+                type='text'
+                onChange={this.handleChange}
+              />
+            </FormGroup>
+            <FormGroup className='flex-1 ml-3'>
+              <Label for='last_name'>Last Name:</Label>
+              <Input
+                id='last_name'
+                name='last_name'
+                type='text'
+                onChange={this.handleChange}
+              />
+            </FormGroup>
+          </div>
+          <FormGroup>
+            <Label for='email'>Email:</Label>
+            <Input
+              id='email'
+              name='email'
+              type='email'
+              onChange={this.handleChange}
+              />
+          </FormGroup>
+          <FormGroup>
+            <Label for='password'>Password:</Label>
+            <Input
+              id='password'
+              name='password'
+              type='password'
+              onChange={this.handleChange}
+            />
+          </FormGroup>
+          <FormGroup>
+            <Label for='conf_password'>Confirm Password:</Label>
+            <Input
+              id='conf_password'
+              name='conf_password'
+              type='password'
+              onChange={this.handleChange}
+            />
+          </FormGroup>
+          <Button color='dark'>Submit</Button>
+        </Form>
+      </div>
     );
   }
 }
@@ -162,4 +158,4 @@ function mapStateToProps ({ auth: { isAuthenticated }, error }) {
 export default connect (
   mapStateToProps,
   { register, clearErrors }
-)(SignUpButton);
+)(SignUpForm);
