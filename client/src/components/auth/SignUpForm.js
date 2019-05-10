@@ -8,10 +8,12 @@ import {
   Alert
 } from 'reactstrap';
 import { connect } from 'react-redux';
+import '../../css/SignUpForm.css';
 import PropTypes from 'prop-types';
 import { register } from '../../actions/shared';
 import { REGISTER_FAIL } from '../../actions/auth';
 import { clearErrors } from '../../actions/error';
+import { combineClassNames } from '../../utils/helpers';
 
 class SignUpForm extends Component {
   static propTypes = {
@@ -97,7 +99,7 @@ class SignUpForm extends Component {
     const { msg, visible } = this.state;
 
     return (
-      <div className='SignUpForm'>
+      <div className={combineClassNames('SignUpForm', this.props.className)}>
         <h3 className='mb-3' style={{textDecoration: 'underline'}}>Sign Up</h3>
         { msg &&
           <Alert
@@ -155,7 +157,7 @@ class SignUpForm extends Component {
               onChange={this.handleChange}
             />
           </FormGroup>
-          <Button color='dark'>Submit</Button>
+          <Button className='suf-btn' color='dark'>Submit</Button>
         </Form>
       </div>
     );

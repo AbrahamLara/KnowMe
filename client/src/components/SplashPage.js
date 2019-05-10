@@ -5,7 +5,7 @@ import {
 import '../css/SplashPage.css';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import AuthContainer from './auth/AuthContainer';
+import SignUpForm from './auth/SignUpForm';
 import AboutContainer from './AboutContainer';
 import PropTypes from 'prop-types';
 
@@ -20,7 +20,7 @@ function SplashPage ({ auth: { isAuthenticated, user } }) {
     <Fragment>
       <h3 className='sp-phrase text-center mt-2 mb-2'>Hello, World!</h3>
       <Container className='SplashPage d-flex align-items-center'>
-        <AuthContainer className='flex-1' />
+        <SignUpForm className='flex-1' />
         <AboutContainer className='flex-1 ml-4 align-self-stretch' />
       </Container>
     </Fragment>
