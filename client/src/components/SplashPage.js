@@ -9,14 +9,16 @@ import AuthContainer from './auth/AuthContainer';
 import AboutContainer from './AboutContainer';
 import PropTypes from 'prop-types';
 
-function SplashPage ({ auth }) {
-  if (auth.isAuthenticated) {
-    return <Redirect to={`/know/${auth.user.name}`} />
+// If the user is authenticated then we want to redirect them
+// to their profile page when revisiting the splash page
+function SplashPage ({ auth: { isAuthenticated, user } }) {
+  if (isAuthenticated) {
+    return <Redirect to={`/know/${user.first_name.concat('-', user.last_name)}`} />
   }
 
   return (
     <Fragment>
-      <h2 className='sp-phrase text-center'>Welcome stranger!</h2>
+      <h3 className='sp-phrase text-center mt-2 mb-2'>Hello, World!</h3>
       <Container className='SplashPage d-flex align-items-center'>
         <AuthContainer className='flex-1' />
         <AboutContainer className='flex-1 ml-4 align-self-stretch' />

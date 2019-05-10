@@ -13,16 +13,6 @@ import { connect } from 'react-redux';
 import '../css/AppNavBar.css';
 
 class AppNavbar extends Component {
-  state = {
-    isOpen: false
-  };
-
-  constructor (props) {
-    super(props);
-
-    this.toggle = this.toggle.bind(this);
-  }
-
   static propTypes = {
     auth: PropTypes.object.isRequired
   };
@@ -30,38 +20,41 @@ class AppNavbar extends Component {
   // When viewing app in mobile browsers the
   // user can toggle between displaying or hiding
   // navbar links
-  toggle() {
+  toggle () {
     this.setState(({ isOpen }) => ({
       isOpen: !isOpen
     }));
   }
 
   render() {
-    const { isAuthenticated, isLoading } = this.props.auth;
+    const { isAuthenticated, isLoading, user } = this.props.auth;
 
     const authLinks = (
-      <Fragment>
-        <NavItem>
-          <LoginButton />
-        </NavItem>
-        <NavItem>
-        </NavItem>
-      </Fragment>
+      <NavItem>
+        <LoginButton />
+      </NavItem>
     );
 
     const userLinks = (
-      <NavItem>
-        <LogoutButton />
-      </NavItem>
+      <Fragment>
+        { user &&
+          <NavItem>
+            {user.first_name.concat(' ', user.last_name)}
+          </NavItem>
+        }
+        <NavItem>
+          <LogoutButton />
+        </NavItem>
+      </Fragment>
     );
 
     return (
       <Navbar className='AppNavBar bg-white' light expand="md">
       <Container>
           <NavbarBrand className='text-dark' href='/'>
-            <strong>KnowMe</strong>
+            Know<strong>Me</strong>
           </NavbarBrand>
-          <Nav className='ml-auto' navbar>
+          <Nav className='ml-auto align-items-center' navbar>
             { !isLoading && (isAuthenticated
               ? userLinks
               : authLinks)

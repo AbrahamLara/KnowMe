@@ -14,13 +14,6 @@ import { REGISTER_FAIL } from '../../actions/auth';
 import { clearErrors } from '../../actions/error';
 
 class SignUpForm extends Component {
-  state = {
-    name: '',
-    email: '',
-    password: '',
-    msg: null
-  };
-
   static propTypes = {
     isAuthenticated: PropTypes.bool,
     error: PropTypes.object.isRequired,
@@ -28,30 +21,39 @@ class SignUpForm extends Component {
     clearErrors: PropTypes.func.isRequired
   };
 
+  constructor (props) {
+    super(props);
+
+    this.state = {
+      first_name: '',
+      last_name: '',
+      email: '',
+      password: '',
+      conf_password: '',
+      msg: null,
+      visible: false
+    };
+  }
+
   // After attempting to register we check whether
   // any errors were produced upon registration so that
-  // the error message may be displayed. If registration
-  // was successful we close the modal
+  // the error message may be displayed as an alert
   componentDidUpdate (prevProps) {
-    const { error, isAuthenticated } = this.props;
+    const { error } = this.props;
     
     if (error !== prevProps.error) {
       this.setState({
         msg: error.id === REGISTER_FAIL
           ? error.msg.msg
-          :null
+          :null,
+          visible: true
       });
-    }
-    
-    if (isAuthenticated) {
-      this.toggle();
     }
   }
 
-  // Toggles modal's visibility to
-  // set it open or hidden while also clearing
-  // any errors in redux state;
-  toggle = () => {
+  // Once the user has toggled the alert for dismissal
+  // we clear out any errors in redux state
+  onDismiss = () => {
     if (this.props.error.status) {
       this.props.clearErrors();
     }
@@ -66,32 +68,44 @@ class SignUpForm extends Component {
     })
   }
 
-  // Once the user clicks submit their inputs
-  // will be saved as a new user object to send
-  // to registration function to make api request
-  // to register the user
+  // Once the decides to submit their inputs, the
+  // values they entered are used to create a user
+  // object and their password confirmation is used
+  // to be compared to their initial password input
   handleSubmit = (e) => {
     e.preventDefault();
 
-    const { name, email, password } = this.state;
+    const {
+      first_name,
+      last_name,
+      email,
+      password,
+      conf_password
+    } = this.state;
 
     const newUser = {
-      name,
+      first_name,
+      last_name,
       email,
       password
     };
 
-    this.props.register(newUser);
+    this.props.register(newUser, conf_password);
   }
 
   render() {
-    const { msg } = this.state;
+    const { msg, visible } = this.state;
 
     return (
       <div className='SignUpForm'>
-        <h3>Sign Up</h3>
+        <h3 className='mb-3' style={{textDecoration: 'underline'}}>Sign Up</h3>
         { msg &&
-          <Alert color='danger'>{ msg }</Alert>
+          <Alert
+            color='danger'
+            fade
+            isOpen={visible}
+            toggle={this.onDismiss}
+          >{ msg }</Alert>
         }
         <Form onSubmit={this.handleSubmit}>
           <div className='d-flex'>

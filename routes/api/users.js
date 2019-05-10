@@ -23,12 +23,26 @@ router.get('/', (req, res) => {
 // @desc    Create new user
 // @access  Public
 router.post('/', (req, res) => {
-  const { name, email, password } = req.body;
+  const {
+    user: {
+      first_name,
+      last_name,
+      email,
+      password
+    },
+    conf_password
+  } = req.body;
 
   // We return a 400 status of there doesn't
   // exist values for name, email, password
-  if (!name || !email || !password) {
-    return res.status(400).json({ msg: 'Please enter all fields'});
+  if (!first_name || !last_name || !email || !password || !conf_password) {
+    return res.status(400).json({ msg: 'Please enter all fields' });
+  }
+
+  // We compare the user's password inputs to see if they match
+  // to produce an error message when they don't
+  if (password !== conf_password) {
+    return res.status(400).json({ msg: 'Password confirmation failed' })
   }
 
   // Using the given email we check if there alreay exists
@@ -36,10 +50,11 @@ router.post('/', (req, res) => {
   // with a message
   User.findOne({ email })
     .then(user => {
-      if (user) return res.status(400).json({ msg: 'User already exists'});
+      if (user) return res.status(400).json({ msg: 'A user already exists with that email' });
 
       const newUser = new User({
-        name,
+        first_name,
+        last_name,
         email,
         password
       });
@@ -62,20 +77,21 @@ router.post('/', (req, res) => {
                   if (err) throw err;
 
                   // We send the newly registered user an email
-                  emailing.send(user.email, user.name);
+                  emailing.send(user.email, user.first_name.concat(' ', user.last_name));
 
                   res.json({
                     token,
                     user: {
                       id: user.id,
-                      name: user.name,
+                      first_name: user.first_name,
+                      last_name: user.last_name,
                       email: user.email
                     }
                   });
                 }
               );
             })
-            .catch(err => res.status(400).json({  msg: 'Failed to register user'}));
+            .catch(err => res.status(400).json({  msg: 'Failed to register user' }));
         });
       });
     });
@@ -87,7 +103,7 @@ router.post('/', (req, res) => {
 router.delete('/:id', auth, (req, res) => {
   const { user, params } = req;
 
-  if (user.id !== params.id) return res.status(401).json({ msg: 'Authorization denided'});
+  if (user.id !== params.id) return res.status(401).json({ msg: 'Authorization denided' });
 
   User.findById(params.id)
     .then(user => user.remove().then(() => res.json({ success: true })))
