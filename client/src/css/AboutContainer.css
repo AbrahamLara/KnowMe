@@ -4,7 +4,7 @@
   justify-content: space-evenly;
 }
 
-@media screen and (max-width: 824px) {
+@media screen and (max-width: 991px) {
   .AboutContainer {
     margin-left: 0 !important;
   }

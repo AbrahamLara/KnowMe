@@ -1,6 +1,10 @@
-@media screen and (max-width: 824px) {
+.SignUpForm {
+  width: 100%;
+}
+
+@media screen and (max-width: 991px) {
   .suf-btn {
-    display: block;
-    width: 100%;
+    display: block !important;
+    width: 100% !important;
   }
 }

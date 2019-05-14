@@ -18,7 +18,6 @@ function SplashPage ({ auth: { isAuthenticated, user } }) {
 
   return (
     <Fragment>
-      <h3 className='sp-phrase text-center mt-2 mb-2'>Hello, World!</h3>
       <Container className='SplashPage d-flex align-items-center'>
         <SignUpForm className='flex-1' />
         <AboutContainer className='flex-1 ml-4 align-self-stretch' />
