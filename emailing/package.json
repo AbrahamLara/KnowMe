@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "email sending server for KnowMe",
   "scripts": {
-    "receive": "node emails_receiver.js"
+    "receive": "node receiver.js"
   },
   "author": "Abraham Lara",
   "license": "ISC",
