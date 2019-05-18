@@ -1,5 +1,5 @@
 const amqp = require('amqplib/callback_api');
-const helpers = require('./utils/helpers');
+const { sendConfirmationEmail } = require('./utils/emailing_helpers');
 const config = require('config');
 // We connect our consumer (receiver) to the rabbitmq server
 // that will receive messages to handle
@@ -33,7 +33,10 @@ amqp.connect(config.get('rabbitURI'), function (err, conn) {
       // We take the msg and parse it using JSON to extract the
       // email and name of the user to send an email so that we may
       // send an Ack to RabbitMQ
-      helpers.sendEmailTo(user.email, user.name, (err, info) => {
+      sendConfirmationEmail(user.email, user.name, (err, info) => {
+        if (err) {
+          console.log('There was an error sending confirmation email');
+        }
         ch.ack(msg);
       });
     }, { noAck: false });

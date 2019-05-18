@@ -25,7 +25,6 @@
 
       .site-name {
         font-size: 4em;
-        color: #5489E5;
       }
 
       .thin-text {
@@ -33,7 +32,7 @@
       }
 
       .emphasis {
-        font-weight: 300;
+        font-weight: 400;
       }
 
       .greeting {
@@ -48,10 +47,29 @@
         text-align: center;
       }
 
+      .act-link {
+        text-decoration: none;
+        color: white;
+      }
+
+      .act-btn {
+        display: block;
+        margin: auto;
+        border: 1px solid #5489E5;
+        background-color: #5489E5;
+        color: white;
+        border-radius:5px;
+        font-size: 2em;
+        padding: 10px 15px;
+        cursor: pointer;
+        outline: none;
+      }
+
       @media screen and (max-width: 823px) {
         .site-name {
           margin-top: 10px;
           margin-bottom: 10px;
+          font-size: 3em;
         }
 
         .container {
@@ -61,6 +79,11 @@
         .greeting {
           margin-top: 15px;
           margin-bottom: 15px;
+          font-size: 2em;
+        }
+        
+        .act-btn {
+          font-size: 1.5em;
         }
       }
 
@@ -71,7 +94,7 @@
         }
 
         .greeting {
-          font-size: 2em;
+          font-size: 1.5em;
         }
 
         .user-name {
@@ -93,7 +116,21 @@
             <td class="text-center">
               <p class="greeting thin-text">Congratulations,</p>
               <strong class="user-name">NAME</strong>
-              <p class="greeting thin-text">You have successfully registered to the platform.</p>
+              <p class="greeting thin-text">
+                You have successfully registered to the platform.
+              </p>
+              <p class="greeting thin-text">
+                Please click the following link to activate your account.
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <a class="act-link" target="_blank" href="http://HOSTNAME/?code=JWTCODE">
+                <button class="act-btn">
+                  Activate Account
+                </button>
+              </a>
             </td>
           </tr>
         </tbody>

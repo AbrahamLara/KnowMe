@@ -5,8 +5,8 @@ const credentials = require('../utils/mailtrap_creds');
 // This function returns a promise that is used to get the content's
 // of a file from the given path relative to the file in which this
 // this function is being utilized from
-async function fileContentToString (path) {
-  return await new Promise((resolve, reject) => {
+function fileContentToString (path) {
+  return new Promise((resolve, reject) => {
     fs.readFile(path, 'utf-8', (err, data) => {
       if (err) throw err;
       
@@ -15,22 +15,12 @@ async function fileContentToString (path) {
   });
 }
 
-// We use the fileContentToString method to get the contents of
-// the email.html file as a string and replace NAME in the html
-// html string with the name of the newly registered user
-function getEmailTemplateWithName (name) {
-  return fileContentToString(__dirname.concat('/../templates/email.html'))
-    .then(html => html.replace(/NAME/, name))
-    .catch(err => console.log(err));
-}
-
 // This function creates a transport object that will be
 // able to send mail by providing a host, port, and for
-// authentication user and password. It takes two agruments;
-// the email of the user receiving the email and a callback
-// function to perform some action based on success or failure
-// of sending the email.
-async function sendEmailTo (email, name, callback) {
+// authentication user and password. We pass in the user
+// email, email subject, html of email as string, and a
+// callback function after sending email
+function sendEmail (email, subject, html, callback) {
   let transporter = nodemailer.createTransport({
     host: 'smtp.mailtrap.io',
     port: 2525,
@@ -40,16 +30,25 @@ async function sendEmailTo (email, name, callback) {
     }
   });
   
-  await transporter.sendMail({
+  transporter.sendMail({
     from: credentials.email,
     to: `<${email}>`,
-    subject: 'KnowMe Registration Confirmation!!!',
-    html: await getEmailTemplateWithName(name)
+    subject,
+    html
   }, callback);
 }
 
+// We use the fileContentToString method to get the contents of
+// the email.html file as a string and replace NAME in the html
+// html string with the name of the newly registered user
+function getEmailTemplateHtml (template_name) {
+  return fileContentToString(__dirname.concat(`/../templates/${template_name}.html`))
+    .then(html => html)
+    .catch(e => { throw new Error(`Failed to get template with name '${template_name}'`) });
+}
+
 module.exports = {
+  sendEmail,
   fileContentToString,
-  getEmailTemplateWithName,
-  sendEmailTo
+  getEmailTemplateHtml,
 }

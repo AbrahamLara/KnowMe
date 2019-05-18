@@ -110,7 +110,7 @@ class SignUpForm extends Component {
           >{ msg }</Alert>
         }
         <Form onSubmit={this.handleSubmit}>
-          <div className='d-flex'>
+          <div className='suf-ng d-flex'>
             <FormGroup className='flex-1'>
               <Label for='first_name'>First Name:</Label>
               <Input

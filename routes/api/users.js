@@ -34,7 +34,8 @@ router.post('/', (req, res) => {
   } = req.body;
 
   // We return a 400 status of there doesn't
-  // exist values for name, email, password
+  // exist values for the user's first and last
+  // name, email, password,and conf_password
   if (!first_name || !last_name || !email || !password || !conf_password) {
     return res.status(400).json({ msg: 'Please enter all fields' });
   }
