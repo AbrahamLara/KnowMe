@@ -22,6 +22,11 @@ const UserSchema = new Schema({
   date_joined: {
     type: Date,
     default: Date.now
+  },
+  account_activated: {
+    type: Boolean,
+    required: true,
+    default: false
   }
 });
 
