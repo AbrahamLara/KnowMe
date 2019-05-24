@@ -1,12 +1,17 @@
 const sender = require('./sender');
 
-// This fucntion will take in the user's email and name
+// This function will take in the user's email and name
 // to be sent an email after successfully registering
-// and specifying the queue to send messages through
-function send (email, name) {
-  sender.enqueueMessage({ email, name }, 'emails');
+// and specifying the severity to send messages to
+function emailConfirmation (email, name) {
+  sender.enqueueMessage({ email, name }, 'emails', 'conf_emails');
+}
+
+function emailWelcome (email, name) {
+  sender.enqueueMessage({ email, name }, 'emails', 'reg_emails');
 }
 
 module.exports = {
-  send
+  emailConfirmation,
+  emailWelcome
 };

@@ -11,7 +11,7 @@ amqp.connect(config.get('rabbitURI'), function (err, conn) {
   // this receiver to handle
   conn.createChannel(function (err1, ch) {
     if (err1) throw err1;
-    const severity = 'reg_emails';
+    const severity = 'conf_emails';
     const exchange = 'emails';
     // We create a direct type of exchange.
     // Using this type of exchange the messages that the exchange

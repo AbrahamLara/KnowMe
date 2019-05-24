@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 const auth = require('../../middleware/auth');
 const jwt = require('jsonwebtoken');
 const config = require('config');
-const emailing = require('../../emailing');
+const { emailConfirmation } = require('../../emailing');
 
 // User Model
 const User = require('../../models/User');
@@ -78,7 +78,7 @@ router.post('/', (req, res) => {
                   if (err) throw err;
 
                   // We send the newly registered user an email
-                  emailing.send(user.email, user.first_name.concat(' ', user.last_name));
+                  emailConfirmation(user.email, user.first_name.concat(' ', user.last_name));
 
                   res.json({
                     token,

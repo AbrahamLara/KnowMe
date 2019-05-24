@@ -1,29 +1,27 @@
 const {
   sendEmail,
-  getEmailTemplateHtml
+  fileContentToString
 } = require('./helpers');
 
-// This function gets the confirm_email template
-// as a string and replaces the only occurance of
-// NAME with the name of the user receiving the email
-// then the function returns the string
-function getEmailConfirmationTemplate (name) {
-  return getEmailTemplateHtml('confirm_email')
+// We use the fileContentToString method to get the contents of
+// the email.html file as a string and replace NAME in the html
+// html string with the name of the newly registered user
+function getEmailTemplateWithName (name) {
+  return fileContentToString(__dirname.concat('/../templates/confirm_email.html'))
     .then(html => html.replace(/NAME/, name))
-    .catch(e => console.log(e));
+    .catch(err => console.log(err));
 }
 
-// Once we have the email confrmation template ready with the
-// user's name the fucntion semEmail is called passing in the user's
-// email, subject of email, and confirmation email template html string
-// as well as a callback function
+// We get the confirmation email template html with the user's
+// email and name as a string and pass the html as the third argument in the
+// sendEmail method
 function sendConfirmationEmail (email, name, callback) {
-  return getEmailConfirmationTemplate(name)
-    .then(html => sendEmail(email, 'KnowMe confirmation email', html, callback))
-    .catch(e => console.log(e));
+  return getEmailTemplateWithName(name)
+    .then(html => sendEmail(email, 'KnowMe confirmation email', html , callback))
+    .catch(err => console.log(err));
 }
 
 module.exports = {
-  getEmailConfirmationTemplate,
+  getEmailTemplateWithName,
   sendConfirmationEmail
 }
