@@ -4,14 +4,17 @@
   "description": "email sending server for KnowMe",
   "scripts": {
     "receive": "concurrently \"npm run conf_receiver\" \"npm run receiver\" ",
-    "conf_receiver": "node conf_receiver.js",
-    "receiver": "node receiver.js"
+    "conf_receiver": "nodemon conf_receiver.js",
+    "receiver": "nodemon receiver.js"
   },
   "author": "Abraham Lara",
   "license": "ISC",
   "dependencies": {
     "amqplib": "^0.5.3",
-    "nodemailer": "^6.1.0",
-    "concurrently": "^4.1.0"
+    "concurrently": "^4.1.0",
+    "nodemailer": "^6.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.0"
   }
 }

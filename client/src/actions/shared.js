@@ -87,9 +87,30 @@ export const login = ({ email, password }) => dispatch => {
       dispatch(loginSuccess(res.data));
       dispatch(hideLoading());
     })
-    .catch(err => {
+    .catch(({ response }) => {
       dispatch(loginFail());
-      dispatch(getErrors(err.response.data, err.response.status, LOGIN_FAIL));
+      dispatch(getErrors(response.data, response.status, LOGIN_FAIL));
       dispatch(hideLoading());
+    });
+}
+
+export const activate = (token) => dispatch => {
+  dispatch(showLoading());
+
+  const config = defaultConfig();
+  
+  return axios.get(`/api/emailing/activate?confirmation=${token}`, config)
+    .then(res => {
+      dispatch(hideLoading());
+      return {
+        msg: res.data.msg
+      };
+    })
+    .catch(({ response }) => {
+      dispatch(hideLoading());
+      return {
+        msg: response.data.msg,
+        error: true
+      };
     });
 }

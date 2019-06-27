@@ -9,16 +9,6 @@ const { emailConfirmation } = require('../../emailing');
 // User Model
 const User = require('../../models/User');
 
-// @router  GET apli/users
-// @desc    Get all user info
-// @access  Public
-router.get('/', (req, res) => {
-  User.find()
-    .select(['-password', '-__v'])
-    .sort({ name: 1 })
-    .then(users => res.json(users));
-});
-
 // @router  POST api/users
 // @desc    Create new user
 // @access  Public
@@ -78,7 +68,7 @@ router.post('/', (req, res) => {
                   if (err) throw err;
 
                   // We send the newly registered user an email
-                  emailConfirmation(user.email, user.first_name.concat(' ', user.last_name));
+                  emailConfirmation(user.email, user.first_name.concat(' ', user.last_name), user.id);
 
                   res.json({
                     token,

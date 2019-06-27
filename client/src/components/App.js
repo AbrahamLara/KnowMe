@@ -7,6 +7,7 @@ import { Route } from 'react-router-dom';
 import Loadingbar from 'react-redux-loading';
 import SplashPage from './SplashPage';
 import KnowPage from './KnowPage';
+import ActivationPage from './ActivationPage';
 
 class App extends Component {
   constructor (props) {
@@ -19,10 +20,11 @@ class App extends Component {
     return (
       <Fragment>
         <Loadingbar />
-        <div className="App">
+        <div className='App'>
           <AppNavbar />
           <Route path='/' exact component={SplashPage} />
           <Route path='/know/:name' component={KnowPage} />
+          <Route path='/activation/:token' component={ActivationPage} />
         </div>
       </Fragment>
     );

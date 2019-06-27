@@ -24,12 +24,3 @@ export function defaultConfig () {
     }
   };
 }
-
-// Combines className of type string with the given classes.
-// However, if no classes are given then it just returns className
-// to prevent having a whitespace at the end of a class name.
-export function combineClassNames (className, classes='') {
-  if (!classes) return className;
-
-  return className.concat(' ', classes);
-}

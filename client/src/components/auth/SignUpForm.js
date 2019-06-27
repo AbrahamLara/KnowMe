@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import { register } from '../../actions/shared';
 import { REGISTER_FAIL } from '../../actions/auth';
 import { clearErrors } from '../../actions/error';
-import { combineClassNames } from '../../utils/helpers';
+import classnames from 'classnames';
 
 class SignUpForm extends Component {
   static propTypes = {
@@ -99,7 +99,7 @@ class SignUpForm extends Component {
     const { msg, visible } = this.state;
 
     return (
-      <div className={combineClassNames('SignUpForm', this.props.className)}>
+      <div className={classnames('SignUpForm', this.props.className)}>
         <h3 className='mb-3' style={{textDecoration: 'underline'}}>Sign Up</h3>
         { msg &&
           <Alert

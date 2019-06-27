@@ -14,12 +14,13 @@ mongoose
     useCreateIndex: true
   })
   .then(() => console.log('Connected to MongoDB'))
-  .catch(e => console.log('Failed to connect to MongoDB'));
+  .catch(() => console.log('Failed to connect to MongoDB'));
 
 // To keep routes organized specific api calls
 // will be handled by their respective routes
 app.use('/api/users', require('./routes/api/users'));
 app.use('/api/auth', require('./routes/api/auth'));
+app.use('/api/emailing', require('./routes/api/emailing'));
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);

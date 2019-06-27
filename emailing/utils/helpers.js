@@ -1,6 +1,8 @@
 const fs = require('fs');
 const nodemailer = require('nodemailer');
 const credentials = require('../utils/mailtrap_creds');
+const jwt = require('jsonwebtoken');
+const config = require('config');
 
 // This function returns a promise that is used to get the content's
 // of a file from the given path relative to the file in which this
@@ -44,11 +46,27 @@ function sendEmail (email, subject, html, callback) {
 function getEmailTemplateHtml (template_name) {
   return fileContentToString(__dirname.concat(`/../templates/${template_name}.html`))
     .then(html => html)
-    .catch(e => { throw new Error(`Failed to get template with name '${template_name}'`) });
+    .catch(err => {throw new Error(err)});
+}
+
+function generateToken (payload) {
+  return new Promise ((resolve, reject) => {
+    jwt.sign(
+      payload,
+      config.get('jwtSecret'),
+      { expiresIn: 60 },
+      (err, token) => {
+        if (err) throw err;
+
+        resolve(token);
+      }
+    );
+  });
 }
 
 module.exports = {
   sendEmail,
   fileContentToString,
   getEmailTemplateHtml,
+  generateToken
 }

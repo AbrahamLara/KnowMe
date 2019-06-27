@@ -1,3 +1,4 @@
 {
-  "rabbitURI": "amqp://localhost"
+  "rabbitURI": "amqp://localhost",
+  "jwtSecret": "km_jwtSecret"
 }
