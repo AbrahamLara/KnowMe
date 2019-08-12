@@ -99,7 +99,7 @@ export const activate = (token) => dispatch => {
 
   const config = defaultConfig();
   
-  return axios.get(`/api/emailing/activate?confirmation=${token}`, config)
+  return axios.get(`/api/auth/activate?confirmation=${token}`, config)
     .then(res => {
       dispatch(hideLoading());
       return {

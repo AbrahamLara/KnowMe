@@ -9,9 +9,11 @@ const { emailConfirmation } = require('../../emailing');
 // User Model
 const User = require('../../models/User');
 
-// @router  POST api/users
-// @desc    Create new user
-// @access  Public
+/**
+ * @router  POST api/users
+ * @desc    Create new user
+ * @access  Public
+ */
 router.post('/', (req, res) => {
   const {
     user: {
@@ -88,9 +90,11 @@ router.post('/', (req, res) => {
     });
 });
 
-// @router  DELETE apli/users
-// @desc    Deletes a user
-// @access  Private
+/**
+ * @router  DELETE apli/users
+ * @desc    Deletes a user
+ * @access  Private
+ */
 router.delete('/:id', auth, (req, res) => {
   const { user, params } = req;
 

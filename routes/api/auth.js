@@ -9,9 +9,11 @@ const verify = require('../../middleware/verify');
 // User Model
 const User = require('../../models/User');
 
-// @router  POST api/auth
-// @desc    Authenticate user
-// @access  Public
+/**
+ * @router  POST api/auth
+ * @desc    Authenticate user
+ * @access  Public
+ */
 router.post('/', (req, res) => {
   const { email, password } = req.body;
 
@@ -36,6 +38,7 @@ router.post('/', (req, res) => {
       bcrypt.compare(password, user.password)
         .then(isMatch => {
           if (!isMatch) return res.status(400).json({ msg: 'Invalid credentials' });
+          if (!user.account_activated) res.status(400).json({ msg: 'Account is not activated' });
           
           // We include the user's id in the token so that when it gets decoded
           // we can authenticated and give the user permission access their own content
@@ -62,9 +65,28 @@ router.post('/', (req, res) => {
     });
 });
 
-// @router  GET api/auth/user
-// @desc    Get authenticated user data
-// @access  Private
+/**
+ * @router  POST api/auth/activate
+ * @desc    Activates user account
+ * @access  Private
+ */
+router.get('/activate', (req, res) => {
+  const token = req.query.confirmation;
+  
+  try {
+    jwt.verify(token, config.get('jwtSecret'));
+    res.status(200).json({ msg: 'You have successfully activated your account.' });
+  } catch (e) {
+    res.status(400).json({ msg: 'Failed to verify confirmation token.'});
+  }
+
+});
+
+/**
+ * @router  GET api/auth/user
+ * @desc    Get authenticated user data
+ * @access  Private
+ */
 router.get('/user', auth, verify, (req, res) => {
   User.findById(req.user.id)
     .select(['-password', '-__v'])
