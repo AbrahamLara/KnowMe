@@ -12,16 +12,14 @@ import '../../css/SignUpForm.css';
 import PropTypes from 'prop-types';
 import { register } from '../../actions/shared';
 import { REGISTER_FAIL } from '../../actions/auth';
-import { clearErrors } from '../../actions/error';
 import { clearMessages } from '../../actions/msg';
 import classnames from 'classnames';
 
 class SignUpForm extends Component {
   static propTypes = {
     isAuthenticated: PropTypes.bool,
-    error: PropTypes.object.isRequired,
+    msg: PropTypes.object.isRequired,
     register: PropTypes.func.isRequired,
-    clearErrors: PropTypes.func.isRequired,
     clearMessages: PropTypes.func.isRequired
   };
 
@@ -44,7 +42,7 @@ class SignUpForm extends Component {
   // any errors were produced upon registration so that
   // the error message may be displayed as an alert
   componentDidUpdate (prevProps) {
-    const { error, msg } = this.props;
+    const { msg } = this.props;
     
     if (msg !== prevProps.msg) {
       this.setState({
@@ -59,7 +57,6 @@ class SignUpForm extends Component {
   // we clear out any errors in redux state
   onDismiss = () => {
     if (this.props.msg.status) {
-      // this.props.clearErrors();
       this.props.clearMessages();
     }
   }
@@ -167,15 +164,14 @@ class SignUpForm extends Component {
   }
 }
 
-function mapStateToProps ({ auth: { isAuthenticated }, error, msg }) {
+function mapStateToProps ({ auth: { isAuthenticated }, msg }) {
   return {
     isAuthenticated,
-    error,
     msg
   }
 }
  
 export default connect (
   mapStateToProps,
-  { register, clearErrors, clearMessages }
+  { register, clearMessages }
 )(SignUpForm);

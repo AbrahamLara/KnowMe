@@ -12,8 +12,7 @@ import {
   stopLoading,
   REGISTER_SUCCESS
 } from './auth';
-import { getErrors } from './error'
-import { getMessages } from './msg'
+import { getMessages } from './msg';
 import { tokenConfig, defaultConfig } from '../utils/helpers';
 import { showLoading, hideLoading } from 'react-redux-loading';
 
