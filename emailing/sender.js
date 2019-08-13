@@ -25,7 +25,7 @@ async function enqueueMessage (data, exchange, severity) {
       }
       // We publish our message to the exchange and by passing the severity
       // as the routing key we are essentially sending a message to
-      // aparticular queue
+      // a particular queue
       ch.publish(exchange, severity, Buffer.alloc(msg.length, msg), { persistent: false });
       console.log('Message has been sent:', msg);
       // We close the connection and exit

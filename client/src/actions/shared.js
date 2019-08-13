@@ -9,9 +9,11 @@ import {
   loginSuccess,
   loginFail,
   LOGIN_FAIL,
-  stopLoading
+  stopLoading,
+  REGISTER_SUCCESS
 } from './auth';
 import { getErrors } from './error'
+import { getMessages } from './msg'
 import { tokenConfig, defaultConfig } from '../utils/helpers';
 import { showLoading, hideLoading } from 'react-redux-loading';
 
@@ -36,7 +38,7 @@ export const loadUser = () => (dispatch, getState) => {
       dispatch(hideLoading());
     })
     .catch(err => {
-      dispatch(getErrors(err.response.data, err.response.status));
+      dispatch(getMessages(err.response.data, err.response.status));
       dispatch(authError());
       dispatch(hideLoading());
     });
@@ -63,11 +65,12 @@ export const register = ({ first_name, last_name, email, password }, conf_passwo
   axios.post('/api/users', body, config)
     .then(res => {
       dispatch(registerSuccess(res.data));
+      dispatch(getMessages(res.data, res.status, REGISTER_SUCCESS));
       dispatch(hideLoading());
     })
     .catch(({ response }) => {
       dispatch(registerFail());
-      dispatch(getErrors(response.data, response.status, REGISTER_FAIL));
+      dispatch(getMessages(response.data, response.status, REGISTER_FAIL));
       dispatch(hideLoading());
     });
 }
@@ -89,11 +92,13 @@ export const login = ({ email, password }) => dispatch => {
     })
     .catch(({ response }) => {
       dispatch(loginFail());
-      dispatch(getErrors(response.data, response.status, LOGIN_FAIL));
+      dispatch(getMessages(response.data, response.status, LOGIN_FAIL));
       dispatch(hideLoading());
     });
 }
 
+// This method takes a token as the parameter and that will contain
+// the newly registered user's email to activate their account.
 export const activate = (token) => dispatch => {
   dispatch(showLoading());
 

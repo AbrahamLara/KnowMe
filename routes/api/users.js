@@ -2,8 +2,6 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const auth = require('../../middleware/auth');
-const jwt = require('jsonwebtoken');
-const config = require('config');
 const { emailConfirmation } = require('../../emailing');
 
 // User Model
@@ -49,42 +47,26 @@ router.post('/', (req, res) => {
         first_name,
         last_name,
         email,
-        password
+        password,
       });
 
       // All passwords must be hashed and salted before they it 
       // can be stored in in the database along with the rest of
       // the given information
       bcrypt.genSalt(10, (err, salt) => {
-        bcrypt.hash(newUser.password, salt, (err, hash) => {
-          if (err) throw err;
+        if (err) throw err;
+        bcrypt.hash(newUser.password, salt, (err1, hash) => {
+          if (err1) throw err1;
 
           newUser.password = hash;
           newUser.save()
             .then(user => {
-              jwt.sign(
-                { id: user.id },
-                config.get('jwtSecret'),
-                { expiresIn: 60 },
-                (err, token) => {
-                  if (err) throw err;
+              // We send the newly registered user an email
+              emailConfirmation(user.email, user.first_name.concat(' ', user.last_name), user.id);
 
-                  // We send the newly registered user an email
-                  emailConfirmation(user.email, user.first_name.concat(' ', user.last_name), user.id);
-
-                  res.json({
-                    token,
-                    user: {
-                      id: user.id,
-                      first_name: user.first_name,
-                      last_name: user.last_name,
-                      email: user.email
-                    }
-                  });
-                }
-              );
+              res.status(200).json({ msg: 'Check your email to activate account' });
             })
-            .catch(err => res.status(400).json({  msg: 'Failed to register user' }));
+            .catch(() => res.status(400).json({  msg: 'Failed to register user' }));
         });
       });
     });
@@ -102,7 +84,7 @@ router.delete('/:id', auth, (req, res) => {
 
   User.findById(params.id)
     .then(user => user.remove().then(() => res.json({ success: true })))
-    .catch(err => res.status(404).json({ success: false }));
+    .catch(() => res.status(404).json({ success: false }));
 });
 
 module.exports = router;

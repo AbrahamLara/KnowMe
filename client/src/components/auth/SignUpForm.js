@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import { register } from '../../actions/shared';
 import { REGISTER_FAIL } from '../../actions/auth';
 import { clearErrors } from '../../actions/error';
+import { clearMessages } from '../../actions/msg';
 import classnames from 'classnames';
 
 class SignUpForm extends Component {
@@ -20,7 +21,8 @@ class SignUpForm extends Component {
     isAuthenticated: PropTypes.bool,
     error: PropTypes.object.isRequired,
     register: PropTypes.func.isRequired,
-    clearErrors: PropTypes.func.isRequired
+    clearErrors: PropTypes.func.isRequired,
+    clearMessages: PropTypes.func.isRequired
   };
 
   constructor (props) {
@@ -33,6 +35,7 @@ class SignUpForm extends Component {
       password: '',
       conf_password: '',
       msg: null,
+      error: false,
       visible: false
     };
   }
@@ -41,14 +44,13 @@ class SignUpForm extends Component {
   // any errors were produced upon registration so that
   // the error message may be displayed as an alert
   componentDidUpdate (prevProps) {
-    const { error } = this.props;
+    const { error, msg } = this.props;
     
-    if (error !== prevProps.error) {
+    if (msg !== prevProps.msg) {
       this.setState({
-        msg: error.id === REGISTER_FAIL
-          ? error.msg.msg
-          :null,
-          visible: true
+        msg: msg.msg.msg,
+        error: msg.id === REGISTER_FAIL,
+        visible: true
       });
     }
   }
@@ -56,8 +58,9 @@ class SignUpForm extends Component {
   // Once the user has toggled the alert for dismissal
   // we clear out any errors in redux state
   onDismiss = () => {
-    if (this.props.error.status) {
-      this.props.clearErrors();
+    if (this.props.msg.status) {
+      // this.props.clearErrors();
+      this.props.clearMessages();
     }
   }
 
@@ -96,14 +99,14 @@ class SignUpForm extends Component {
   }
 
   render() {
-    const { msg, visible } = this.state;
+    const { msg, visible, error } = this.state;
 
     return (
       <div className={classnames('SignUpForm', this.props.className)}>
         <h3 className='mb-3' style={{textDecoration: 'underline'}}>Sign Up</h3>
         { msg &&
           <Alert
-            color='danger'
+            color={error ? 'danger' : 'success'}
             fade
             isOpen={visible}
             toggle={this.onDismiss}
@@ -164,14 +167,15 @@ class SignUpForm extends Component {
   }
 }
 
-function mapStateToProps ({ auth: { isAuthenticated }, error }) {
+function mapStateToProps ({ auth: { isAuthenticated }, error, msg }) {
   return {
     isAuthenticated,
-    error
+    error,
+    msg
   }
 }
  
 export default connect (
   mapStateToProps,
-  { register, clearErrors }
+  { register, clearErrors, clearMessages }
 )(SignUpForm);

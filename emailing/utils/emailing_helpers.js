@@ -14,10 +14,10 @@ function getEmailTemplate (template_name) {
 
 // We get the confirm_email template as a string and replace the first
 // occurance of NAME with the user's name and return the string
-function getConfirmationTemplate (name, id) {
+function getConfirmationTemplate (name, payload) {
   return Promise.all([
     getEmailTemplate('confirm_email'),
-    generateToken({ id })
+    generateToken(payload)
   ])
   .then(([html, token]) => html.replace(/NAME/, name).replace(/TOKEN/, token));
 }
@@ -25,7 +25,7 @@ function getConfirmationTemplate (name, id) {
 // We get the confirmation email template and use this to complete
 // the email along with the user's email and subject
 function sendConfirmationEmail (email, name, callback) {
-  return getConfirmationTemplate(name)
+  return getConfirmationTemplate(name, { email })
     .then(html => sendEmail(email, 'KnowMe confirmation email', html , callback))
     .catch(err => {throw new Error(err)});
 }
