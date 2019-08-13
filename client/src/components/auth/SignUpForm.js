@@ -11,7 +11,7 @@ import { connect } from 'react-redux';
 import '../../css/SignUpForm.css';
 import PropTypes from 'prop-types';
 import { register } from '../../actions/shared';
-import { REGISTER_FAIL } from '../../actions/auth';
+import { REGISTER_FAIL, REGISTER_SUCCESS } from '../../actions/auth';
 import { clearMessages } from '../../actions/msg';
 import classnames from 'classnames';
 
@@ -43,13 +43,25 @@ class SignUpForm extends Component {
   // the error message may be displayed as an alert
   componentDidUpdate (prevProps) {
     const { msg } = this.props;
-    
     if (msg !== prevProps.msg) {
-      this.setState({
+      let newState = {
         msg: msg.msg.msg,
         error: msg.id === REGISTER_FAIL,
         visible: true
-      });
+      };
+
+      if (msg.id === REGISTER_SUCCESS) {
+        newState = {
+          ...newState,
+          first_name: '',
+          last_name: '',
+          email: '',
+          password: '',
+          conf_password:''
+        }
+      }
+
+      this.setState(newState);
     }
   }
 
@@ -84,6 +96,7 @@ class SignUpForm extends Component {
       password,
       conf_password
     } = this.state;
+    console.error('STATE', this.state);
 
     const newUser = {
       first_name,
@@ -96,7 +109,16 @@ class SignUpForm extends Component {
   }
 
   render() {
-    const { msg, visible, error } = this.state;
+    const {
+      msg,
+      visible,
+      error,
+      first_name,
+      last_name,
+      email,
+      password,
+      conf_password
+    } = this.state;
 
     return (
       <div className={classnames('SignUpForm', this.props.className)}>
@@ -117,8 +139,9 @@ class SignUpForm extends Component {
                 id='first_name'
                 name='first_name'
                 type='text'
+                value={first_name}
                 onChange={this.handleChange}
-              />
+                />
             </FormGroup>
             <FormGroup className='flex-1 ml-3'>
               <Label for='last_name'>Last Name:</Label>
@@ -126,8 +149,9 @@ class SignUpForm extends Component {
                 id='last_name'
                 name='last_name'
                 type='text'
+                value={last_name}
                 onChange={this.handleChange}
-              />
+                />
             </FormGroup>
           </div>
           <FormGroup>
@@ -136,6 +160,7 @@ class SignUpForm extends Component {
               id='email'
               name='email'
               type='email'
+              value={email}
               onChange={this.handleChange}
               />
           </FormGroup>
@@ -145,8 +170,9 @@ class SignUpForm extends Component {
               id='password'
               name='password'
               type='password'
+              value={password}
               onChange={this.handleChange}
-            />
+              />
           </FormGroup>
           <FormGroup>
             <Label for='conf_password'>Confirm Password:</Label>
@@ -154,8 +180,9 @@ class SignUpForm extends Component {
               id='conf_password'
               name='conf_password'
               type='password'
+              value={conf_password}
               onChange={this.handleChange}
-            />
+              />
           </FormGroup>
           <Button className='suf-btn' color='dark'>Submit</Button>
         </Form>
