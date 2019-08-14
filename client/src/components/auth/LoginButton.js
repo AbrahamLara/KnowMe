@@ -14,7 +14,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { login } from '../../actions/shared';
 import { LOGIN_FAIL } from '../../actions/auth';
-import { clearErrors } from '../../actions/error';
+import { clearMessages } from '../../actions/msg';
 
 class LoginModal extends Component {
   state = {
@@ -26,9 +26,9 @@ class LoginModal extends Component {
 
   static propTypes = {
     isAuthenticated: PropTypes.bool,
-    error: PropTypes.object.isRequired,
+    msg: PropTypes.object.isRequired,
     login: PropTypes.func.isRequired,
-    clearErrors: PropTypes.func.isRequired
+    clearMessages: PropTypes.func.isRequired
   }
 
   // After attempting to login we check whether
@@ -36,12 +36,12 @@ class LoginModal extends Component {
   // the error message may be displayed. If login
   // is successful we close the modal
   componentDidUpdate (prevProps) {
-    const { error, isAuthenticated } = this.props;
+    const { msg, isAuthenticated } = this.props;
     
-    if (error !== prevProps.error) {
+    if (msg !== prevProps.msg) {
       this.setState({
-        msg: error.id === LOGIN_FAIL
-          ? error.msg.msg
+        msg: msg.id === LOGIN_FAIL
+          ? msg.msg.msg
           :null
       });
     }
@@ -55,8 +55,8 @@ class LoginModal extends Component {
   // set it open or hidden while also clearing
   // any errors in redux state;
   toggle = () => {
-    if (this.props.error.status) {
-      this.props.clearErrors();
+    if (this.props.msg.status) {
+      this.props.clearMessages();
     }
     
     this.setState((currState) => ({
@@ -141,14 +141,14 @@ class LoginModal extends Component {
   }
 }
 
-function mapStateToProps ({ auth: { isAuthenticated }, error }) {
+function mapStateToProps ({ auth: { isAuthenticated }, msg }) {
   return {
     isAuthenticated,
-    error
+    msg
   }
 }
  
 export default connect (
   mapStateToProps,
-  { login, clearErrors }
+  { login, clearMessages }
 )(LoginModal);

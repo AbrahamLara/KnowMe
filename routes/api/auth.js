@@ -31,6 +31,7 @@ router.post('/', (req, res) => {
     .then(user => {
       if (!user) return res.status(400).json({ msg: 'User does not exist' });
 
+      if (!user.account_activated) return res.status(400).json({ msg: 'Account is not activated' });;
       // We compare the given password with the exsiting user's
       // hashed password to check for a match. Assuming they match
       // we sign a json web token for the user to keep in localStorage

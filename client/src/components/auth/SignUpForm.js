@@ -45,7 +45,7 @@ class SignUpForm extends Component {
     const { msg } = this.props;
     if (msg !== prevProps.msg) {
       let newState = {
-        msg: msg.msg.msg,
+        msg: (msg.id === REGISTER_FAIL || msg.id === REGISTER_SUCCESS) && msg.msg.msg,
         error: msg.id === REGISTER_FAIL,
         visible: true
       };
