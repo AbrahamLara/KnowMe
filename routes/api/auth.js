@@ -5,6 +5,7 @@ const config = require('config');
 const jwt = require('jsonwebtoken');
 const auth = require('../../middleware/auth');
 const verify = require('../../middleware/verify');
+const { generateToken } = require('../../emailing/utils/helpers');
 
 // User Model
 const User = require('../../models/User');
@@ -44,13 +45,8 @@ router.post('/', (req, res) => {
           // We include the user's id in the token so that when it gets decoded
           // we can authenticated and give the user permission access their own content
           // and fulfill certain actions with their content
-          jwt.sign(
-            { id: user.id },
-            config.get('jwtSecret'),
-            { expiresIn: 30 },
-            (err, token) => {
-              if (err) throw err;
-
+          generateToken({ id: user.id }, { expiresIn: 30 })
+            .then(token => {
               res.json({
                 token,
                 user: {
@@ -60,8 +56,7 @@ router.post('/', (req, res) => {
                   email: user.email
                 }
               });
-            }
-          );
+            });
         });
     });
 });

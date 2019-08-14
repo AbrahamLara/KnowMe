@@ -49,12 +49,14 @@ function getEmailTemplateHtml (template_name) {
     .catch(err => {throw new Error(err)});
 }
 
-function generateToken (payload) {
+// This method is just for generating a token without having to
+// always import jwt and config.
+function generateToken (payload, options = { expiresIn: 60 }) {
   return new Promise ((resolve, reject) => {
     jwt.sign(
       payload,
       config.get('jwtSecret'),
-      { expiresIn: 60 },
+      options,
       (err, token) => {
         if (err) throw err;
 
