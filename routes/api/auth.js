@@ -31,8 +31,8 @@ router.post('/', (req, res) => {
   User.findOne({ email })
     .then(user => {
       if (!user) return res.status(400).json({ msg: 'User does not exist' });
-
       if (!user.account_activated) return res.status(400).json({ msg: 'Account is not activated' });;
+
       // We compare the given password with the exsiting user's
       // hashed password to check for a match. Assuming they match
       // we sign a json web token for the user to keep in localStorage
@@ -76,12 +76,12 @@ router.get('/activate', (req, res) => {
       if (!user)
         return res.status(400).json({ msg: 'User account doesn\'t exist.'});;
       if (user.account_activated)
-        return res.status(400).json({ msg: 'User account already activated.'});
+        return res.status(400).json({ msg: 'User account already activated. Click the login button at the top right to access your account.'});
 
       user.account_activated = true;
       user.save();
       
-      res.status(200).json({ msg: 'You have successfully activated your account.' });
+      res.status(200).json({ msg: 'You have successfully activated your account. Hit the login button at the top right to access your account.' });
       });
   } catch (e) {
     res.status(400).json({ msg: 'Failed to verify confirmation token.'});

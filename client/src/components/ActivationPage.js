@@ -2,7 +2,6 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Container } from 'reactstrap';
 import { activate } from '../actions/shared';
-import { clearErrors } from '../actions/error';
 
 class ActivationPage extends Component {
   state = {
@@ -19,16 +18,6 @@ class ActivationPage extends Component {
         error
       });
     });
-  }
-
-  componentDidUpdate (prevProps) {
-    const error = this.props.error;
-
-    if (error !== prevProps.error) {
-      this.setState({
-        msg: error.msg.msg
-      });
-    }
   }
 
   render () {
@@ -61,10 +50,4 @@ class ActivationPage extends Component {
   }
 }
 
-function mapStateToProps ({ error }) {
-  return {
-    error
-  }
-}
-
-export default connect(mapStateToProps, { activate, clearErrors })(ActivationPage);
+export default connect(null, { activate })(ActivationPage);
