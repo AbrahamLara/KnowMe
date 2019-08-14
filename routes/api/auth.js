@@ -5,7 +5,7 @@ const config = require('config');
 const jwt = require('jsonwebtoken');
 const auth = require('../../middleware/auth');
 const verify = require('../../middleware/verify');
-const { generateToken } = require('../../emailing/utils/helpers');
+const { generateToken } = require('../../utils/helpers');
 
 // User Model
 const User = require('../../models/User');

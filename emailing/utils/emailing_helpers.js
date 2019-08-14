@@ -1,8 +1,5 @@
-const {
-  sendEmail,
-  fileContentToString,
-  generateToken
-} = require('./helpers');
+const { sendEmail } = require('./helpers');
+const { fileContentToString, generateToken } = require('../../utils/helpers');
 
 // We use the fileContentToString method to get the html of
 // of a template as a string
