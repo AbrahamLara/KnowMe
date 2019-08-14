@@ -24,8 +24,8 @@ function getConfirmationTemplate (name, payload) {
 
 // We get the confirmation email template and use this to complete
 // the email along with the user's email and subject
-function sendConfirmationEmail (email, name, callback) {
-  return getConfirmationTemplate(name, { email })
+function sendConfirmationEmail ({ email, name, id }, callback) {
+  return getConfirmationTemplate(name, { id })
     .then(html => sendEmail(email, 'KnowMe confirmation email', html , callback))
     .catch(err => {throw new Error(err)});
 }

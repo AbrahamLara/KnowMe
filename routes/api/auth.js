@@ -70,16 +70,24 @@ router.post('/', (req, res) => {
  * @desc    Activates user account
  * @access  Private
  */
-router.get('/activate', (req, res) => {
+router.get('/activate', verify, (req, res) => {
   const token = req.query.confirmation;
   
   try {
-    jwt.verify(token, config.get('jwtSecret'));
-    res.status(200).json({ msg: 'You have successfully activated your account.' });
+    const { id } = jwt.verify(token, config.get('jwtSecret'));
+    
+    User.findById(id)
+      .then(user => {
+        if (user.account_activated)
+          return res.status(400).json({ msg: 'User account already activated.'});
+        
+        User.updateOne({ _id: id }, { account_activated: true });
+        
+        res.status(200).json({ msg: 'You have successfully activated your account.' });
+      });
   } catch (e) {
     res.status(400).json({ msg: 'Failed to verify confirmation token.'});
   }
-
 });
 
 /**

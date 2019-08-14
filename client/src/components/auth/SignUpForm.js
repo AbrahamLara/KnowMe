@@ -96,7 +96,6 @@ class SignUpForm extends Component {
       password,
       conf_password
     } = this.state;
-    console.error('STATE', this.state);
 
     const newUser = {
       first_name,

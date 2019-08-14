@@ -47,7 +47,7 @@ amqp.connect(config.get('rabbitURI'), function (err, conn) {
         // We take the msg and parse it using JSON to extract the
         // email and name of the user to send an email so that we may
         // send an Ack to RabbitMQ
-        sendConfirmationEmail(user.email, user.name, function (err3, info) {
+        sendConfirmationEmail(user, function (err3, info) {
           if (err3) throw err3;
           ch.ack(msg);
         });
