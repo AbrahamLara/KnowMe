@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Container } from 'reactstrap';
+import { Redirect } from 'react-router-dom';
 import { activate } from '../actions/shared';
 
 class ActivationPage extends Component {
@@ -10,18 +11,25 @@ class ActivationPage extends Component {
   }
 
   componentDidMount () {
-    const { activate, match } = this.props;
-
-    activate(match.params.token).then(({ msg, error }) => {
-      this.setState({
-        msg,
-        error
+    const { activate, match, isAuthenticated } = this.props;
+    
+    if (!isAuthenticated) {
+      activate(match.params.token).then(({ msg, error }) => {
+        this.setState({
+          msg,
+          error
+        });
       });
-    });
+    }
   }
 
   render () {
     const { msg, error } = this.state;
+    const isAuthenticated = this.props.isAuthenticated;
+
+    if (isAuthenticated) {
+      return <Redirect to="/" />
+    }
 
     let content = (
       <div>loading...</div>
@@ -50,4 +58,10 @@ class ActivationPage extends Component {
   }
 }
 
-export default connect(null, { activate })(ActivationPage);
+function mapStateToProps ({ auth: { isAuthenticated } }) {
+  return {
+    isAuthenticated
+  };
+}
+
+export default connect(mapStateToProps, { activate })(ActivationPage);

@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import '../css/App.css';
 import { connect } from 'react-redux';
-import AppNavbar from './AppNavbar';
+import AppNavbar from '../components/AppNavbar';
 import { loadUser } from '../actions/shared';
 import { Route } from 'react-router-dom';
 import Loadingbar from 'react-redux-loading';

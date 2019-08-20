@@ -5,8 +5,8 @@ import {
 import '../css/SplashPage.css';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import SignUpForm from './auth/SignUpForm';
-import AboutContainer from './AboutContainer';
+import SignUpForm from '../components/auth/SignUpForm';
+import AboutContainer from '../components/AboutContainer';
 import PropTypes from 'prop-types';
 
 // If the user is authenticated then we want to redirect them
