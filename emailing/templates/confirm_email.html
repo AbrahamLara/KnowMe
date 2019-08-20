@@ -5,26 +5,27 @@
     <style>
       body {
         margin: 0;
-        background-color: #5489E5;
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
       }
 
-      .container {
-        width: 50%;
-        margin: auto;
-        background-color: white;
-        height: 100vh;
-        overflow: auto;
-        display: flex;
-        align-items: center;
-      }
-
       .view {
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
         width: 100%;
       }
 
       .site-name {
-        font-size: 4em;
+        font-size: 2em;
+        text-align: start;
+        margin-block-start: 10px;
+        margin-block-end: 10px;
+        margin-inline-start: 10px;
+        margin-inline-end: 10px;
+      }
+
+      .content {
+        width: 100vw;
       }
 
       .thin-text {
@@ -36,7 +37,9 @@
       }
 
       .greeting {
-        font-size: 2.5em;
+        margin-block-start: 15px;
+        margin-block-end: 15px;
+        font-size: 1.7em;
       }
 
       .user-name {
@@ -55,66 +58,67 @@
       .act-btn {
         display: block;
         margin: auto;
-        border: 1px solid #5489E5;
-        background-color: #5489E5;
+        border: 1px solid #343a40;
+        background-color: #343a40;
         color: white;
-        border-radius:5px;
-        font-size: 2em;
+        border-radius: 3px;
+        font-size: 1.5em;
         padding: 10px 15px;
         cursor: pointer;
         outline: none;
       }
 
+      th, td {
+        width: 100vw;
+      }
+
+      th {
+        border-bottom: thin solid lightgray;
+      }
+
+      tbody {
+        flex: auto;
+      }
+
+      tbody, tbody tr, tbody tr td {
+        display: flex;
+      }
+
+      tbody tr td {
+        align-items: center;
+      }
+
+      tfoot {
+        border-top: thin solid lightgray;
+      }
+
       @media screen and (max-width: 823px) {
-        .site-name {
-          margin-top: 10px;
-          margin-bottom: 10px;
-          font-size: 3em;
-        }
-
-        .container {
-          width: 80%;
-        }
-
-        .greeting {
-          margin-top: 15px;
-          margin-bottom: 15px;
-          font-size: 2em;
-        }
-        
-        .act-btn {
+        .site-name, .greeting, .act-btn {
           font-size: 1.5em;
         }
       }
 
       @media screen and (max-width: 414px) {
-        .container {
-          width: 100%;
-          margin: 0;
-        }
-
-        .greeting {
-          font-size: 1.5em;
-        }
-
-        .user-name {
+        .greeting, .user-name {
           font-size: 1.5em;
         }
       }
     </style>
   </head>
   <body>
-    <div class="container">
-      <table class="view">
-        <tbody>
-          <tr>
-            <td>
-              <p class="site-name thin-text text-center">Know<span class="emphasis">Me</span></p>
-            </td>
-          </tr>
-          <tr class="content">
-            <td class="text-center">
-              <p class="greeting thin-text">Congratulations,</p>
+    <table class="view">
+      <thead>
+        <tr>
+          <th>
+            <p class="site-name thin-text">Know<span class="emphasis">Me</span></p>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <div class="content text-center">
+              <p class="greeting thin-text">Welcome,</p>
               <strong class="user-name">NAME</strong>
               <p class="greeting thin-text">
                 You have successfully registered to the platform.
@@ -122,19 +126,22 @@
               <p class="greeting thin-text">
                 Please click the following link to activate your account.
               </p>
-            </td>
-          </tr>
-          <tr>
-            <td>
               <a class="act-link" target="_blank" href="http://localhost:3000/activation/TOKEN">
-                <button class="act-btn">
+                <button class="act-btn thin-text">
                   Activate Account
                 </button>
               </a>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td>
+            <p style="color: gray;">This email template is for activating user accounts.</p>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
   </body>
 </html>
