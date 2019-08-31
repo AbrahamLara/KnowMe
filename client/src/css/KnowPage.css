@@ -1,9 +1,19 @@
-.kp-user-profile-image {
-  width: 150px;
-  height: 150px;
-  border-radius: 80px;
+.kp-user-banner {
+  position: relative;
+  height: 250px;
+  background: url(../logo.svg) gray;
+  background-size: 140px;
 }
 
-.kp-user-description {
-  font-size: 1.3em;
+.kp-profile-image-container {
+  position: absolute;
+  bottom: -70px;
+  left: 30px;
+}
+
+#profileImage {
+  width: 130px;
+  height: 130px;
+  border-radius: 80px;
+  background: #333;
 }
