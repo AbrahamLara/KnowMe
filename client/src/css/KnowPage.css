@@ -7,7 +7,7 @@
 
 .kp-profile-image-container {
   position: absolute;
-  bottom: -70px;
+  bottom: -50px;
   left: 30px;
 }
 
@@ -16,4 +16,21 @@
   height: 130px;
   border-radius: 80px;
   background: #333;
+}
+
+.kp-user-summary {
+  padding: 10px;
+  padding-top: 70px;
+  border: thin solid lightgray;
+}
+
+#userName {
+  font-size: 1.6rem;
+  font-weight: 500;
+}
+
+#userSummary {
+  margin-block-start: 15px;
+  white-space: pre-wrap;
+  font-size: 1.2rem;
 }
