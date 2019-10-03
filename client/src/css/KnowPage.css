@@ -1,36 +1,42 @@
-.kp-user-banner {
+.KnowPage {
   position: relative;
+}
+
+.kp-top-user-container {
+  position: relative;
+}
+
+.kp-user-banner {
+  cursor: pointer;
   height: 250px;
   background: url(../logo.svg) gray;
   background-size: 140px;
 }
 
-.kp-profile-image-container {
-  position: absolute;
-  bottom: -50px;
-  left: 30px;
-}
-
 #profileImage {
+  cursor: pointer;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  border-radius: 80px;
   width: 130px;
   height: 130px;
-  border-radius: 80px;
   background: #333;
 }
 
 .kp-user-summary {
-  padding: 10px;
-  padding-top: 70px;
   border: thin solid lightgray;
 }
 
+.kp-user-top-summary {
+  padding: 10px;
+}
+
 #userName {
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   font-weight: 500;
 }
 
-#userSummary {
-  margin-block-start: 15px;
-  white-space: pre-wrap;
-  font-size: 1.2rem;
+.forward {
+  z-index: 1;
 }
