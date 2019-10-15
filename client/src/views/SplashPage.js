@@ -1,6 +1,8 @@
 import React, { Fragment } from 'react';
 import {
-  Container
+  Container,
+  Row,
+  Col
 } from 'reactstrap';
 import '../css/SplashPage.css';
 import { connect } from 'react-redux';
@@ -18,9 +20,15 @@ function SplashPage ({ auth: { isAuthenticated, user } }) {
 
   return (
     <Fragment>
-      <Container className='SplashPage d-flex align-items-center'>
-        <SignUpForm className='flex-1' />
-        <AboutContainer className='flex-1 ml-4 align-self-stretch' />
+      <Container>
+        <Row className='SplashPage'>
+          <Col xs='12' md='6' lg='6'>
+            <SignUpForm />
+          </Col>
+          <Col xs='12' md='6' lg='6'>
+            <AboutContainer className='h-100'/>
+          </Col>
+        </Row>
       </Container>
     </Fragment>
   );
