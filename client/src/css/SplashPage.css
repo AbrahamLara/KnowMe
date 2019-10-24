@@ -2,11 +2,9 @@
   padding-top: 20px !important;
 }
 
-@media screen and (max-width: 991px) {
+@media screen and (max-width: 414px) {
   .SplashPage {
     flex-direction: column-reverse !important;
-    justify-content: space-evenly;
-    height: fit-content !important;
   }
   
   .SplashPage > :nth-child(1n) {

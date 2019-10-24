@@ -28,15 +28,11 @@
   border: thin solid lightgray;
 }
 
-.kp-user-top-summary {
+.kp-user-left-container {
   padding: 10px;
 }
 
 #userName {
   font-size: 1.4rem;
   font-weight: 500;
-}
-
-.forward {
-  z-index: 1;
 }
