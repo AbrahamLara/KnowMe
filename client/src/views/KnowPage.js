@@ -10,8 +10,6 @@ import '../css/ExpandCollapse.css';
 import PropTypes from'prop-types';
 import ExpandCollapse from 'react-expand-collapse';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
-import { faGithub, faLinkedin, faFacebook, faLinkedinIn, faFacebookF, faTwitter } from '@fortawesome/free-brands-svg-icons';
 
 class KnowPage extends Component {
   static propTypes = {
@@ -19,7 +17,6 @@ class KnowPage extends Component {
   }
 
   render() {
-    const userLink = this.props.match.params.userLink;
 
     return (
       <Container className='KnowPage pb-3'>
@@ -41,23 +38,23 @@ class KnowPage extends Component {
               </div>
               <div className='kp-user-left-container'>
                 <Row className='mb-2'>
-                  <Col xs='1' sm='1' md='1' lg='1'><FontAwesomeIcon icon={faEnvelope}/></Col>
+                  <Col xs='1' sm='1' md='1' lg='1'><FontAwesomeIcon icon={['fa', 'envelope']}/></Col>
                   <Col>lorem@ip.sum</Col>
                 </Row>
                 <Row className='mb-2'>
-                  <Col xs='1' sm='1' md='1' lg='1'><FontAwesomeIcon icon={faGithub}/></Col>
+                  <Col xs='1' sm='1' md='1' lg='1'><FontAwesomeIcon icon={['fab', 'github']}/></Col>
                   <Col>github.com</Col>
                 </Row>
                 <Row className='mb-2'>
-                  <Col xs='1' sm='1' md='1' lg='1'><FontAwesomeIcon icon={faLinkedinIn}/></Col>
+                  <Col xs='1' sm='1' md='1' lg='1'><FontAwesomeIcon icon={['fab', 'linkedin-in']}/></Col>
                   <Col>linkedin.com</Col>
                 </Row>
                 <Row className='mb-2'>
-                  <Col xs='1' sm='1' md='1' lg='1'><FontAwesomeIcon icon={faFacebookF}/></Col>
+                  <Col xs='1' sm='1' md='1' lg='1'><FontAwesomeIcon icon={['fab', 'facebook-f']}/></Col>
                   <Col>facebook.com</Col>
                 </Row>
                 <Row className='mb-2'>
-                  <Col xs='1' sm='1' md='1' lg='1'><FontAwesomeIcon icon={faTwitter}/></Col>
+                  <Col xs='1' sm='1' md='1' lg='1'><FontAwesomeIcon icon={['fab', 'twitter']}/></Col>
                   <Col>twitter.com</Col>
                 </Row>
               </div>

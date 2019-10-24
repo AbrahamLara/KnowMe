@@ -8,6 +8,7 @@ import { createStore } from 'redux';
 import reducers from './reducers';
 import middleware from './middleware';
 import { BrowserRouter as Router } from 'react-router-dom';
+import './utils/fontawesone-icons';
 
 const store = createStore(reducers, middleware);
 
