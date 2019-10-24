@@ -38,6 +38,10 @@ class KnowPage extends Component {
               </div>
               <div className='kp-user-left-container'>
                 <Row className='mb-2'>
+                  <Col xs='1' sm='1' md='1' lg='1'><FontAwesomeIcon icon={['fa', 'phone']}/></Col>
+                  <Col>(123) 456-7890</Col>
+                </Row>
+                <Row className='mb-2'>
                   <Col xs='1' sm='1' md='1' lg='1'><FontAwesomeIcon icon={['fa', 'envelope']}/></Col>
                   <Col>lorem@ip.sum</Col>
                 </Row>
@@ -61,7 +65,7 @@ class KnowPage extends Component {
             </Col>
             <Col xs='12' sm='12' md='12' lg='9'>
               <div className='mt-2'>
-                <h4 className='mb-0'><strong>Biography:</strong></h4>
+                <h4 className='mb-0'><strong>About:</strong></h4>
                 <ExpandCollapse className='pl-0' previewHeight='160px' id='userDescription'>
                   {`Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.`}
                 </ExpandCollapse>
