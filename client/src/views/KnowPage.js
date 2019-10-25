@@ -37,30 +37,34 @@ class KnowPage extends Component {
                 <span className='d-block' id='userTitle'>Lorem Ipsum</span>
               </div>
               <div className='kp-user-left-container'>
-                <Row className='mb-2'>
-                  <Col xs='1' sm='1' md='1' lg='1'><FontAwesomeIcon icon={['fa', 'phone']}/></Col>
-                  <Col>(123) 456-7890</Col>
-                </Row>
-                <Row className='mb-2'>
-                  <Col xs='1' sm='1' md='1' lg='1'><FontAwesomeIcon icon={['fa', 'envelope']}/></Col>
-                  <Col>lorem@ip.sum</Col>
-                </Row>
-                <Row className='mb-2'>
-                  <Col xs='1' sm='1' md='1' lg='1'><FontAwesomeIcon icon={['fab', 'github']}/></Col>
-                  <Col>github.com</Col>
-                </Row>
-                <Row className='mb-2'>
-                  <Col xs='1' sm='1' md='1' lg='1'><FontAwesomeIcon icon={['fab', 'linkedin-in']}/></Col>
-                  <Col>linkedin.com</Col>
-                </Row>
-                <Row className='mb-2'>
-                  <Col xs='1' sm='1' md='1' lg='1'><FontAwesomeIcon icon={['fab', 'facebook-f']}/></Col>
-                  <Col>facebook.com</Col>
-                </Row>
-                <Row className='mb-2'>
-                  <Col xs='1' sm='1' md='1' lg='1'><FontAwesomeIcon icon={['fab', 'twitter']}/></Col>
-                  <Col>twitter.com</Col>
-                </Row>
+                <div className='d-flex mb-2'>
+                  <div className='w-30'><FontAwesomeIcon icon={['fa', 'phone']}/></div>
+                  <span>(123) 456-7890</span>
+                </div>
+                <div className='d-flex mb-2'>
+                  <div className='w-30'><FontAwesomeIcon icon={['fa', 'envelope']}/></div>
+                  <span>lorem@ip.sum</span>
+                </div>
+                <div className='d-flex mb-2'>
+                  <div className='w-30'><FontAwesomeIcon icon={['fab', 'github-square']}/></div>
+                  <span>github.com</span>
+                </div>
+                <div className='d-flex mb-2'>
+                  <div className='w-30'><FontAwesomeIcon style={{color: '#0E76A8'}} icon={['fab', 'linkedin-in']}/></div>
+                  <span>linkedin.com</span>
+                </div>
+                <div className='d-flex mb-2'>
+                  <div className='w-30'><FontAwesomeIcon style={{color: '#3B5998'}} icon={['fab', 'facebook-f']}/></div>
+                  <span>facebook.com</span>
+                </div>
+                <div className='d-flex mb-2'>
+                  <div className='w-30'><FontAwesomeIcon style={{color: '#00ACEE'}} icon={['fab', 'twitter']}/></div>
+                  <span>twitter.com</span>
+                </div>
+                <div className='d-flex mb-2'>
+                  <div className='w-30'><FontAwesomeIcon style={{color: '#DD4B39'}} icon={['fab', 'google-plus-g']}/></div>
+                  <span>aboutme.google.com</span>
+                </div>
               </div>
             </Col>
             <Col xs='12' sm='12' md='12' lg='9'>

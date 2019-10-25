@@ -9,3 +9,7 @@
 .fd-col {
   flex-direction: column !important;
 }
+
+.w-30 {
+  width: 30px !important;
+}
