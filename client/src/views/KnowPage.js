@@ -37,6 +37,9 @@ class KnowPage extends Component {
                 <span className='d-block' id='userTitle'>Lorem Ipsum</span>
               </div>
               <div className='kp-user-left-container'>
+                <i className='text-secondary'>Lorem, Ipsum</i>
+              </div>
+              <div className='kp-user-left-container'>
                 <div className='d-flex mb-2'>
                   <div className='w-30'><FontAwesomeIcon icon={['fa', 'phone']}/></div>
                   <span>(123) 456-7890</span>
@@ -60,10 +63,6 @@ class KnowPage extends Component {
                 <div className='d-flex mb-2'>
                   <div className='w-30'><FontAwesomeIcon style={{color: '#00ACEE'}} icon={['fab', 'twitter']}/></div>
                   <span>twitter.com</span>
-                </div>
-                <div className='d-flex mb-2'>
-                  <div className='w-30'><FontAwesomeIcon style={{color: '#DD4B39'}} icon={['fab', 'google-plus-g']}/></div>
-                  <span>aboutme.google.com</span>
                 </div>
               </div>
             </Col>
