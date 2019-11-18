@@ -25,7 +25,7 @@ export const loadUser = () => (dispatch, getState) => {
   dispatch(userLoading());
   const config = tokenConfig(getState);
 
-  if (!config.headers['x-auth-token']) {
+  if (!config.headers['Authorization']) {
     dispatch(stopLoading());
     dispatch(hideLoading());
     return;

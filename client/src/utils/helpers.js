@@ -10,7 +10,7 @@ export const tokenConfig = getState => {
 
   // If token exists, then add it to headers
   if (token) {
-    config.headers['x-auth-token'] = token;
+    config.headers['Authorization'] = 'KMAT ' + token;
   }
 
   return config;

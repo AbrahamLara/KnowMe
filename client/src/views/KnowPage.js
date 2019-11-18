@@ -74,8 +74,26 @@ class KnowPage extends Component {
                 </ExpandCollapse>
               </div>
               <div className='mt-2'>
-                <h4 className='mb-0'><strong>Section 2:</strong></h4>
-                <div>Section 2 content</div>
+                <h4 className='mb-0'><strong>Favorite Activities:</strong></h4>
+                <div>
+                  <ul className='pl-4'>
+                    <li>
+                      <i>Lorem Ipsum</i>
+                    </li>
+                    <li>
+                      <i>Lorem Ipsum</i>
+                    </li>
+                    <li>
+                      <i>Lorem Ipsum</i>
+                    </li>
+                    <li>
+                      <i>Lorem Ipsum</i>
+                    </li>
+                    <li>
+                      <i>Lorem Ipsum</i>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </Col>
           </Row>

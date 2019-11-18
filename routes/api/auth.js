@@ -71,6 +71,7 @@ router.get('/activate', (req, res) => {
   
   try {
     const { id } = jwt.verify(token, config.get('jwtSecret'));
+    
     User.findById(id)
     .then(user => {
       if (!user)
