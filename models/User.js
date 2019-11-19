@@ -27,6 +27,11 @@ const UserSchema = new Schema({
     type: Boolean,
     required: true,
     default: false
+  },
+  profileId: {
+    type: String,
+    required: true,
+    unique: true
   }
 });
 

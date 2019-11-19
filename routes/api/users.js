@@ -6,6 +6,7 @@ const { emailConfirmation } = require('../../emailing');
 
 // User Model
 const User = require('../../models/User');
+const Profile = require('../../models/Profile');
 
 /**
  * @router  POST api/users
@@ -43,32 +44,38 @@ router.post('/', (req, res) => {
     .then(user => {
       if (user) return res.status(400).json({ msg: 'A user already exists with that email' });
 
-      const newUser = new User({
-        first_name,
-        last_name,
-        email,
-        password,
-      });
-
-      // All passwords must be hashed and salted before they it 
-      // can be stored in in the database along with the rest of
-      // the given information
-      bcrypt.genSalt(10, (err, salt) => {
-        if (err) throw err;
-        bcrypt.hash(newUser.password, salt, (err1, hash) => {
-          if (err1) throw err1;
-
-          newUser.password = hash;
-          newUser.save()
-            .then(user => {
-              // We send the newly registered user an email
-              emailConfirmation(user.email, user.first_name.concat(' ', user.last_name), user.id);
-
-              res.status(200).json({ msg: 'Check your email to activate account' });
-            })
-            .catch(() => res.status(400).json({  msg: 'Failed to register user' }));
+      const newProfile = new Profile();
+      
+      newProfile.save()
+        .then(profile => {
+          const newUser = new User({
+            first_name,
+            last_name,
+            email,
+            password,
+            profileId: profile._id
+          });
+    
+          // All passwords must be hashed and salted before they it 
+          // can be stored in in the database along with the rest of
+          // the given information
+          bcrypt.genSalt(10, (err, salt) => {
+            if (err) throw err;
+            bcrypt.hash(newUser.password, salt, (err1, hash) => {
+              if (err1) throw err1;
+    
+              newUser.password = hash;
+              newUser.save()
+                .then(user => {
+                  // We send the newly registered user an email
+                  emailConfirmation(user.email, user.first_name.concat(' ', user.last_name), user.id);
+    
+                  res.status(200).json({ msg: 'Check your email to activate account' });
+                })
+                .catch(() => res.status(400).json({  msg: 'Failed to register user' }));
+            });
+          });
         });
-      });
     });
 });
 
