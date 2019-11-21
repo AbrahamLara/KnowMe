@@ -15,6 +15,7 @@ import {
 import { getMessages } from './msg';
 import { tokenConfig, defaultConfig } from '../utils/helpers';
 import { showLoading, hideLoading } from 'react-redux-loading';
+import { retrievedProfile, RETRIEVING_PROFILE_FAILED, retrievingProfileFailed } from './profile';
 
 // This function is used to load the currently
 // authenticated user using their token in order
@@ -100,10 +101,8 @@ export const login = ({ email, password }) => dispatch => {
 // the newly registered user's email to activate their account.
 export const activate = (token) => dispatch => {
   dispatch(showLoading());
-
-  const config = defaultConfig();
   
-  return axios.get(`/api/auth/activate?confirmation=${token}`, config)
+  return axios.get(`/api/auth/activate?confirmation=${token}`)
     .then(res => {
       dispatch(hideLoading());
       return {
@@ -116,5 +115,24 @@ export const activate = (token) => dispatch => {
         msg: response.data.msg,
         error: true
       };
+    });
+}
+
+export const getUserProfile = (profilePath) => dispatch => {
+  dispatch(showLoading());
+
+  return axios.get(`/api/users/user/profile/${profilePath}`)
+    .then(res => {
+      dispatch(retrievedProfile(res.data.profile));
+      dispatch(hideLoading());
+    })
+    .catch(({ response }) => {
+      dispatch(retrievingProfileFailed());
+      dispatch(getMessages(
+        response.data,
+        response.status,
+        RETRIEVING_PROFILE_FAILED
+      ));
+      dispatch(hideLoading());
     });
 }

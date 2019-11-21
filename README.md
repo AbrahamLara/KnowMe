@@ -14,8 +14,7 @@ This is my full stack web development project KnowMe! The backend to this projec
 
 __Assuming you have MongoDB already installed__
 
-* start MongoDB without access control: `mongod --port 27017 --dbpath /data/db`
-  - As of macOS Catalina the OS runs in a dedicated read-only file system. This means even as the owner you won't have write access to that folder the next time you boot your system.
+* start MongoDB without access control: `mongod --port 27017 --dbpath data/db`
 * connect to instance: `mongo --port 27017`
 * run inside instance:
 ```

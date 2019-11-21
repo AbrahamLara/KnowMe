@@ -80,7 +80,7 @@ router.post('/', (req, res) => {
 });
 
 /**
- * @router  DELETE apli/users
+ * @router  DELETE api/users
  * @desc    Deletes a user
  * @access  Private
  */
@@ -92,6 +92,42 @@ router.delete('/:id', auth, (req, res) => {
   User.findById(params.id)
     .then(user => user.remove().then(() => res.json({ success: true })))
     .catch(() => res.status(404).json({ success: false }));
+});
+
+/**
+ * @router
+ */
+router.get('/user/profile/:profilePath', (req, res) => {
+  const { profilePath } = req.params;
+
+  User.findOne({
+    profilePath
+  })
+  .then(user => {
+    const {
+      profileId,
+      first_name,
+      last_name,
+      email
+    } = user;
+
+    Profile.findById(profileId)
+      .then(profile => {
+        const { sections, contact_options } = profile;
+
+        res.status(200).json({
+          profile: {
+            first_name,
+            last_name,
+            email,
+            sections,
+            contact_options
+          }
+        });
+      })
+      .catch(() => res.status(404).json({ msg: 'Failed to fetch user profile' }));
+  })
+  .catch(() => res.status(404).json({ msg: 'User page does not exist' }));
 });
 
 module.exports = router;
