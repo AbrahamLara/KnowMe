@@ -15,7 +15,7 @@ import PropTypes from 'prop-types';
 // to their profile page when revisiting the splash page
 function SplashPage ({ auth: { isAuthenticated, user } }) {
   if (isAuthenticated) {
-    return <Redirect to={`/know/${user.first_name.concat('-', user.last_name)}`} />
+    return <Redirect to={`/know/${user.profile_path}`} />
   }
 
   return (

@@ -60,7 +60,8 @@ class KnowPage extends Component {
     const { msg, error } = this.state;
 
     if (error) {
-      return(
+      console.log(msg);
+      return (
         <div className='container'>
           <h5 className='text-center'>{msg}</h5>
         </div>

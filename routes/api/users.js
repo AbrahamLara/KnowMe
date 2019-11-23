@@ -102,10 +102,10 @@ router.delete('/:id', auth, (req, res) => {
  * @access  Public
  */
 router.get('/user/profile/:profilePath', (req, res) => {
-  const { profilePath } = req.params;
+  const profile_path = req.params.profilePath;
 
   User.findOne({
-    profilePath
+    profile_path
   })
   .then(user => {
     const {
@@ -118,7 +118,6 @@ router.get('/user/profile/:profilePath', (req, res) => {
     Profile.findById(profileId)
       .then(profile => {
         const { sections, contact_options } = profile;
-
         res.status(200).json({
           profile: {
             first_name,

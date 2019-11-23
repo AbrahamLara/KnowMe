@@ -34,7 +34,7 @@ const UserSchema = new Schema({
     required: true,
     unique: true
   },
-  profilePath: {
+  profile_path: {
     type: String,
     required: true,
     unique: true,
