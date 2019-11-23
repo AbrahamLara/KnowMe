@@ -22,6 +22,9 @@ class KnowPage extends Component {
     getUserProfile: PropTypes.func.isRequired
   }
 
+  // We retreive the profile path from the url and
+  // dispatch getUserProfile to retreive the user
+  // profile.
   constructor(props) {
     super(props);
 
@@ -35,6 +38,10 @@ class KnowPage extends Component {
     props.getUserProfile(profilePath);
   }
 
+  // Once the component updates after attempting to retreive
+  // the user's profile page we check if the current msg state does
+  // not match the previous msg state from props which tells us there
+  // was an error fetchinf the user profile page. 
   componentDidUpdate(prevProps) {
     const msg = this.props.msg;
 
@@ -46,6 +53,9 @@ class KnowPage extends Component {
     }
   }
 
+  // If there was an error retreiving the user's profile page then we
+  // display the error message. If retreival was successful then we
+  // display the user's profile page.
   render() {
     const { msg, error } = this.state;
 

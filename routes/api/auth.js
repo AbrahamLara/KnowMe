@@ -62,7 +62,7 @@ router.post('/', (req, res) => {
 });
 
 /**
- * @router  POST api/auth/activate
+ * @router  GET api/auth/activate
  * @desc    Activates user account
  * @access  Private
  */

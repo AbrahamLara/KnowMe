@@ -10,6 +10,12 @@ class ActivationPage extends Component {
     error: false
   }
 
+  // When the component mounts we check if a user
+  // is not authenticated since that means their account
+  // isn't activated and we can now activate it. We dispatch 
+  // activate which will make a request to the /activate router
+  // and return us a message returned from the backend as well
+  // as whether or not the request failed.
   componentDidMount () {
     const { activate, match, isAuthenticated } = this.props;
     
@@ -23,6 +29,10 @@ class ActivationPage extends Component {
     }
   }
 
+  // If a user is authenticated we redirect them to the home
+  // page. If they are not we display the message we received
+  // from the backend after the request to activate their
+  // account had been completed.
   render () {
     const { msg, error } = this.state;
     const isAuthenticated = this.props.isAuthenticated;
