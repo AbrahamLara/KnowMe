@@ -10,18 +10,52 @@ import '../css/ExpandCollapse.css';
 import PropTypes from'prop-types';
 import ExpandCollapse from 'react-expand-collapse';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { connect } from  'react-redux';
+import { getUserProfile } from '../actions/shared';
+import { clearMessages } from '../actions/msg';
 
 class KnowPage extends Component {
   static propTypes = {
-    match: PropTypes.object.isRequired
+    match: PropTypes.object.isRequired,
+    msg: PropTypes.object.isRequired,
+    profile: PropTypes.object.isRequired,
+    getUserProfile: PropTypes.func.isRequired
   }
 
   constructor(props) {
     super(props);
-    
+
+    this.state = {
+      msg: null,
+      error: false
+    }
+
+    const profilePath = props.match.params.profilePath;
+
+    props.getUserProfile(profilePath);
+  }
+
+  componentDidUpdate(prevProps) {
+    const msg = this.props.msg;
+
+    if (msg !== prevProps.msg) {
+      this.setState({
+        msg: msg.msg,
+        error: true
+      });
+    }
   }
 
   render() {
+    const { msg, error } = this.state;
+
+    if (error) {
+      return(
+        <div className='container'>
+          <h5 className='text-center'>{msg}</h5>
+        </div>
+      )
+    }
 
     return (
       <Container className='KnowPage pb-3'>
@@ -108,4 +142,14 @@ class KnowPage extends Component {
   }
 }
 
-export default KnowPage;
+function mapStateToProps({ profile, msg }) {
+  return {
+    profile,
+    msg
+  }
+}
+
+export default connect(mapStateToProps, {
+  getUserProfile,
+  clearMessages
+})(KnowPage);

@@ -23,7 +23,7 @@ class App extends Component {
         <div className='App'>
           <AppNavbar />
           <Route path='/' exact component={SplashPage} />
-          <Route path='/know/:name' component={KnowPage} />
+          <Route path='/know/:profilePath' component={KnowPage} />
           <Route path='/activation/:token' component={ActivationPage} />
         </div>
       </Fragment>

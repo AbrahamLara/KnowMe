@@ -37,8 +37,8 @@ export const loadUser = () => (dispatch, getState) => {
       dispatch(userLoaded(res.data));
       dispatch(hideLoading());
     })
-    .catch(err => {
-      dispatch(getMessages(err.response.data, err.response.status));
+    .catch(({ response }) => {
+      dispatch(getMessages(response.data, response.status));
       dispatch(authError());
       dispatch(hideLoading());
     });
@@ -127,9 +127,10 @@ export const getUserProfile = (profilePath) => dispatch => {
       dispatch(hideLoading());
     })
     .catch(({ response }) => {
+      console.log(response.data);
       dispatch(retrievingProfileFailed());
       dispatch(getMessages(
-        response.data,
+        response.data.msg,
         response.status,
         RETRIEVING_PROFILE_FAILED
       ));
