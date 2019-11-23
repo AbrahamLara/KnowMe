@@ -80,7 +80,8 @@ router.post('/', (req, res) => {
 });
 
 /**
- * @router  DELETE api/users
+ * @router  DELETE api/users/:id
+ * @param   id
  * @desc    Deletes a user
  * @access  Private
  */
@@ -95,7 +96,10 @@ router.delete('/:id', auth, (req, res) => {
 });
 
 /**
- * @router
+ * @router  GET api/users/user/profile/:profilePath
+ * @param   profilePath
+ * @desc    Gets user profile to load on know page
+ * @access  Public
  */
 router.get('/user/profile/:profilePath', (req, res) => {
   const { profilePath } = req.params;

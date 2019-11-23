@@ -118,6 +118,8 @@ export const activate = (token) => dispatch => {
     });
 }
 
+// This method is used to retreive the profile page of the user who
+// owns the given profile path.
 export const getUserProfile = (profilePath) => dispatch => {
   dispatch(showLoading());
 
@@ -127,7 +129,6 @@ export const getUserProfile = (profilePath) => dispatch => {
       dispatch(hideLoading());
     })
     .catch(({ response }) => {
-      console.log(response.data);
       dispatch(retrievingProfileFailed());
       dispatch(getMessages(
         response.data.msg,
