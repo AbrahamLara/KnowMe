@@ -28,12 +28,13 @@ class KnowPage extends Component {
   constructor(props) {
     super(props);
 
+    const profilePath = props.match.params.profilePath;
+
     this.state = {
       msg: null,
-      error: false
+      error: false,
+      profilePath
     }
-
-    const profilePath = props.match.params.profilePath;
 
     props.getUserProfile(profilePath);
   }
@@ -44,10 +45,9 @@ class KnowPage extends Component {
   // was an error fetchinf the user profile page. 
   componentDidUpdate(prevProps) {
     const msg = this.props.msg;
-
     if (msg !== prevProps.msg) {
       this.setState({
-        msg: msg.msg,
+        msg: msg.msg.msg,
         error: true
       });
     }
@@ -58,9 +58,16 @@ class KnowPage extends Component {
   // display the user's profile page.
   render() {
     const { msg, error } = this.state;
+    const {
+      profile: {
+        first_name,
+        last_name,
+        user_title
+      },
+      profilePath
+    } = this.props;
 
     if (error) {
-      console.log(msg);
       return (
         <div className='container'>
           <h5 className='text-center'>{msg}</h5>
@@ -83,8 +90,12 @@ class KnowPage extends Component {
           <Row>
             <Col className='border border-top-0 border-bottom-0 border-left-0' xs='12' sm='12' md='12' lg='3'>
               <div className='kp-user-left-container'>
-                <span id='userName'>Lorem Ipsum</span>
-                <span className='d-block' id='userTitle'>Lorem Ipsum</span>
+                {first_name && last_name &&
+                  <span id='userName'>{`${first_name} ${last_name}`}</span>
+                }
+                {user_title &&
+                  <span className='d-block' id='userTitle'>{user_title}</span>
+                }
               </div>
               <div className='kp-user-left-container'>
                 <i className='text-secondary'>Lorem, Ipsum</i>
@@ -153,11 +164,17 @@ class KnowPage extends Component {
   }
 }
 
-function mapStateToProps({ profile, msg }) {
-  return {
-    profile,
-    msg
+function mapStateToProps({ profile, msg, auth }) {
+  let state = { profile, msg };
+
+  if (auth.user) {
+    state = {
+      ...state,
+      profilePath: auth.user.profile_path
+    };
   }
+
+  return state;
 }
 
 export default connect(mapStateToProps, {

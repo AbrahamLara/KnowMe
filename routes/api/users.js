@@ -117,14 +117,19 @@ router.get('/user/profile/:profilePath', (req, res) => {
 
     Profile.findById(profileId)
       .then(profile => {
-        const { sections, contact_options } = profile;
+        const {
+          sections,
+          contact_options,
+          user_title
+        } = profile;
         res.status(200).json({
           profile: {
             first_name,
             last_name,
             email,
             sections,
-            contact_options
+            contact_options,
+            user_title,
           }
         });
       })

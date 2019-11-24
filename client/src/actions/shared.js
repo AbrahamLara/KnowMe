@@ -131,7 +131,7 @@ export const getUserProfile = (profilePath) => dispatch => {
     .catch(({ response }) => {
       dispatch(retrievingProfileFailed());
       dispatch(getMessages(
-        response.data.msg,
+        response.data,
         response.status,
         RETRIEVING_PROFILE_FAILED
       ));

@@ -9,6 +9,10 @@ const ProfileSchema = new Schema({
   contact_options: {
     type: Array,
     default: []
+  },
+  user_title: {
+    type: String,
+    default: ''
   }
 });
 
