@@ -15,7 +15,11 @@ import {
 import { getMessages } from './msg';
 import { tokenConfig, defaultConfig } from '../utils/helpers';
 import { showLoading, hideLoading } from 'react-redux-loading';
-import { retrievedProfile, RETRIEVING_PROFILE_FAILED, retrievingProfileFailed } from './profile';
+import {
+  retrievedProfile,
+  RETRIEVING_PROFILE_FAILED,
+  retrievingProfileFailed 
+} from './profile';
 
 // This function is used to load the currently
 // authenticated user using their token in order
@@ -102,7 +106,9 @@ export const login = ({ email, password }) => dispatch => {
 export const activate = (token) => dispatch => {
   dispatch(showLoading());
   
-  return axios.get(`/api/auth/activate?confirmation=${token}`)
+  return axios.put('/api/auth/activate', {
+    confirmation: token
+  })
     .then(res => {
       dispatch(hideLoading());
       return {

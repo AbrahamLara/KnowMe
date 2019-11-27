@@ -63,12 +63,12 @@ router.post('/', (req, res) => {
 });
 
 /**
- * @router  GET api/auth/activate
+ * @router  PUT api/auth/activate
  * @desc    Activates user account
  * @access  Private
  */
-router.get('/activate', (req, res) => {
-  const token = req.query.confirmation;
+router.put('/activate', (req, res) => {
+  const token = req.body.confirmation;
   
   try {
     const { id } = jwt.verify(token, config.get('jwtSecret'));
