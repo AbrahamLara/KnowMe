@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const uuidv4 = require('uuid/v4');
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
@@ -37,8 +36,7 @@ const UserSchema = new Schema({
   profile_path: {
     type: String,
     required: true,
-    unique: true,
-    default: uuidv4()
+    unique: true
   }
 });
 

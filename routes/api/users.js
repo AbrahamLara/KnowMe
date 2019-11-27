@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
+const uuidv4 = require('uuid/v4');
 const auth = require('../../middleware/auth');
+const profileExtras = require('../../middleware/profile');
 const { emailConfirmation } = require('../../emailing');
 
 // User Model
@@ -53,7 +55,8 @@ router.post('/', (req, res) => {
             last_name,
             email,
             password,
-            profileId: profile._id
+            profileId: profile._id,
+            profile_path: uuidv4()
           });
     
           // All passwords must be hashed and salted before they it 
@@ -63,7 +66,6 @@ router.post('/', (req, res) => {
             if (err) throw err;
             bcrypt.hash(newUser.password, salt, (err1, hash) => {
               if (err1) throw err1;
-    
               newUser.password = hash;
               newUser.save()
                 .then(user => {
@@ -72,7 +74,10 @@ router.post('/', (req, res) => {
     
                   res.status(200).json({ msg: 'Check your email to activate account' });
                 })
-                .catch(() => res.status(400).json({  msg: 'Failed to register user' }));
+                .catch(() => {
+                  newProfile.remove();
+                  res.status(400).json({ msg: 'Failed to register user' })
+                });
             });
           });
         });
@@ -101,7 +106,8 @@ router.delete('/:id', auth, (req, res) => {
  * @desc    Gets user profile to load on know page
  * @access  Public
  */
-router.get('/user/profile/:profilePath', (req, res) => {
+router.get('/user/profile/:profilePath', profileExtras, (req, res) => {
+  const extras = req.extras;
   const profile_path = req.params.profilePath;
 
   User.findOne({
@@ -122,6 +128,7 @@ router.get('/user/profile/:profilePath', (req, res) => {
           contact_options,
           user_title
         } = profile;
+
         res.status(200).json({
           profile: {
             first_name,
@@ -130,6 +137,7 @@ router.get('/user/profile/:profilePath', (req, res) => {
             sections,
             contact_options,
             user_title,
+            ...extras
           }
         });
       })
