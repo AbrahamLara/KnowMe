@@ -13,13 +13,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { connect } from  'react-redux';
 import { getUserProfile } from '../actions/shared';
 import { clearMessages } from '../actions/msg';
+import { RETRIEVING_PROFILE_FAILED } from '../actions/profile';
 
 class KnowPage extends Component {
   static propTypes = {
     match: PropTypes.object.isRequired,
     msg: PropTypes.object.isRequired,
     profile: PropTypes.object.isRequired,
-    getUserProfile: PropTypes.func.isRequired
+    getUserProfile: PropTypes.func.isRequired,
+    clearMessages: PropTypes.func.isRequired
   }
 
   // We retreive the profile path from the url and
@@ -28,15 +30,14 @@ class KnowPage extends Component {
   constructor(props) {
     super(props);
 
-    const profilePath = props.match.params.profilePath;
-
     this.state = {
       msg: null,
-      error: false,
-      profilePath
+      error: false
     }
 
-    props.getUserProfile(profilePath);
+    const currProfilePath = props.match.params.profilePath;
+    
+    props.getUserProfile(currProfilePath);
   }
 
   // Once the component updates after attempting to retreive
@@ -45,7 +46,8 @@ class KnowPage extends Component {
   // was an error fetchinf the user profile page. 
   componentDidUpdate(prevProps) {
     const msg = this.props.msg;
-    if (msg !== prevProps.msg) {
+    
+    if (msg !== prevProps.msg && msg.id === RETRIEVING_PROFILE_FAILED) {
       this.setState({
         msg: msg.msg.msg,
         error: true
@@ -59,13 +61,10 @@ class KnowPage extends Component {
   render() {
     const { msg, error } = this.state;
     const {
-      profile: {
-        first_name,
-        last_name,
-        user_title
-      },
-      profilePath
-    } = this.props;
+      first_name,
+      last_name,
+      user_title
+    } = this.props.profile;
 
     if (error) {
       return (
@@ -164,17 +163,8 @@ class KnowPage extends Component {
   }
 }
 
-function mapStateToProps({ profile, msg, auth }) {
-  let state = { profile, msg };
-
-  if (auth.user) {
-    state = {
-      ...state,
-      profilePath: auth.user.profile_path
-    };
-  }
-
-  return state;
+function mapStateToProps({ profile, msg }) {
+  return { profile, msg };
 }
 
 export default connect(mapStateToProps, {

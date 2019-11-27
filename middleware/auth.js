@@ -8,10 +8,11 @@ const jwt = require('jsonwebtoken');
 // the decoded user data to the request object then move onto
 // the next middleware.
 function auth (req, res, next) {
-  const token = req.headers.authorization.replace('KMAT ', '');
+  const authorization = req.headers.authorization;
+  
+  if (!authorization) return res.json({ msg: 'Authorization denided'}); 
 
-  // Check for token
-  if (!token) return res.status(401).json({ msg: 'No token, authorization denied' });
+  const token = authorization.replace('KMAT ', '');
 
   try {
     // Verfiy token

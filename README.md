@@ -13,9 +13,10 @@ This is my full stack web development project KnowMe! The backend to this projec
 ## Database Setup
 
 __Assuming you have MongoDB already installed__
-
+* create folder: `sudo mkdir data/db`
+* give ownership of directory to self: `sudo chown -R $USER data/db`
 * start MongoDB without access control: `mongod --port 27017 --dbpath data/db`
-* connect to instance: `mongo --port 27017`
+* connect to instance in seperate window: `mongo --port 27017`
 * run inside instance:
 ```
 use knowme
