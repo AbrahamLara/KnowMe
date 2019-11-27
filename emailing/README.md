@@ -1,3 +1,9 @@
-## KnowMe backend emailing server
+# KnowMe emailing service
 
-The emailing server is created using RabbitMQ as the dedicated queue manager so that consumers (receivers) may handle the tasks of sending emails to newly registered users. When the web app is started using `npm run dev` only one consumer will be handling the process of sending emails. During development this is fine, but there is room for optimization. Currently, with each registration a producer will be created so that it may send data to the __'emails'__ queue in RabbitMQ for the __ONE__ receiver to use the data provided to send the emails. Running more than one consumer will allow for an evenly distribution of tasks in the event of mass registration.
+This directory is where RabbitMQ is utilized in order to handle processes such as sending emails out to users upon registration without causing wait time for the email to finsh sending.
+
+The [sender.js](sender.js) file can be used to send a message to an exchange and a specified queue given the severity.
+
+The [receiver.js](receiver.js) is only used to receieve messages from __emails__ exchange and __conf_emails__ severity to handle sending emails after a successful registration.
+
+The receivers in this directory are automatically ran once the project is started using `npm run dev` in the root directory of this project.

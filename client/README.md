@@ -1,3 +1,9 @@
-## KnowMe frontend server
+# KnowMe client side React app
 
-This project utilizes React as the frontend server. Other libraries used on top of react is reactstrap and react-transition-group for fade in and out effects. React redux is being utilized to handle updating UI based on loading, authentication, registration, and errors. For HTTP request the axios library is used. There is still room for improvement and refactoring.
+This is the client side directory that utilizes React for the frontend. The React component library of choice is ___reactstrap___ and ___react-transition-group___ for effects such as fading in and out.
+
+React Redux is utilized to handle managing updates to the UI for authentication, errors, loading, etc.
+
+Axios is the preffered HTTP client for handling requests to our backend.
+
+___There is always room for improvement!___

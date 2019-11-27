@@ -11,7 +11,6 @@ This is my full stack web development project KnowMe! The backend to this projec
 * RabbitMQ
 
 ## Database Setup
-
 __Assuming you have MongoDB already installed__
 * create folder: `sudo mkdir data/db`
 * give ownership of directory to self: `sudo chown -R $USER data/db`
@@ -28,7 +27,7 @@ db.createUser({
 quit()
 ```
 
-## Emailing Setup
+## Emailing service Setup
 
 __Assuming you have RabbitMQ already installed__
 
