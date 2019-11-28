@@ -45,13 +45,18 @@ class KnowPage extends Component {
   // not match the previous msg state from props which tells us there
   // was an error fetchinf the user profile page. 
   componentDidUpdate(prevProps) {
-    const msg = this.props.msg;
+    const { msg, isAuthenticated } = this.props;
     
     if (msg !== prevProps.msg && msg.id === RETRIEVING_PROFILE_FAILED) {
       this.setState({
         msg: msg.msg.msg,
         error: true
       });
+    } else if (
+      isAuthenticated &&
+      (isAuthenticated !== prevProps.isAuthenticated)
+    ) {
+      this.forceUpdate()
     }
   }
 
@@ -163,8 +168,12 @@ class KnowPage extends Component {
   }
 }
 
-function mapStateToProps({ profile, msg }) {
-  return { profile, msg };
+function mapStateToProps({ profile, msg, auth }) {
+  return {
+    profile,
+    msg,
+    isAuthenticated: auth.isAuthenticated
+  };
 }
 
 export default connect(mapStateToProps, {
