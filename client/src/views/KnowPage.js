@@ -24,9 +24,6 @@ class KnowPage extends Component {
     clearMessages: PropTypes.func.isRequired
   }
 
-  // We retreive the profile path from the url and
-  // dispatch getUserProfile to retreive the user
-  // profile.
   constructor(props) {
     super(props);
 
@@ -34,10 +31,8 @@ class KnowPage extends Component {
       msg: null,
       error: false
     }
-
-    const currProfilePath = props.match.params.profilePath;
     
-    props.getUserProfile(currProfilePath);
+    props.getUserProfile(props.currProfilePath);
   }
 
   // Once the component updates after attempting to retreive
@@ -47,7 +42,10 @@ class KnowPage extends Component {
   componentDidUpdate(prevProps) {
     const msg = this.props.msg;
     
-    if (msg !== prevProps.msg && msg.id === RETRIEVING_PROFILE_FAILED) {
+    if (
+      msg !== prevProps.msg &&
+      msg.id === RETRIEVING_PROFILE_FAILED
+    ) {
       this.setState({
         msg: msg.msg.msg,
         error: true
@@ -60,11 +58,12 @@ class KnowPage extends Component {
   // display the user's profile page.
   render() {
     const { msg, error } = this.state;
+    const { profile, owner } = this.props;
     const {
       first_name,
       last_name,
       user_title
-    } = this.props.profile;
+    } = profile;
 
     if (error) {
       return (
@@ -73,6 +72,8 @@ class KnowPage extends Component {
         </div>
       )
     }
+
+    if (owner) console.warn('OWNER OF PAGE');
 
     return (
       <Container className='KnowPage pb-3'>
@@ -163,8 +164,28 @@ class KnowPage extends Component {
   }
 }
 
-function mapStateToProps({ profile, msg }) {
-  return { profile, msg };
+// We set profile path of profile page being visited to props
+// to retreive it's information. We also check whether the
+// authed user is owner of the profile page being visited
+// to allow for editing of page content.
+function mapStateToProps({ profile, msg, auth }, { match }) {
+  const currProfilePath = match.params.profilePath;
+  
+  let props = {
+    profile,
+    msg,
+    currProfilePath
+  };
+
+  
+  if (
+    auth.user &&
+    auth.user.profile_path === currProfilePath
+  ) {
+    props.owner = true;
+  }
+  
+  return props;
 }
 
 export default connect(mapStateToProps, {
