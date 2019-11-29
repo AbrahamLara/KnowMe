@@ -37,6 +37,15 @@
   font-weight: 500;
 }
 
+.contact-option:hover > .contact-option-btn {
+  display: unset;
+}
+
+.contact-option-btn {
+  display: none;
+  cursor: pointer;
+}
+
 .flex-direction-column {
   flex-direction: column !important;
 }
