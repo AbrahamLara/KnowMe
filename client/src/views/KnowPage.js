@@ -15,6 +15,85 @@ import { getUserProfile } from '../actions/shared';
 import { clearMessages } from '../actions/msg';
 import { RETRIEVING_PROFILE_FAILED } from '../actions/profile';
 
+const contactingOptions = {
+  'phone': {
+    type: 'phone',
+    icon: ['fa', 'phone'],
+    visble: false,
+    position: 1
+  },
+  'email': {
+    type: 'email',
+    icon: ['fa', 'envelope'],
+    visble: false,
+    position: 2
+  },
+  'github': {
+    type: 'github',
+    icon: ['fab', 'github-square'],
+    visble: false,
+    position: 3
+  },
+  'linkedin': {
+    type: 'linkedin',
+    icon: ['fab', 'linkedin-in'],
+    propStyle: {
+      style: {color: '#0E76A8'}
+    },
+    visble: false,
+    position: 4,
+  },
+  'facebook': {
+    type: 'facebook',
+    icon: ['fab', 'facebook-f'],
+    propStyle: {
+      style: {color: '#3B5998'}
+    },
+    visble: false,
+    position: 5
+  },
+  'twitter': {
+    type: 'twitter',
+    icon: ['fab', 'twitter'],
+    propStyle: {
+      style: {color: '#00ACEE'}
+    },
+    visble: false,
+    position: 6
+  }
+};
+
+const fakeContacts = [
+  {
+    type: 'phone',
+    text: '(123) 456-7890'
+  },
+  {
+    type: 'email',
+    text: 'lorem@ip.sum'
+  },
+  {
+    type: 'github',
+    link: '',
+    text: 'github.com'
+  },
+  {
+    type: 'linkedin',
+    link: '',
+    text: 'linkedin.com'
+  },
+  {
+    type: 'facebook',
+    link: '',
+    text: 'facebook.com'
+  },
+  {
+    type: 'twitter',
+    link: '',
+    text: 'twitter.com'
+  }
+];
+
 class KnowPage extends Component {
   static propTypes = {
     match: PropTypes.object.isRequired,
@@ -100,31 +179,19 @@ class KnowPage extends Component {
               <div className='kp-user-left-container'>
                 <i className='text-secondary'>Lorem, Ipsum</i>
               </div>
-              <div className='kp-user-left-container'>
-                <div className='d-flex mb-2'>
-                  <div className='w-30'><FontAwesomeIcon icon={['fa', 'phone']}/></div>
-                  <span>(123) 456-7890</span>
-                </div>
-                <div className='d-flex mb-2'>
-                  <div className='w-30'><FontAwesomeIcon icon={['fa', 'envelope']}/></div>
-                  <span>lorem@ip.sum</span>
-                </div>
-                <div className='d-flex mb-2'>
-                  <div className='w-30'><FontAwesomeIcon icon={['fab', 'github-square']}/></div>
-                  <span>github.com</span>
-                </div>
-                <div className='d-flex mb-2'>
-                  <div className='w-30'><FontAwesomeIcon style={{color: '#0E76A8'}} icon={['fab', 'linkedin-in']}/></div>
-                  <span>linkedin.com</span>
-                </div>
-                <div className='d-flex mb-2'>
-                  <div className='w-30'><FontAwesomeIcon style={{color: '#3B5998'}} icon={['fab', 'facebook-f']}/></div>
-                  <span>facebook.com</span>
-                </div>
-                <div className='d-flex mb-2'>
-                  <div className='w-30'><FontAwesomeIcon style={{color: '#00ACEE'}} icon={['fab', 'twitter']}/></div>
-                  <span>twitter.com</span>
-                </div>
+              <div className='kp-user-left-container d-flex flex-direction-column'>
+                {fakeContacts
+                  .map(option => {
+                    const contactOption = contactingOptions[option.type];
+
+                    return (
+                      <div className={`d-flex mb-2 position-${contactOption.position}`} key={option.type}>
+                        <div className='w-30'><FontAwesomeIcon {...contactOption.propStyle} icon={contactOption.icon}/></div>
+                        <span>{option.text}</span>
+                      </div>  
+                    )
+                  })
+                }
               </div>
             </Col>
             <Col xs='12' sm='12' md='12' lg='9'>
