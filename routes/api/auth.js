@@ -45,7 +45,7 @@ router.post('/', (req, res) => {
           // We include the user's id in the token so that when it gets decoded
           // we can authenticated and give the user permission access their own content
           // and fulfill certain actions with their content
-          generateToken({ id: user.id }, { expiresIn: 30 })
+          generateToken({ id: user.id })
             .then(token => {
               res.json({
                 token,

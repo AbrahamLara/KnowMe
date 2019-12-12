@@ -17,7 +17,7 @@ function fileContentToString (path) {
 
 // This method is just for generating a token without having to
 // always import jwt and config.
-function generateToken (payload, options = { expiresIn: 60 }) {
+function generateToken (payload, options = { expiresIn: 3600 }) {
   return new Promise ((resolve, reject) => {
     jwt.sign(
       payload,
