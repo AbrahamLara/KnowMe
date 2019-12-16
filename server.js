@@ -20,6 +20,7 @@ mongoose
 // will be handled by their respective routes
 app.use('/api/users', require('./routes/api/users'));
 app.use('/api/auth', require('./routes/api/auth'));
+app.use('/api/profile', require('./routes/api/profile'));
 
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);
