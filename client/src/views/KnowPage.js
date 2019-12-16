@@ -14,38 +14,7 @@ import { getUserProfile } from '../actions/shared';
 import { clearMessages } from '../actions/msg';
 import { RETRIEVING_PROFILE_FAILED } from '../actions/profile';
 import EditableMenu from '../components/CustomMenu/EditableMenu';
-import {contactingOptions} from '../utils/contacting_options';
-
-let fakeItems = [
-  {
-    type: 'phone',
-    text: '(123) 456-7890'
-  },
-  {
-    type: 'email',
-    text: 'lorem@ip.sum'
-  },
-  {
-    type: 'github',
-    link: '',
-    text: 'github.com'
-  },
-  {
-    type: 'linkedin',
-    link: '',
-    text: 'linkedin.com'
-  },
-  {
-    type: 'facebook',
-    link: '',
-    text: 'facebook.com'
-  },
-  {
-    type: 'twitter',
-    link: '',
-    text: 'twitter.com'
-  }
-];
+import {contactingOptions} from '../utils/contacting_options'
 
 class KnowPage extends Component {
   static propTypes = {
@@ -132,12 +101,12 @@ class KnowPage extends Component {
               <div className='kp-user-left-container'>
                 <i className='text-secondary'>Lorem, Ipsum</i>
               </div>
-              <div className='kp-user-left-container'>
+              <div className='kp-user-left-container pr-0'>
                 <EditableMenu
                   name='Add Contact Option'
                   list={contactingOptions}
                   listKey="type"
-                  items={fakeItems}
+                  items={[]}
                   isEditable={owner}
                 />
               </div>

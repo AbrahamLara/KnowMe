@@ -2,26 +2,28 @@ export const contactingOptions = {
   'phone': {
     type: 'phone',
     icon: ['fa', 'phone'],
-    position: 1
+    position: 1,
+    value: ''
   },
   'email': {
     type: 'email',
     icon: ['fa', 'envelope'],
-    position: 2
+    position: 2,
+    value: ''
   },
   'github': {
     type: 'github',
     icon: ['fab', 'github-square'],
     position: 3,
     text: 'github.com',
-    link: '',
+    value: '',
   },
   'linkedin': {
     type: 'linkedin',
     icon: ['fab', 'linkedin-in'],
     position: 4,
     text: 'linkedin.com',
-    link: '',
+    value: '',
     props: {
       style: {color: '#0E76A8'}
     }
@@ -31,7 +33,7 @@ export const contactingOptions = {
     icon: ['fab', 'facebook-f'],
     position: 5,
     text: 'facebook.com',
-    link: '',
+    value: '',
     props: {
       style: {color: '#3B5998'}
     }
@@ -41,11 +43,9 @@ export const contactingOptions = {
     icon: ['fab', 'twitter'],
     position: 6,
     text: 'twitter.com',
-    link: '',
+    value: '',
     props: {
       style: {color: '#00ACEE'}
     }
   }
 }
-
-export const contactOptionsKeys = Object.keys(contactingOptions);

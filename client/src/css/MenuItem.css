@@ -1,0 +1,9 @@
+.menu-item-input {
+  width: 80% !important;
+  height: calc(0.5em + .75rem + 2px) !important;
+  padding: 1px !important;
+}
+
+.contact-option-btn {
+  cursor: pointer;
+}

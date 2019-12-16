@@ -1,7 +1,8 @@
 import {
   faEnvelope,
   faPhone,
-  faMinusCircle
+  faMinusCircle,
+  faEdit
 } from '@fortawesome/free-solid-svg-icons';
 import {
   faGithubSquare,
@@ -18,5 +19,6 @@ library.add(
   faLinkedinIn,
   faFacebookF,
   faTwitter,
-  faMinusCircle
+  faMinusCircle,
+  faEdit
 );

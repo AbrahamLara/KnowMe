@@ -30,6 +30,10 @@ export default class EditableMenu extends Component {
     this.handleOptionDelete = this.handleOptionDelete.bind(this);
   }
 
+  // Once the component mounts we map through the user's
+  // contact options and map their existing items to their
+  // list as we also remove that item in the list dropdown
+  // to prevent them from adding it again
   componentDidMount() {
     let list = {...this.props.list};
 
@@ -58,8 +62,9 @@ export default class EditableMenu extends Component {
     }));
   }
 
-  // This method is to handle the click of the delete button
-  // for an option
+  // Once the user clicks the delete button we remove
+  // the option from the items array and add it to the
+  // list that appears in the dropdown
   handleOptionDelete(option) {
     this.setState(({items, list}) => ({
       items: items.filter(contact => contact.type !== option.type),
@@ -67,6 +72,8 @@ export default class EditableMenu extends Component {
     }));
   }
 
+  // Once the user clicks an option they want to add we add it
+  // to the items list and remove it from the list dropdown
   handleItemClick(obj) {
     this.setState(({items, list}) => ({
       items: items.concat(obj),
@@ -97,7 +104,7 @@ export default class EditableMenu extends Component {
             }
           </Dropdown>
         }
-        <div className='d-flex flex-direction-column'>
+        <div className='d-flex flex-direction-column mt-2'>
           {items.map(item => (
             <MenuItem
               key={item.type}
