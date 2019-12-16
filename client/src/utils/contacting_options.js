@@ -1,47 +1,51 @@
-export default {
+export const contactingOptions = {
   'phone': {
     type: 'phone',
     icon: ['fa', 'phone'],
-    visble: false,
     position: 1
   },
   'email': {
     type: 'email',
     icon: ['fa', 'envelope'],
-    visble: false,
     position: 2
   },
   'github': {
     type: 'github',
     icon: ['fab', 'github-square'],
-    visble: false,
-    position: 3
+    position: 3,
+    text: 'github.com',
+    link: '',
   },
   'linkedin': {
     type: 'linkedin',
     icon: ['fab', 'linkedin-in'],
-    propStyle: {
-      style: {color: '#0E76A8'}
-    },
-    visble: false,
     position: 4,
+    text: 'linkedin.com',
+    link: '',
+    props: {
+      style: {color: '#0E76A8'}
+    }
   },
   'facebook': {
     type: 'facebook',
     icon: ['fab', 'facebook-f'],
-    propStyle: {
+    position: 5,
+    text: 'facebook.com',
+    link: '',
+    props: {
       style: {color: '#3B5998'}
-    },
-    visble: false,
-    position: 5
+    }
   },
   'twitter': {
     type: 'twitter',
     icon: ['fab', 'twitter'],
-    propStyle: {
+    position: 6,
+    text: 'twitter.com',
+    link: '',
+    props: {
       style: {color: '#00ACEE'}
-    },
-    visble: false,
-    position: 6
+    }
   }
 }
+
+export const contactOptionsKeys = Object.keys(contactingOptions);

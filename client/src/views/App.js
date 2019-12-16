@@ -3,7 +3,7 @@ import '../css/App.css';
 import { connect } from 'react-redux';
 import AppNavbar from '../components/AppNavbar';
 import { loadUser } from '../actions/shared';
-import { Route } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import Loadingbar from 'react-redux-loading';
 import SplashPage from './SplashPage';
 import KnowPage from './KnowPage';
@@ -22,9 +22,11 @@ class App extends Component {
         <Loadingbar />
         <div className='App'>
           <AppNavbar />
-          <Route path='/' exact component={SplashPage} />
-          <Route path='/know/:profilePath' component={KnowPage} />
-          <Route path='/activation/:token' component={ActivationPage} />
+          <Switch>
+            <Route path='/' exact component={SplashPage} />
+            <Route path='/know/:profilePath' component={KnowPage} />
+            <Route path='/activation/:token' component={ActivationPage} />
+          </Switch>
         </div>
       </Fragment>
     );

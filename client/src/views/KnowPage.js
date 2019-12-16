@@ -7,16 +7,16 @@ import {
 import logo from '../logo.svg';
 import '../css/KnowPage.css';
 import '../css/ExpandCollapse.css';
-import PropTypes from'prop-types';
+import PropTypes from 'prop-types';
 import ExpandCollapse from 'react-expand-collapse';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { connect } from  'react-redux';
 import { getUserProfile } from '../actions/shared';
 import { clearMessages } from '../actions/msg';
 import { RETRIEVING_PROFILE_FAILED } from '../actions/profile';
-import contactingOptions from '../utils/contacting_options';
+import EditableMenu from '../components/CustomMenu/EditableMenu';
+import {contactingOptions} from '../utils/contacting_options';
 
-let fakeContacts = [
+let fakeItems = [
   {
     type: 'phone',
     text: '(123) 456-7890'
@@ -63,13 +63,10 @@ class KnowPage extends Component {
 
     this.state = {
       msg: null,
-      error: false,
-      contactList: fakeContacts
+      error: false
     }
     
     props.getUserProfile(props.currProfilePath);
-
-    this.contactOptionComponent = this.contactOptionComponent.bind(this);
   }
 
   // Once the component updates after attempting to retreive
@@ -90,43 +87,11 @@ class KnowPage extends Component {
     }
   }
 
-  // This function is for rendering a contact option and
-  // using css to order their positions. If the authed user
-  // is viewing their own profile the delete icon will appear
-  // when the user hovers over an option.
-  contactOptionComponent(option) {
-    const contactOption = contactingOptions[option.type];
-    const owner = this.props.owner;
-
-    return (
-      <div className={`contact-option d-flex mb-2 position-relative position-${contactOption.position}`} key={option.type}>
-        {owner && 
-          <FontAwesomeIcon
-            className='position-absolute contact-option-btn'
-            icon={['fa', 'minus-circle']}
-            style={{color: 'red', top: '5px', right: '0px'}}
-            onClick={() => this.handleOptionDelete(option)}
-          />
-        }
-        <div className='w-30'><FontAwesomeIcon {...contactOption.propStyle} icon={contactOption.icon}/></div>
-        <span>{option.text}</span>
-      </div>  
-    )
-  }
-
-  // This method is to handle the click of the delete button
-  // for an option
-  handleOptionDelete(option) {
-    this.setState(({contactList}) => ({
-      contactList: contactList.filter(contact => contact.type !== option.type)
-    }));
-  }
-
   // If there was an error retreiving the user's profile page then we
   // display the error message. If retreival was successful then we
   // display the user's profile page.
   render() {
-    const { msg, error, contactList } = this.state;
+    const { msg, error } = this.state;
     const { profile, owner } = this.props;
     const {
       first_name,
@@ -141,8 +106,6 @@ class KnowPage extends Component {
         </div>
       )
     }
-
-    if (owner) console.warn('OWNER OF PAGE');
 
     return (
       <Container className='KnowPage pb-3'>
@@ -169,8 +132,14 @@ class KnowPage extends Component {
               <div className='kp-user-left-container'>
                 <i className='text-secondary'>Lorem, Ipsum</i>
               </div>
-              <div className='kp-user-left-container d-flex flex-direction-column'>
-                {contactList.map(this.contactOptionComponent)}
+              <div className='kp-user-left-container'>
+                <EditableMenu
+                  name='Add Contact Option'
+                  list={contactingOptions}
+                  listKey="type"
+                  items={fakeItems}
+                  isEditable={owner}
+                />
               </div>
             </Col>
             <Col xs='12' sm='12' md='12' lg='9'>
