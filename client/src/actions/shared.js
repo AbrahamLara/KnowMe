@@ -36,7 +36,7 @@ export const loadUser = () => (dispatch, getState) => {
     return;
   }
 
-  axios.get('/api/auth/user', config)
+  axios.get('/api/users/user', config)
     .then(res => {
       dispatch(userLoaded(res.data));
       dispatch(hideLoading());
@@ -66,7 +66,7 @@ export const register = ({ first_name, last_name, email, password }, conf_passwo
     conf_password
   });
 
-  axios.post('/api/users', body, config)
+  axios.post('/api/auth/register', body, config)
     .then(res => {
       dispatch(registerSuccess(res.data));
       dispatch(getMessages(res.data, res.status, REGISTER_SUCCESS));
@@ -129,7 +129,7 @@ export const activate = (token) => dispatch => {
 export const getUserProfile = (profilePath) => dispatch => {
   dispatch(showLoading());
 
-  return axios.get(`/api/users/user/profile/${profilePath}`)
+  return axios.get(`/api/profile/${profilePath}`)
     .then(res => {
       dispatch(retrievedProfile(res.data.profile));
       dispatch(hideLoading());

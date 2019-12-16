@@ -1,14 +1,89 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
+const uuidv4 = require('uuid/v4');
 const config = require('config');
 const jwt = require('jsonwebtoken');
-const auth = require('../../middleware/auth');
-const verify = require('../../middleware/verify');
 const { generateToken } = require('../../utils/helpers');
+const { emailConfirmation } = require('../../emailing');
 
 // User Model
 const User = require('../../models/User');
+const Profile = require('../../models/Profile');
+
+/**
+ * @router  POST api/auth/register
+ * @desc    Create new user
+ * @access  Public
+ */
+router.post('/register', (req, res) => {
+  const {
+    user: {
+      first_name,
+      last_name,
+      email,
+      password
+    },
+    conf_password
+  } = req.body;
+
+  // We return a 400 status of there doesn't
+  // exist values for the user's first and last
+  // name, email, password,and conf_password
+  if (!first_name || !last_name || !email || !password || !conf_password) {
+    return res.status(400).json({ msg: 'Please enter all fields' });
+  }
+
+  // We compare the user's password inputs to see if they match
+  // to produce an error message when they don't
+  if (password !== conf_password) {
+    return res.status(400).json({ msg: 'Password confirmation failed' })
+  }
+
+  // Using the given email we check if there alreay exists
+  // a user with the given email. If so we return a 400 status
+  // with a message
+  User.findOne({ email })
+    .then(user => {
+      if (user) return res.status(400).json({ msg: 'A user already exists with that email' });
+
+      const newProfile = new Profile();
+      
+      newProfile.save()
+        .then(profile => {
+          const newUser = new User({
+            first_name,
+            last_name,
+            email,
+            password,
+            profileId: profile._id,
+            profile_path: uuidv4()
+          });
+    
+          // All passwords must be hashed and salted before they it 
+          // can be stored in in the database along with the rest of
+          // the given information
+          bcrypt.genSalt(10, (err, salt) => {
+            if (err) throw err;
+            bcrypt.hash(newUser.password, salt, (err1, hash) => {
+              if (err1) throw err1;
+              newUser.password = hash;
+              newUser.save()
+                .then(user => {
+                  // We send the newly registered user an email
+                  emailConfirmation(user.email, user.first_name.concat(' ', user.last_name), user.id);
+    
+                  res.status(200).json({ msg: 'Check your email to activate account' });
+                })
+                .catch(() => {
+                  newProfile.remove();
+                  res.status(400).json({ msg: 'Failed to register user' })
+                });
+            });
+          });
+        });
+    });
+});
 
 /**
  * @router  POST api/auth
@@ -87,17 +162,6 @@ router.put('/activate', (req, res) => {
   } catch (e) {
     res.status(400).json({ msg: 'Failed to verify confirmation token.'});
   }
-});
-
-/**
- * @router  GET api/auth/user
- * @desc    Get authenticated user data
- * @access  Private
- */
-router.get('/user', auth, verify, (req, res) => {
-  User.findById(req.user.id)
-    .select(['-password', '-__v'])
-    .then(user => res.json(user));
 });
 
 module.exports = router;
