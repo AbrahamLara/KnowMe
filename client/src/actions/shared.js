@@ -126,10 +126,12 @@ export const activate = (token) => dispatch => {
 
 // This method is used to retreive the profile page of the user who
 // owns the given profile path.
-export const getUserProfile = (profilePath) => dispatch => {
+export const getUserProfile = (profilePath) => (dispatch, getState) => {
   dispatch(showLoading());
 
-  return axios.get(`/api/profile/${profilePath}`)
+  const config = tokenConfig(getState);
+
+  return axios.get(`/api/profile/${profilePath}`, config)
     .then(res => {
       dispatch(retrievedProfile(res.data.profile));
       dispatch(hideLoading());

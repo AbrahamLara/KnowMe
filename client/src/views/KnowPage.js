@@ -61,11 +61,12 @@ class KnowPage extends Component {
   // display the user's profile page.
   render() {
     const { msg, error } = this.state;
-    const { profile, owner } = this.props;
+    const { profile } = this.props;
     const {
       first_name,
       last_name,
-      user_title
+      user_title,
+      owner
     } = profile;
 
     if (error) {
@@ -152,24 +153,12 @@ class KnowPage extends Component {
 // to retreive it's information. We also check whether the
 // authed user is owner of the profile page being visited
 // to allow for editing of page content.
-function mapStateToProps({ profile, msg, auth }, { match }) {
-  const currProfilePath = match.params.profilePath;
-  
-  let props = {
+function mapStateToProps({ profile, msg }, { match }) {
+  return {
     profile,
     msg,
-    currProfilePath
+    currProfilePath: match.params.profilePath
   };
-
-  
-  if (
-    auth.user &&
-    auth.user.profile_path === currProfilePath
-  ) {
-    props.owner = true;
-  }
-  
-  return props;
 }
 
 export default connect(mapStateToProps, {
