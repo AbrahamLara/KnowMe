@@ -4,7 +4,6 @@
 export const tokenConfig = getState => {
   // Get token from localStorage
   let token = getState().auth.token;
-
   // Headers configuration
   const config = defaultConfig();
 

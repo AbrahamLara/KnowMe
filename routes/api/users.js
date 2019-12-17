@@ -15,8 +15,11 @@ const Profile = require('../../models/Profile');
  */
 router.get('/user', auth, verify, (req, res) => {
   User.findById(req.user.id)
-    .select(['-password', '-__v'])
-    .then(user => res.json(user));
+    .select(['-password', '-__v', '-_id'])
+    .then(user => {
+      Profile.findOne({user_id: ObjectId(req.user.id)})
+        .then(profile => res.json({...user._doc, profile_path: profile.profile_path}));
+    });
 });
 
 /**

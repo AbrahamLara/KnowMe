@@ -68,7 +68,8 @@ router.post('/register', (req, res) => {
             .then(user => {
               const newProfile = new Profile({
                 user_id: user.id,
-                profile_path: uuidv4()
+                profile_path: uuidv4(),
+                contact_options: {email: {type: 'email', value: user.email}}
               });
               
               newProfile.save()
