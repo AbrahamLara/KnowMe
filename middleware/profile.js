@@ -22,9 +22,9 @@ function profile (req, res, next) {
     Profile.findOne({user_id: ObjectId(userId)}, (err, profile) => {
       if (profile && (profile.profile_path === req.params.profilePath)) {
         req.extras.owner = true;
-        next();
       }
     });
+    next();
   } catch (e) {
     next();
   }
