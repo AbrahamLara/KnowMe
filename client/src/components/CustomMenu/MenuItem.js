@@ -3,8 +3,10 @@ import PropTypes from 'prop-types';
 import '../../css/MenuItem.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Input } from 'reactstrap';
+import { connect } from 'react-redux';
+import { updateContactOption } from '../../actions/shared';
 
-export default class MenuItem extends Component {
+class MenuItem extends Component {
   static propTypes = {
     item: PropTypes.object.isRequired,
     onDelete: PropTypes.func.isRequired,
@@ -34,11 +36,13 @@ export default class MenuItem extends Component {
     const { inputValue, value } = this.state;
     
     if (inputValue && (inputValue !== value)) {
+      const { updateContactOption, item } = this.props;
+      
       this.setState(({editing}) => ({
         editing: !editing,
         value: inputValue
       }), () => {
-        // Update value in backend
+        updateContactOption({ type: item.type, value: inputValue });  
       });
     } else {
       this.setState(({editing}) => ({
@@ -104,3 +108,5 @@ export default class MenuItem extends Component {
     );
   }
 }
+
+export default connect(null, { updateContactOption })(MenuItem);

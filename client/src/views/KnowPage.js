@@ -66,6 +66,7 @@ class KnowPage extends Component {
       first_name,
       last_name,
       user_title,
+      contact_options,
       owner
     } = profile;
 
@@ -107,7 +108,7 @@ class KnowPage extends Component {
                   name='Add Contact Option'
                   list={contactingOptions}
                   listKey="type"
-                  items={[]}
+                  items={contact_options}
                   isEditable={owner}
                 />
               </div>

@@ -18,7 +18,11 @@ import { showLoading, hideLoading } from 'react-redux-loading';
 import {
   retrievedProfile,
   RETRIEVING_PROFILE_FAILED,
-  retrievingProfileFailed 
+  retrievingProfileFailed,
+  addedContactOption,
+  profileActionFailed,
+  updatedContacOption,
+  removedContactOption
 } from './profile';
 
 // This function is used to load the currently
@@ -145,4 +149,39 @@ export const getUserProfile = (profilePath) => (dispatch, getState) => {
       ));
       dispatch(hideLoading());
     });
+}
+
+// This method is for adding a new contact option for the user
+// from the given profile path.
+export const addContactOption = (option) => (dispatch, getState) => {
+  const config = tokenConfig(getState);
+  const profilePath = getState().profile.profile_path;
+  const body = JSON.stringify({ option });
+
+  return axios.post(`/api/profile/${profilePath}/contactOptions`, body, config)
+    .then((res) => dispatch(addedContactOption(res.data.option)))
+    .catch(() => dispatch(profileActionFailed()));
+}
+
+// This method is for updating a contact option for the user
+// from the given profile path.
+export const updateContactOption = (option) => (dispatch, getState) => {
+  const config = tokenConfig(getState);
+  const profilePath = getState().profile.profile_path;
+  const body = JSON.stringify({ option });
+
+  return axios.put(`/api/profile/${profilePath}/contactOptions`, body, config)
+    .then((res) => dispatch(updatedContacOption(res.data)))
+    .catch(() => dispatch(profileActionFailed()));
+}
+
+// This method is for deleting a contact option for the user
+// from the given profile path and option type.
+export const deleteContactOption = (type) => (dispatch, getState) => {
+  const config = tokenConfig(getState);
+  const profilePath = getState().profile.profile_path;
+
+  return axios.delete(`/api/profile/${profilePath}/contactOption/${type}`, config)
+    .then((res) => dispatch(removedContactOption(res.data.type)))
+    .catch(() => dispatch(profileActionFailed()));
 }

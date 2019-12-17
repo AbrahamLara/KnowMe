@@ -6,6 +6,7 @@ const config = require('config');
 const jwt = require('jsonwebtoken');
 const { generateToken } = require('../../utils/helpers');
 const { emailConfirmation } = require('../../emailing');
+const ObjectId = require('mongoose').Types.ObjectId;
 
 // User Model
 const User = require('../../models/User');
@@ -67,7 +68,7 @@ router.post('/register', (req, res) => {
           newUser.save()
             .then(user => {
               const newProfile = new Profile({
-                user_id: user.id,
+                user_id: ObjectId(user.id),
                 profile_path: uuidv4(),
                 contact_options: {email: {type: 'email', value: user.email}}
               });

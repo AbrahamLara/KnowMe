@@ -6,14 +6,16 @@ import {
   DropdownMenu
 } from 'reactstrap';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { addContactOption, deleteContactOption } from '../../actions/shared';
 import MenuItem from './MenuItem';
 
-export default class EditableMenu extends Component {
+class EditableMenu extends Component {
   static propTypes = {
     list: PropTypes.object.isRequired,
     listKey: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
-    items: PropTypes.array.isRequired,
+    items: PropTypes.object.isRequired,
     isEditable: PropTypes.bool
   }
 
@@ -34,25 +36,24 @@ export default class EditableMenu extends Component {
   // contact options and map their existing items to their
   // list as we also remove that item in the list dropdown
   // to prevent them from adding it again
-  componentDidMount() {
-    let list = {...this.props.list};
-
-    const items = this.props.items.map(item => {
-      const temp = list[item.type];
-      const { [temp.type]: value, ...rest } = list;
-      
-      list = {...rest};
-
-      return {
-        ...temp,
-        ...item
-      }
-    });
-
-    this.setState({
-      list: Object.values(list),
-      items
-    });
+  componentDidUpdate(prevProps) {
+    if (this.props !== prevProps) {
+      let list = {...this.props.list};
+  
+      const items = Object.values(this.props.items).map(item => {
+        const temp = list[item.type];
+        const { [temp.type]: value, ...rest } = list;
+        
+        list = {...rest};
+  
+        return { ...temp, ...item };
+      });
+  
+      this.setState({
+        list: Object.values(list),
+        items
+      });
+    }
   }
 
   // Toggles the dropdown menu
@@ -66,19 +67,18 @@ export default class EditableMenu extends Component {
   // the option from the items array and add it to the
   // list that appears in the dropdown
   handleOptionDelete(option) {
-    this.setState(({items, list}) => ({
-      items: items.filter(contact => contact.type !== option.type),
-      list: list.concat(option)
-    }));
+    this.props.deleteContactOption(option.type);
   }
 
   // Once the user clicks an option they want to add we add it
   // to the items list and remove it from the list dropdown
   handleItemClick(obj) {
-    this.setState(({items, list}) => ({
-      items: items.concat(obj),
-      list: list.filter(item => item.type !== obj.type)
-    }));
+    const { icon, position, ...option } = obj;
+    // this.setState(({items, list}) => ({
+    //   items: items.concat(obj),
+    //   list: list.filter(item => item.type !== obj.type)
+    // }));
+    this.props.addContactOption(option);
   }
 
   render() {
@@ -118,3 +118,8 @@ export default class EditableMenu extends Component {
     );
   }
 }
+
+export default connect(null, {
+  addContactOption,
+  deleteContactOption
+})(EditableMenu);

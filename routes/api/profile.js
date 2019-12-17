@@ -18,7 +18,7 @@ router.get('/:profilePath', profileExtras, (req, res) => {
   Profile.findOne({profile_path: profilePath})
     .then(profile => {
       const { sections, contact_options, user_title } = profile;
-
+      
       User.findById(profile.user_id)
       .then(user => {
         const { first_name, last_name, email } = user;
@@ -31,6 +31,7 @@ router.get('/:profilePath', profileExtras, (req, res) => {
             sections,
             contact_options,
             user_title,
+            profile_path: profilePath,
             ...extras
           }
         });
@@ -58,9 +59,11 @@ router.post('/:profilePath/contactOptions', auth, profileExtras, (req, res) => {
       
       if (option.type in contact_options) return res.status(409).json({ msg: 'Contact option already exists'});
 
-      profile.contact_options = {...contact_options, [option.type]: option};
+      const newOption = { [option.type]: option };
+
+      profile.contact_options = {...contact_options, ...newOption};
       profile.save()
-        .then(() => res.status(200).json({ msg: 'Successfully added contact option' }))
+        .then(() => res.status(200).json({ option: newOption }))
         .catch(() => res.status(500).json({ msg: 'Failed to add contact option' }));
     })
     .catch(() => res.status(404).json({ msg: 'Profile does not exist' }));
@@ -81,12 +84,12 @@ router.put('/:profilePath/contactOptions', auth, profileExtras, (req, res) => {
     .then(profile => {
       const { type, value } = body.option;
       const { [type]: val, ...contact_options } = profile.contact_options;
-      
-      if (!(type in profile.contact_options)) return res.status(409).json({ msg: 'Contact option doesn\'t exist'});
 
-      profile.contact_options = {...contact_options, [type]: {...contact_options[type], value}};
+      if (!(type in profile.contact_options)) return res.status(409).json({ msg: 'Contact option doesn\'t exist'})
+
+      profile.contact_options = {...contact_options, [type]: {...val, value}};
       profile.save()
-        .then(() => res.status(200).json({ msg: 'Successfully updated contact option' }))
+        .then(() => res.status(200).json({ type, value }))
         .catch(() => res.status(500).json({ msg: 'Failed to update contact option' }));
     })
     .catch(() => res.status(404).json({ msg: 'Profile does not exist' }));;
@@ -112,9 +115,9 @@ router.delete('/:profilePath/contactOption/:type', auth, profileExtras, (req, re
 
       const { [type]: value, ...rest } = profile.contact_options;
 
-      profile.contact_options = {...rest};
+      profile.contact_options = { ...rest };
       profile.save()
-        .then(() => res.status(200).json({ msg: 'Successfully deleted contact option' }))
+        .then(() => res.status(200).json({ type }))
         .catch(() => res.status(500).json({ msg: 'Failed to delete contact option' }));
     })
     .catch(() => res.status(404).json({ msg: 'Profile does not exist' }));;
