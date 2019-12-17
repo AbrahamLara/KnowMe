@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router()
 const auth = require('../../middleware/auth');
 const verify = require('../../middleware/verify');
+const ObjectId = require('mongoose').Types.ObjectId;
 
 // User Model
 const User = require('../../models/User');
@@ -31,9 +32,9 @@ router.delete('/:id', auth, (req, res) => {
 
   User.findById(params.id)
     .then(userDoc => {
-      userDoc.remove();
-      Profile.findById({_id: userDoc.profileId})
+      Profile.findOne({user_id: ObjectId(params.id)})
         .then(profileDoc => {
+          userDoc.remove();
           profileDoc.remove();
           res.json({ success: true })
         });

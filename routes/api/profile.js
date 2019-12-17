@@ -12,26 +12,15 @@ const Profile = require('../../models/Profile');
  */
 router.get('/:profilePath', profileExtras, (req, res) => {
   const extras = req.extras;
-  const profile_path = req.params.profilePath;
+  const profilePath = req.params.profilePath;
 
-  User.findOne({
-    profile_path
-  })
-  .then(user => {
-    const {
-      profileId,
-      first_name,
-      last_name,
-      email
-    } = user;
+  Profile.findOne({profile_path: profilePath})
+    .then(profile => {
+      const { sections, contact_options, user_title } = profile;
 
-    Profile.findById(profileId)
-      .then(profile => {
-        const {
-          sections,
-          contact_options,
-          user_title
-        } = profile;
+      User.findById(profile.user_id)
+      .then(user => {
+        const { first_name, last_name, email } = user;
 
         res.status(200).json({
           profile: {
@@ -45,9 +34,9 @@ router.get('/:profilePath', profileExtras, (req, res) => {
           }
         });
       })
-      .catch(() => res.status(404).json({ msg: 'Failed to fetch user profile' }));
-  })
-  .catch(() => res.status(404).json({ msg: 'User page does not exist' }));
+      .catch(() => res.status(404).json({ msg: 'User page does not exist' }));
+    })
+    .catch(() => res.status(404).json({ msg: 'Failed to fetch user profile' }));
 });
 
 module.exports = router;

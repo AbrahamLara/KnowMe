@@ -47,41 +47,44 @@ router.post('/register', (req, res) => {
     .then(user => {
       if (user) return res.status(400).json({ msg: 'A user already exists with that email' });
 
-      const newProfile = new Profile();
-      
-      newProfile.save()
-        .then(profile => {
-          const newUser = new User({
-            first_name,
-            last_name,
-            email,
-            password,
-            profileId: profile._id,
-            profile_path: uuidv4()
-          });
-    
-          // All passwords must be hashed and salted before they it 
-          // can be stored in in the database along with the rest of
-          // the given information
-          bcrypt.genSalt(10, (err, salt) => {
-            if (err) throw err;
-            bcrypt.hash(newUser.password, salt, (err1, hash) => {
-              if (err1) throw err1;
-              newUser.password = hash;
-              newUser.save()
-                .then(user => {
+      const newUser = new User({
+        first_name,
+        last_name,
+        email,
+        password
+      });
+
+      // All passwords must be hashed and salted before they it 
+      // can be stored in in the database along with the rest of
+      // the given information
+      bcrypt.genSalt(10, (err, salt) => {
+        if (err) throw err;
+
+        bcrypt.hash(newUser.password, salt, (err1, hash) => {
+          if (err1) throw err1;
+
+          newUser.password = hash;
+          newUser.save()
+            .then(user => {
+              const newProfile = new Profile({
+                user_id: user.id,
+                profile_path: uuidv4()
+              });
+              
+              newProfile.save()
+                .then(() => {
                   // We send the newly registered user an email
                   emailConfirmation(user.email, user.first_name.concat(' ', user.last_name), user.id);
     
                   res.status(200).json({ msg: 'Check your email to activate account' });
-                })
-                .catch(() => {
-                  newProfile.remove();
-                  res.status(400).json({ msg: 'Failed to register user' })
                 });
+            })
+            .catch(() => {
+              newUser.remove();
+              res.status(400).json({ msg: 'Failed to register user' })
             });
-          });
         });
+      });
     });
 });
 
@@ -117,20 +120,26 @@ router.post('/', (req, res) => {
           if (!isMatch) return res.status(400).json({ msg: 'Invalid credentials' });
           if (!user.account_activated) res.status(400).json({ msg: 'Account is not activated' });
           
-          // We include the user's id in the token so that when it gets decoded
-          // we can authenticated and give the user permission access their own content
-          // and fulfill certain actions with their content
-          generateToken({ id: user.id })
-            .then(token => {
-              res.json({
-                token,
-                user: {
-                  first_name: user.first_name,
-                  last_name: user.last_name,
-                  email: user.email,
-                  profile_path: user.profile_path
-                }
-              });
+          Profile.findOne({ user_id: user.id })
+            .then(profile => {
+              const { first_name, last_name, email } = user;
+              const profile_path = profile.profile_path;
+              
+              // We include the user's id in the token so that when it gets decoded
+              // we can authenticated and give the user permission access their own content
+              // and fulfill certain actions with their content
+              generateToken({ id: user.id })
+                .then(token => {
+                  res.json({
+                    token,
+                    user: {
+                      first_name,
+                      last_name,
+                      email,
+                      profile_path
+                    }
+                  });
+                });
             });
         });
     });
