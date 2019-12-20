@@ -2,13 +2,9 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const uuidv4 = require('uuid/v4');
-const config = require('config');
-const jwt = require('jsonwebtoken');
-const { generateToken } = require('../../utils/helpers');
+const { generateToken, decodeToken } = require('../../utils/helpers');
 const { emailConfirmation } = require('../../emailing');
 const ObjectId = require('mongoose').Types.ObjectId;
-
-// User Model
 const User = require('../../models/User');
 const Profile = require('../../models/Profile');
 
@@ -156,19 +152,23 @@ router.put('/activate', (req, res) => {
   const token = req.body.confirmation;
   
   try {
-    const { id } = jwt.verify(token, config.get('jwtSecret'));
+    const id = decodeToken(token).id;
     
     User.findById(id)
     .then(user => {
-      if (!user)
-        return res.status(400).json({ msg: 'User account doesn\'t exist.'});;
-      if (user.account_activated)
+      if (!user){
+        return res.status(400).json({ msg: 'User account doesn\'t exist.'});
+      }
+
+      if (user.account_activated) {
         return res.status(400).json({ msg: 'User account already activated. Click the login button at the top right to access your account.'});
+      }
 
       user.account_activated = true;
-      user.save();
-      
-      res.status(200).json({ msg: 'You have successfully activated your account. Hit the login button at the top right to access your account.' });
+      user.save()
+        .then(() => {
+          res.status(200).json({ msg: 'You have successfully activated your account. Hit the login button at the top right to access your account.' });
+        });
       });
   } catch (e) {
     res.status(400).json({ msg: 'Failed to verify confirmation token.'});

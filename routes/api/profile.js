@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const profileExtras = require('../../middleware/profile');
-const auth = require('../../middleware/auth');
+const verifyToken = require('../../middleware/verifyToken');
 const User = require('../../models/User');
 const Profile = require('../../models/Profile');
 
@@ -11,30 +10,27 @@ const Profile = require('../../models/Profile');
  * @desc    Gets user profile to load on know page
  * @access  Public
  */
-router.get('/:profilePath', profileExtras, (req, res) => {
-  const extras = req.extras;
-  const profilePath = req.params.profilePath;
+router.get('/:profilePath', verifyToken, (req, res) => {
+  const {
+    payload,
+    params: { profilePath }
+  } = req;
 
   Profile.findOne({profile_path: profilePath})
-    .then(profile => {
-      const { sections, contact_options, user_title } = profile;
+    .select(['-__v', '-_id'])
+    .then(userProfile => {
+      const { user_id, ...rest} = userProfile._doc;
       
-      User.findById(profile.user_id)
+      User.findById(user_id)
+      .select(['-password', '-__v', '-_id', '-account_activated', '-date_joined'])
       .then(user => {
-        const { first_name, last_name, email } = user;
+        const profile = { ...rest, ...user._doc };
 
-        res.status(200).json({
-          profile: {
-            first_name,
-            last_name,
-            email,
-            sections,
-            contact_options,
-            user_title,
-            profile_path: profilePath,
-            ...extras
-          }
-        });
+        if (payload.id === String(user_id)) {
+          profile.owner = true;  
+        }
+
+        res.status(200).json({ profile });
       })
       .catch(() => res.status(404).json({ msg: 'User page does not exist' }));
     })
@@ -47,17 +43,21 @@ router.get('/:profilePath', profileExtras, (req, res) => {
  * @desc    Adds contact option to user profile
  * @access  Public
  */
-router.post('/:profilePath/contactOptions', auth, profileExtras, (req, res) => {
-  const { body, params, extras } = req;
-
-  if (!extras.owner) return res.status(401).json({ msg: 'Authorization denied' });
+router.post('/:profilePath/contactOptions', verifyToken, (req, res) => {
+  const { body, params, payload } = req;
 
   Profile.findOne({ profile_path: params.profilePath })
     .then(profile => {
+      if (payload.id !== String(profile.user_id)) {
+        return res.status(401).json({ msg: 'Authorization denied' });
+      }
+
       const option = body.option;
       const contact_options = profile.contact_options;
       
-      if (option.type in contact_options) return res.status(409).json({ msg: 'Contact option already exists'});
+      if (option.type in contact_options) {
+        return res.status(409).json({ msg: 'Contact option already exists'});
+      }
 
       const newOption = { [option.type]: option };
 
@@ -75,17 +75,21 @@ router.post('/:profilePath/contactOptions', auth, profileExtras, (req, res) => {
  * @desc    Updates contact option in user profile
  * @access  Public
  */
-router.put('/:profilePath/contactOptions', auth, profileExtras, (req, res) => {
-  const { body, params, extras } = req;
-
-  if (!extras.owner) return res.status(401).json({ msg: 'Authorization denied' });
+router.put('/:profilePath/contactOptions', verifyToken, (req, res) => {
+  const { body, params, payload } = req;
 
   Profile.findOne({ profile_path: params.profilePath })
     .then(profile => {
+      if (payload.id !== String(profile.user_id)) {
+        return res.status(401).json({ msg: 'Authorization denied' });
+      }
+
       const { type, value } = body.option;
       const { [type]: val, ...contact_options } = profile.contact_options;
 
-      if (!(type in profile.contact_options)) return res.status(409).json({ msg: 'Contact option doesn\'t exist'})
+      if (!(type in profile.contact_options)) {
+        return res.status(409).json({ msg: 'Contact option doesn\'t exist'});
+      }
 
       profile.contact_options = {...contact_options, [type]: {...val, value}};
       profile.save()
@@ -101,17 +105,21 @@ router.put('/:profilePath/contactOptions', auth, profileExtras, (req, res) => {
  * @desc    Deletes contact option in user profile
  * @access  Public
  */
-router.delete('/:profilePath/contactOption/:type', auth, profileExtras, (req, res) => {
-  const { params, extras } = req;
-
-  if (!extras.owner) return res.status(401).json({ msg: 'Authorization denied' });
+router.delete('/:profilePath/contactOption/:type', verifyToken, (req, res) => {
+  const { params, payload } = req;
 
   Profile.findOne({ profile_path: params.profilePath })
     .then(profile => {
+      if (payload.id !== String(profile.user_id)) {
+        return res.status(401).json({ msg: 'Authorization denied' });
+      }
+
       const contact_options = profile.contact_options;
       const type = params.type;
       
-      if (!(type in contact_options)) return res.status(409).json({ msg: 'Contact option doesn\'t exist'});
+      if (!(type in contact_options)) {
+        return res.status(409).json({ msg: 'Contact option doesn\'t exist'});
+      }
 
       const { [type]: value, ...rest } = profile.contact_options;
 
