@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const verifyToken = require('../../middleware/verifyToken');
+const { verifyToken, authException } = require('../../middleware');
 const User = require('../../models/User');
 const Profile = require('../../models/Profile');
 
@@ -10,7 +10,7 @@ const Profile = require('../../models/Profile');
  * @desc    Gets user profile to load on know page
  * @access  Public
  */
-router.get('/:profilePath', verifyToken, (req, res) => {
+router.get('/:profilePath', authException, verifyToken, (req, res) => {
   const {
     payload,
     params: { profilePath }
@@ -26,11 +26,11 @@ router.get('/:profilePath', verifyToken, (req, res) => {
       .then(user => {
         const profile = { ...rest, ...user._doc };
 
-        if (payload.id === String(user_id)) {
+        if (payload && (payload.id === String(user_id))) {
           profile.owner = true;  
         }
 
-        res.status(200).json({ profile });
+        res.json({ profile });
       })
       .catch(() => res.status(404).json({ msg: 'User page does not exist' }));
     })

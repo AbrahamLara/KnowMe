@@ -2,13 +2,20 @@ const decodeToken = require('../utils/helpers').decodeToken;
 
 /**
  * Verifies authorization header token to retrieve payload and
- * add it to the request object.
+ * add it to the request object. We can make an authorization
+ * exception for users who are not logged in but viewing a user's
+ * profile.
  * 
  * @param {Object} req 
  * @param {Object} res 
  * @param {Function} next 
  */
 function verifyToken(req, res, next) {
+  if (req.authorizationException) {
+    next();
+    return;
+  }
+  
   const authorization = req.headers.authorization;
   
   if (!authorization) {
