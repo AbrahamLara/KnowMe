@@ -3,6 +3,7 @@ const router = express.Router();
 const { verifyToken, authException } = require('../../middleware');
 const User = require('../../models/User');
 const Profile = require('../../models/Profile');
+const ObjectId = require('mongoose').Types.ObjectId;
 
 /**
  * @router  GET api/profile/:profilePath
@@ -38,20 +39,15 @@ router.get('/:profilePath', authException, verifyToken, (req, res) => {
 });
 
 /**
- * @router  POST api/profile/:profilePath/contactOptions
- * @param   profilePath
+ * @router  POST api/profile/contactOption
  * @desc    Adds contact option to user profile
  * @access  Public
  */
-router.post('/:profilePath/contactOptions', verifyToken, (req, res) => {
-  const { body, params, payload } = req;
+router.post('/contactOption', verifyToken, (req, res) => {
+  const { body, payload } = req;
 
-  Profile.findOne({ profile_path: params.profilePath })
+  Profile.findOne({ user_id: ObjectId(payload.id) })
     .then(profile => {
-      if (payload.id !== String(profile.user_id)) {
-        return res.status(401).json({ msg: 'Authorization denied' });
-      }
-
       const option = body.option;
       const contact_options = profile.contact_options;
       
@@ -70,20 +66,15 @@ router.post('/:profilePath/contactOptions', verifyToken, (req, res) => {
 });
 
 /**
- * @router  PUT api/profile/:profilePath/contactOptions
- * @param   profilePath
+ * @router  PUT api/profile/contactOption
  * @desc    Updates contact option in user profile
  * @access  Public
  */
-router.put('/:profilePath/contactOptions', verifyToken, (req, res) => {
-  const { body, params, payload } = req;
+router.put('/contactOption', verifyToken, (req, res) => {
+  const { body, payload } = req;
 
-  Profile.findOne({ profile_path: params.profilePath })
+  Profile.findOne({ user_id: ObjectId(payload.id) })
     .then(profile => {
-      if (payload.id !== String(profile.user_id)) {
-        return res.status(401).json({ msg: 'Authorization denied' });
-      }
-
       const { type, value } = body.option;
       const { [type]: val, ...contact_options } = profile.contact_options;
 
@@ -100,20 +91,15 @@ router.put('/:profilePath/contactOptions', verifyToken, (req, res) => {
 });
 
 /**
- * @router  DELETE api/profile/:profilePath/contactOption/:type
- * @param   {profilePath, type}
+ * @router  DELETE api/profile/contactOption/:type
  * @desc    Deletes contact option in user profile
  * @access  Public
  */
-router.delete('/:profilePath/contactOption/:type', verifyToken, (req, res) => {
+router.delete('/contactOption/:type', verifyToken, (req, res) => {
   const { params, payload } = req;
 
-  Profile.findOne({ profile_path: params.profilePath })
+  Profile.findOne({ user_id: ObjectId(payload.id) })
     .then(profile => {
-      if (payload.id !== String(profile.user_id)) {
-        return res.status(401).json({ msg: 'Authorization denied' });
-      }
-
       const contact_options = profile.contact_options;
       const type = params.type;
       

@@ -155,10 +155,9 @@ export const getUserProfile = (profilePath) => (dispatch, getState) => {
 // from the given profile path.
 export const addContactOption = (option) => (dispatch, getState) => {
   const config = tokenConfig(getState);
-  const profilePath = getState().profile.profile_path;
   const body = JSON.stringify({ option });
 
-  axios.post(`/api/profile/${profilePath}/contactOptions`, body, config)
+  axios.post(`/api/profile/contactOption`, body, config)
     .then((res) => dispatch(addedContactOption(res.data.option)))
     .catch(() => dispatch(profileActionFailed()));
 }
@@ -167,10 +166,9 @@ export const addContactOption = (option) => (dispatch, getState) => {
 // from the given profile path.
 export const updateContactOption = (option) => (dispatch, getState) => {
   const config = tokenConfig(getState);
-  const profilePath = getState().profile.profile_path;
   const body = JSON.stringify({ option });
 
-  axios.put(`/api/profile/${profilePath}/contactOptions`, body, config)
+  axios.put(`/api/profile/contactOption`, body, config)
     .then((res) => dispatch(updatedContacOption(res.data)))
     .catch(() => dispatch(profileActionFailed()));
 }
@@ -179,9 +177,8 @@ export const updateContactOption = (option) => (dispatch, getState) => {
 // from the given profile path and option type.
 export const deleteContactOption = (type) => (dispatch, getState) => {
   const config = tokenConfig(getState);
-  const profilePath = getState().profile.profile_path;
 
-  axios.delete(`/api/profile/${profilePath}/contactOption/${type}`, config)
+  axios.delete(`/api/profile/contactOption/${type}`, config)
     .then((res) => dispatch(removedContactOption(res.data.type)))
     .catch(() => dispatch(profileActionFailed()));
 }
