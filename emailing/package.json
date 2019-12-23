@@ -3,9 +3,8 @@
   "version": "1.0.0",
   "description": "email sending server for KnowMe",
   "scripts": {
-    "receive": "concurrently \"npm run conf_receiver\" \"npm run receiver\" ",
-    "conf_receiver": "nodemon conf_receiver.js",
-    "receiver": "nodemon receiver.js"
+    "receive": "concurrently \"npm run activation\" ",
+    "activation": "nodemon ./receivers/direct/activation.js"
   },
   "author": "Abraham Lara",
   "license": "ISC",

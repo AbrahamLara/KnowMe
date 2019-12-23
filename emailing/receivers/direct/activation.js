@@ -1,5 +1,5 @@
 const amqp = require('amqplib/callback_api');
-const { sendConfirmationEmail } = require('./utils/emailing_helpers');
+const { sendConfirmationEmail } = require('../../utils/helpers');
 const config = require('config');
 
 // We connect our consumer (receiver) to the rabbitmq server
@@ -11,7 +11,7 @@ amqp.connect(config.get('rabbitURI'), function (err, conn) {
   // this receiver to handle
   conn.createChannel(function (err1, ch) {
     if (err1) throw err1;
-    const severity = 'conf_emails';
+    const severity = 'activation';
     const exchange = 'emails';
     // We create a direct type of exchange.
     // Using this type of exchange the messages that the exchange
@@ -35,15 +35,16 @@ amqp.connect(config.get('rabbitURI'), function (err, conn) {
       console.log('Waiting to receive messages...');
       // We bind our receiver to the queue with the name in the first parameter
       // we then specify the exchange this queue will receive messages from,
-      // and the severity for messages of 'conf_emails' to be directed in this
+      // and the severity for messages of 'activation' to be directed in this
       // receiver
       ch.bindQueue(q.queue, exchange, severity);
       // We tell the server that we want to start receiving
       // messages. If we want RabbitMQ to discard a message only
       // after it has received an acknowledgment set noAck to false
       ch.consume(q.queue, function (msg) {
-        console.log('Received message:', msg.content.toString(), 'from', severity);
-        const user = JSON.parse(msg.content.toString());
+        const message = msg.content.toString();
+        const user = JSON.parse(message);
+        console.log('Received message:', message, 'from', severity);
         // We take the msg and parse it using JSON to extract the
         // email and name of the user to send an email so that we may
         // send an Ack to RabbitMQ

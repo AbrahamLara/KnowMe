@@ -34,6 +34,4 @@ async function enqueueMessage (data, exchange, severity) {
   });
 }
 
-module.exports = {
-  enqueueMessage
-};
+module.exports = enqueueMessage;

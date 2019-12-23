@@ -16,6 +16,10 @@ router.get('/user', verifyToken, (req, res) => {
   User.findById(id)
     .select(['-password', '-__v', '-_id'])
     .then(user => {
+      if (!user) {
+        return res.status(404).json({ msg: 'User does not exist' });
+      }
+
       Profile.findOne({user_id: ObjectId(id)})
         .then(profile => res.json({
           ...user._doc,

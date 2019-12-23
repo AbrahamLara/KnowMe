@@ -3,7 +3,7 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const uuidv4 = require('uuid/v4');
 const { generateToken, decodeToken } = require('../../utils/helpers');
-const { emailConfirmation } = require('../../emailing');
+const { activationEmail } = require('../../emailing');
 const ObjectId = require('mongoose').Types.ObjectId;
 const User = require('../../models/User');
 const Profile = require('../../models/Profile');
@@ -71,8 +71,9 @@ router.post('/register', (req, res) => {
               
               newProfile.save()
                 .then(() => {
+                  const fullName = `${user.first_name} ${user.last_name}`;
                   // We send the newly registered user an email
-                  emailConfirmation(user.email, user.first_name.concat(' ', user.last_name), user.id);
+                  activationEmail(user.email, fullName, user.id);
     
                   res.status(200).json({ msg: 'Check your email to activate account' });
                 });
