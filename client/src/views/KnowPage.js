@@ -41,9 +41,16 @@ class KnowPage extends Component {
   // Once the component updates after attempting to retreive
   // the user's profile page we check if the current msg state does
   // not match the previous msg state from props which tells us there
-  // was an error fetching the user profile page. 
+  // was an error fetching the user profile page. We also check whether
+  // the user has authenticated to be able to update the page to
+  // see whether or not the owner has logged in.
   componentDidUpdate(prevProps) {
-    const msg = this.props.msg;
+    const {
+      msg,
+      isAuthenticated,
+      getUserProfile,
+      currProfilePath
+    } = this.props;
     
     if (
       msg !== prevProps.msg &&
@@ -53,6 +60,8 @@ class KnowPage extends Component {
         msg: msg.msg.msg,
         error: true
       });
+    } else if (isAuthenticated !== prevProps.isAuthenticated) {
+      getUserProfile(currProfilePath);
     }
   }
 
@@ -154,10 +163,11 @@ class KnowPage extends Component {
 // to retreive it's information. We also check whether the
 // authed user is owner of the profile page being visited
 // to allow for editing of page content.
-function mapStateToProps({ profile, msg }, { match }) {
+function mapStateToProps({ profile, msg, auth: { isAuthenticated } }, { match }) {
   return {
     profile,
     msg,
+    isAuthenticated,
     currProfilePath: match.params.profilePath
   };
 }

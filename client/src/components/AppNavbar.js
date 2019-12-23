@@ -17,19 +17,6 @@ class AppNavbar extends Component {
     auth: PropTypes.object.isRequired
   };
 
-  // We check whether isAuthenticated is true
-  // to update the Navbar and display log out
-  // and user name.
-  componentDidUpdate(prevProps) {
-    const { isAuthenticated } = this.props;
-    if (
-      isAuthenticated &&
-      (isAuthenticated !== prevProps.isAuthenticated)
-    ) {
-      this.forceUpdate()
-    }
-  }
-
   // When viewing app in mobile browsers the
   // user can toggle between displaying or hiding
   // navbar links
