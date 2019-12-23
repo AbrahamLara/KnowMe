@@ -1,9 +1,13 @@
-# KnowMe emailing service
+# Emailing service
 
-This directory is where RabbitMQ is utilized in order to handle processes such as sending emails out to users upon registration without causing wait time for the email to finsh sending.
+This directory is where RabbitMQ is utilized in order to handle processes such as sending emails and such to minimize wait time in the backend.
 
-The [sender.js](sender.js) file can be used to send a message to an exchange and a specified queue given the severity.
+*If you are new to RabbitMQ here is the [tutorial](https://www.rabbitmq.com/getstarted.html) page.*
 
-The [receiver.js](receiver.js) is only used to receieve messages from __emails__ exchange and __conf_emails__ severity to handle sending emails after a successful registration.
+## Senders
 
-The receivers in this directory are automatically ran once the project is started using `npm run dev` in the root directory of this project.
+Since there are different exchange types in which a consumer can send a message to reach a receiver we organize each sender based on the exchange type their receiver utilizes and severity they listen to.
+
+## Receivers
+
+Receivers each have their own purpose and since they each also utilize their own exchange type we structure the receivers folder based each exchange types utilized by each receiver.

@@ -1,4 +1,4 @@
-const enqueueMessage = require('./base_sender');
+const enqueueMessage = require('../base_sender');
 
 function activation(data) {
   return enqueueMessage(data, 'emails', 'activation');

@@ -6,16 +6,17 @@ This is my full stack web development project KnowMe! The backend to this projec
 * Learn more about the emailing service [here](emailing/README.md).
 
 ## Requirements
+
 * npm (Node Package Manager) latest version
-* MongoDB
-* RabbitMQ
+* MongoDB   - Local or Cloud
+* RabbitMQ  - [download/tutorial](https://www.rabbitmq.com/#getstarted)
 
 ## Database Setup
-__Assuming you have MongoDB already installed__
-* create folder: `sudo mkdir data/db`
+
+* create folder in root directory: `sudo mkdir data/db`
 * give ownership of directory to self: `sudo chown -R $USER data/db`
-* start MongoDB without access control: `mongod --port 27017 --dbpath data/db`
-* connect to instance in seperate window: `mongo --port 27017`
+* start mongod: `mongod --dbpath data/db`
+* start mongo in seperate window: `mongo`
 * run inside instance:
 ```
 use knowme
@@ -27,13 +28,11 @@ db.createUser({
 quit()
 ```
 
-## Emailing service Setup
-
-__Assuming you have RabbitMQ already installed__
+## RabbitMQ Setup
 
 * start RabbitMQ server: `rabbitmq-server`
 
-The recievers are automatically intialized for you once you run the web app.
+**The recievers are automatically intialized for you once you run the web app.**
 
 ## Web App Setup
 

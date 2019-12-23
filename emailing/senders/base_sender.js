@@ -3,7 +3,7 @@ const config = require('config');
 
 // This function takes in a message and the name of the queue
 // the sender will send the message through
-async function enqueueMessage (data, exchange, severity) {
+async function enqueueMessage (data, exchange, severity='') {
   // We connect our producer (sender) to the rabbitmq server
   // that will allow us to send messages
   amqp.connect(config.get('rabbitURI'), function (err, conn) {
