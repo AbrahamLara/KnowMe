@@ -59,7 +59,7 @@ router.post('/contactOption', verifyToken, (req, res) => {
 
       profile.contact_options = {...contact_options, ...newOption};
       profile.save()
-        .then(() => res.status(200).json({ option: newOption }))
+        .then(() => res.json({ option: newOption }))
         .catch(() => res.status(500).json({ msg: 'Failed to add contact option' }));
     })
     .catch(() => res.status(404).json({ msg: 'Profile does not exist' }));
@@ -82,9 +82,11 @@ router.put('/contactOption', verifyToken, (req, res) => {
         return res.status(409).json({ msg: 'Contact option doesn\'t exist'});
       }
 
-      profile.contact_options = {...contact_options, [type]: {...val, value}};
+      const updatedOption = { [type]: { ...val, value } };
+
+      profile.contact_options = Object.assign({}, contact_options, updatedOption);
       profile.save()
-        .then(() => res.status(200).json({ type, value }))
+        .then(() => res.json({ type, value }))
         .catch(() => res.status(500).json({ msg: 'Failed to update contact option' }));
     })
     .catch(() => res.status(404).json({ msg: 'Profile does not exist' }));;
@@ -111,10 +113,191 @@ router.delete('/contactOption/:type', verifyToken, (req, res) => {
 
       profile.contact_options = { ...rest };
       profile.save()
-        .then(() => res.status(200).json({ type }))
+        .then(() => res.json({ type }))
         .catch(() => res.status(500).json({ msg: 'Failed to delete contact option' }));
     })
     .catch(() => res.status(404).json({ msg: 'Profile does not exist' }));;
+});
+
+/**
+ * @router  POST api/profile/section
+ * @desc    Adds section to user profile
+ * @access  Public
+ */
+router.post('/section', verifyToken, (req, res) => {
+  const { body, payload } = req;
+
+  Profile.findOne({ user_id: ObjectId(payload.id) })
+    .then(profile => {
+      const type = body.type;
+      const sections = profile.sections;
+      let section = null;
+
+      switch(type) {
+        case 'text':
+          section = { type, name: 'Text section', value: 'Placeholder text.' };
+          break;
+        case 'list':
+          section = { type, name: 'List section', list: [''] };
+          break;
+        default:
+          return res.status(400).json({ msg: 'Invalid section type' });
+      }
+
+      profile.sections = sections.concat(section);
+      profile.save()
+        .then(() => res.json({ section }))
+        .catch(() => res.status(500).json({ msg: 'Failed to add section' }));
+    })
+    .catch(() => res.status(404).json({ msg: 'Profile does not exist' }));
+});
+
+/**
+ * @router  PUT api/profile/section/name
+ * @desc    Updates section name in user profile
+ * @access  Public
+ */
+router.put('/section/name', verifyToken, (req, res) => {
+  const { body, payload } = req;
+
+  Profile.findOne({ user_id: ObjectId(payload.id) })
+    .then(profile => {
+      const { index, name } = body.section;
+      const sections = profile.sections;
+      const section = sections[index];
+
+      section.name = name;
+      sections.splice(index, 1, section);
+
+      profile.sections = sections;
+      profile.save()
+        .then(() => res.json({ index, name }))
+        .catch(() => res.status(500).json({ msg: 'Failed to update section' }));
+    })
+    .catch(() => res.status(404).json({ msg: 'Profile does not exist' }));
+});
+
+/**
+ * @router  PUT api/profile/section/:type
+ * @desc    Updates section content in user profile
+ * @access  Public
+ */
+router.put('/section/:type', verifyToken, (req, res) => {
+  const { body, params, payload } = req;
+
+  Profile.findOne({ user_id: ObjectId(payload.id) })
+    .then(profile => {
+      const { index, data } = body.section;
+      const type = params.type;
+      const sections = profile.sections;
+      const section = sections[index];
+
+      if (section.type !== type) {
+        return res.status(409).json({ msg: 'Invalid update on type' });
+      }
+
+      switch(type) {
+        case 'text':
+          section.value = data.value;
+          break;
+        case 'list':
+          section.list.splice(data.index, 1, data.value);
+          break;
+        default:
+          return res.status(400).json({ msg: 'Invalid section type' });
+      }
+
+      sections.splice(index, 1, section);
+
+      profile.sections = sections;
+      profile.save()
+        .then(() => res.json({ index, data }))
+        .catch(() => res.status(500).json({ msg: 'Failed to update section' }));
+    })
+    .catch(() => res.status(404).json({ msg: 'Profile does not exist' }));
+});
+
+/**
+ * @router  POST api/profile/section/list
+ * @desc    Adds item to list section to user profile
+ * @access  Public
+ */
+router.post('/section/list/:index', verifyToken, (req, res) => {
+  const { params, body, payload } = req;
+
+  Profile.findOne({ user_id: ObjectId(payload.id) })
+    .then(profile => {
+      const index = Number(params.index);
+      const sections = profile.sections;
+      const section = sections[index];
+
+      if (section.type !== 'list') {
+        return res.status(409).json({ msg: 'Invalid update on type' });
+      }
+
+      section.list.splice(body.index, 0, '');
+      
+      sections.splice(index, 1, section);
+      
+      profile.sections = sections;
+      profile.save()
+        .then(() => res.json({ index: body.index }))
+        .catch(() => res.status(500).json({ msg: 'Failed to add section' }));
+    })
+    .catch(() => res.status(404).json({ msg: 'Profile does not exist' }));
+});
+
+/**
+ * @router  DELETE api/profile/section/list
+ * @desc    Deletes item from section list
+ * @access  Public
+ */
+router.delete('/section/list/:index', verifyToken, (req, res) => {
+  const { params, body, payload } = req;
+
+  Profile.findOne({ user_id: ObjectId(payload.id) })
+    .then(profile => {
+      const index = Number(params.index);
+      const sections = profile.sections;
+      const section = sections[index];
+
+      if (section.type !== 'list') {
+        return res.status(409).json({ msg: 'Invalid update on type' });
+      }
+
+      section.list.splice(body.index, 1);
+      
+      sections.splice(index, 1, section);
+      
+      profile.sections = sections;
+      profile.save()
+        .then(() => res.json({ index: body.index }))
+        .catch(() => res.status(500).json({ msg: 'Failed to add section' }));
+    })
+    .catch(() => res.status(404).json({ msg: 'Profile does not exist' }));
+});
+
+/**
+ * @router  DELETE api/profile/section
+ * @desc    Deletes section in user profile
+ * @access  Public
+ */
+router.delete('/section/:index', verifyToken, (req, res) => {
+  const { params, payload } = req;
+
+  Profile.findOne({ user_id: ObjectId(payload.id) })
+    .then(profile => {
+      const index = Number(params.index);
+      const sections = profile.sections;
+
+      sections.splice(index, 1);
+
+      profile.sections = sections;
+      profile.save()
+        .then(() => res.json({ index }))
+        .catch(() => res.status(500).json({ msg: 'Failed to delete section' }));
+    })
+    .catch(() => res.status(404).json({ msg: 'Profile does not exist' }));
 });
 
 module.exports = router;
