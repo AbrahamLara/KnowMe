@@ -138,7 +138,7 @@ router.post('/section', verifyToken, (req, res) => {
           section = { type, name: 'Text section', value: 'Placeholder text.' };
           break;
         case 'list':
-          section = { type, name: 'List section', list: [''] };
+          section = { type, name: 'List section', list: ['first item'] };
           break;
         default:
           return res.status(400).json({ msg: 'Invalid section type' });
