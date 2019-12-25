@@ -8,13 +8,13 @@ import logo from '../logo.svg';
 import '../css/KnowPage.css';
 import '../css/ExpandCollapse.css';
 import PropTypes from 'prop-types';
-import ExpandCollapse from 'react-expand-collapse';
 import { connect } from  'react-redux';
 import { getUserProfile } from '../actions/shared';
 import { clearMessages } from '../actions/msg';
 import { RETRIEVING_PROFILE_FAILED } from '../actions/profile';
 import EditableMenu from '../components/CustomMenu/EditableMenu';
 import {contactingOptions} from '../utils/contacting_options'
+import Sections from '../components/Sections/Sections';
 
 class KnowPage extends Component {
   static propTypes = {
@@ -32,7 +32,8 @@ class KnowPage extends Component {
 
     this.state = {
       msg: null,
-      error: false
+      error: false,
+      isOpen: false
     }
     
     props.getUserProfile(props.currProfilePath);
@@ -116,41 +117,14 @@ class KnowPage extends Component {
                 <EditableMenu
                   name='Add Contact Option'
                   list={contactingOptions}
-                  listKey="type"
+                  listKey='type'
                   items={contact_options}
                   isEditable={owner}
                 />
               </div>
             </Col>
             <Col xs='12' sm='12' md='12' lg='9'>
-              <div className='mt-2'>
-                <h4 className='mb-0'><strong>About:</strong></h4>
-                <ExpandCollapse className='pl-0' previewHeight='160px' id='userDescription'>
-                  {`Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.`}
-                </ExpandCollapse>
-              </div>
-              <div className='mt-2'>
-                <h4 className='mb-0'><strong>Favorite Activities:</strong></h4>
-                <div>
-                  <ul className='pl-4'>
-                    <li>
-                      <i>Lorem Ipsum</i>
-                    </li>
-                    <li>
-                      <i>Lorem Ipsum</i>
-                    </li>
-                    <li>
-                      <i>Lorem Ipsum</i>
-                    </li>
-                    <li>
-                      <i>Lorem Ipsum</i>
-                    </li>
-                    <li>
-                      <i>Lorem Ipsum</i>
-                    </li>
-                  </ul>
-                </div>
-              </div>
+              <Sections isEditable={owner} />
             </Col>
           </Row>
         </div>

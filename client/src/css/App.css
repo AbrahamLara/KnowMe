@@ -10,12 +10,42 @@
   flex-direction: column !important;
 }
 
+.w-fill {
+  width: 100% !important;
+}
+
 .w-30 {
   width: 30px !important;
 }
 
+.h-unset {
+  height: unset !important;
+}
+
 .flex-direction-column {
   flex-direction: column !important;
+}
+
+.outline-none {
+  outline: none !important;
+}
+
+.h-fit {
+  height: fit-content !important;
+}
+
+.h-160 {
+  height: 160px !important;
+}
+
+.h4 {
+  font-weight: bolder !important;
+  font-size: 1.5rem !important;
+  color: black !important;
+}
+
+.cursor {
+  cursor: pointer !important;
 }
 
 .position-1 {
