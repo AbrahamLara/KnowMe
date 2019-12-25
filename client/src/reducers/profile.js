@@ -6,7 +6,9 @@ import {
   REMOVED_CONTACT_OPTION,
   UPDATED_CONTACT_OPTION,
   PROFILE_ACTION,
-  PROFILE_ACTION_FAILED
+  PROFILE_ACTION_FAILED,
+  ADDED_SECTION,
+  REMOVED_SECTION
 } from '../actions/profile';
 
 const initialstate = {
@@ -53,6 +55,21 @@ export default function profile(state = initialstate, action) {
       return {
         ...state,
         contact_options: { ...rest }
+      };
+    case ADDED_SECTION:
+      const section = action.section;
+
+      return {
+        ...state,
+        sections: state.sections.concat(section)
+      };
+    case REMOVED_SECTION:
+      const sections = state.sections;
+      sections.splice(action.sectionIndex, 1);
+
+      return {
+        ...state,
+        sections
       };
     case RETRIEVING_PROFILE_FAILED:
     case RETRIEVING_PROFILE:

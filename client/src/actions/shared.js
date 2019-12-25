@@ -22,7 +22,9 @@ import {
   addedContactOption,
   profileActionFailed,
   updatedContacOption,
-  removedContactOption
+  removedContactOption,
+  addedSection,
+  removedSection
 } from './profile';
 
 // This function is used to load the currently
@@ -180,5 +182,26 @@ export const deleteContactOption = (type) => (dispatch, getState) => {
 
   axios.delete(`/api/profile/contactOption/${type}`, config)
     .then((res) => dispatch(removedContactOption(res.data.type)))
+    .catch(() => dispatch(profileActionFailed()));
+}
+
+// This method is for adding a new section to the profile
+// sections
+export const addSection = (type) => (dispatch, getState) => {
+  const config = tokenConfig(getState);
+  const body = JSON.stringify({ type });
+
+  axios.post('/api/profile/section', body, config)
+    .then((res) => dispatch(addedSection(res.data.section)))
+    .catch(() => dispatch(profileActionFailed()));
+}
+
+// This method is for removing a section from the profile
+// sections
+export const removeSection = (index) => (dispatch, getState) => {
+  const config = tokenConfig(getState);
+
+  axios.delete(`/api/profile/section/${index}`, config)
+    .then(() => dispatch(removedSection(index)))
     .catch(() => dispatch(profileActionFailed()));
 }

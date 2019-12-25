@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import BaseSection from './BaseSection';
 import SectionText from './SectionText';
 import SectionList from './SectionList';
+import { addSection, removeSection } from '../../actions/shared';
 
 class Sections extends Component {
   constructor(props) {
@@ -19,6 +20,7 @@ class Sections extends Component {
     };
 
     this.toggle = this.toggle.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
   }
 
   // Toggles dropdown
@@ -28,10 +30,14 @@ class Sections extends Component {
     }));
   }
 
+  handleClick(type) {
+    this.props.addSection(type);
+  }
+
   // Deletes section from the given
   // index
   handleDelete(index) {
-    console.log(index)
+    this.props.removeSection(index);
   }
 
   render() {
@@ -40,15 +46,17 @@ class Sections extends Component {
 
     return (
       <div className='mt-2'>
-        <ButtonDropdown isOpen={isOpen} toggle={this.toggle}>
-          <DropdownToggle caret>
-            New Section
-          </DropdownToggle>
-          <DropdownMenu>
-            <DropdownItem>Text</DropdownItem>
-            <DropdownItem>List</DropdownItem>
-          </DropdownMenu>
-        </ButtonDropdown>
+        {isEditable &&
+          <ButtonDropdown isOpen={isOpen} toggle={this.toggle}>
+            <DropdownToggle caret>
+              New Section
+            </DropdownToggle>
+            <DropdownMenu>
+              <DropdownItem onClick={() => this.handleClick('text')}>Text</DropdownItem>
+              <DropdownItem onClick={() => this.handleClick('list')}>List</DropdownItem>
+            </DropdownMenu>
+          </ButtonDropdown>
+        }
         <div>
           {sections.map((section, i) => {
             let Section = null;
@@ -83,4 +91,7 @@ function mapStateToProps({ profile }) {
   };
 }
 
-export default connect(mapStateToProps)(Sections);
+export default connect(mapStateToProps, {
+  addSection,
+  removeSection
+})(Sections);

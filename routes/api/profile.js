@@ -153,6 +153,29 @@ router.post('/section', verifyToken, (req, res) => {
 });
 
 /**
+ * @router  DELETE api/profile/section/:index
+ * @desc    Deletes section in user profile
+ * @access  Public
+ */
+router.delete('/section/:index', verifyToken, (req, res) => {
+  const { params, payload } = req;
+
+  Profile.findOne({ user_id: ObjectId(payload.id) })
+    .then(profile => {
+      const index = Number(params.index);
+      const sections = profile.sections;
+
+      sections.splice(index, 1);
+
+      profile.sections = sections;
+      profile.save()
+        .then(() => res.json({ index }))
+        .catch(() => res.status(500).json({ msg: 'Failed to delete section' }));
+    })
+    .catch(() => res.status(404).json({ msg: 'Profile does not exist' }));
+});
+
+/**
  * @router  PUT api/profile/section/name
  * @desc    Updates section name in user profile
  * @access  Public
@@ -248,7 +271,7 @@ router.post('/section/list/:index', verifyToken, (req, res) => {
 });
 
 /**
- * @router  DELETE api/profile/section/list
+ * @router  DELETE api/profile/section/list/:index
  * @desc    Deletes item from section list
  * @access  Public
  */
@@ -273,29 +296,6 @@ router.delete('/section/list/:index', verifyToken, (req, res) => {
       profile.save()
         .then(() => res.json({ index: body.index }))
         .catch(() => res.status(500).json({ msg: 'Failed to add section' }));
-    })
-    .catch(() => res.status(404).json({ msg: 'Profile does not exist' }));
-});
-
-/**
- * @router  DELETE api/profile/section
- * @desc    Deletes section in user profile
- * @access  Public
- */
-router.delete('/section/:index', verifyToken, (req, res) => {
-  const { params, payload } = req;
-
-  Profile.findOne({ user_id: ObjectId(payload.id) })
-    .then(profile => {
-      const index = Number(params.index);
-      const sections = profile.sections;
-
-      sections.splice(index, 1);
-
-      profile.sections = sections;
-      profile.save()
-        .then(() => res.json({ index }))
-        .catch(() => res.status(500).json({ msg: 'Failed to delete section' }));
     })
     .catch(() => res.status(404).json({ msg: 'Profile does not exist' }));
 });
