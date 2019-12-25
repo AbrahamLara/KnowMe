@@ -8,7 +8,8 @@ import {
   PROFILE_ACTION,
   PROFILE_ACTION_FAILED,
   ADDED_SECTION,
-  REMOVED_SECTION
+  REMOVED_SECTION,
+  RENAMED_SECTION
 } from '../actions/profile';
 
 const initialstate = {
@@ -70,6 +71,17 @@ export default function profile(state = initialstate, action) {
       return {
         ...state,
         sections
+      };
+    case RENAMED_SECTION:
+      const updatedSections = state.sections;
+      const updatedSection = updatedSections[action.payload.index];
+      
+      updatedSection.name = action.payload.name;
+      updatedSections.splice(action.payload.index, 1, updatedSection);
+
+      return {
+        ...state,
+        sections: updatedSections
       };
     case RETRIEVING_PROFILE_FAILED:
     case RETRIEVING_PROFILE:

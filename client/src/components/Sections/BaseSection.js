@@ -1,5 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { connect } from 'react-redux';
+import { renameSection } from '../../actions/shared';
 
 class BaseSection extends Component {
   constructor(props) {
@@ -31,12 +33,15 @@ class BaseSection extends Component {
   // also update the name of the section in state.
   toggleEdit() {
     const { newName, name, isEditing } = this.state;
+    const index = this.props.index;
 
     if (isEditing && newName && (newName !== name)) {
       this.setState(() => ({
         isEditing: false,
         name: newName
       }));
+
+      this.props.renameSection(index, newName);
     } else {
       this.setState(({ isEditing }) => ({
         isEditing: !isEditing,
@@ -103,4 +108,6 @@ class BaseSection extends Component {
   }
 }
 
-export default BaseSection;
+export default connect(null, {
+  renameSection
+})(BaseSection);

@@ -185,7 +185,7 @@ router.put('/section/name', verifyToken, (req, res) => {
 
   Profile.findOne({ user_id: ObjectId(payload.id) })
     .then(profile => {
-      const { index, name } = body.section;
+      const { index, name } = body;
       const sections = profile.sections;
       const section = sections[index];
 

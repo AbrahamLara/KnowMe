@@ -5,11 +5,10 @@ export const PROFILE_ACTION = 'PROFILE_ACTION';
 export const ADDED_CONTACT_OPTION = 'ADDED_CONTACT_OPTION';
 export const UPDATED_CONTACT_OPTION = 'UPDATED_CONTACT_OPTION';
 export const REMOVED_CONTACT_OPTION = 'REMOVED_CONTACT_OPTION';
-
 export const ADDED_SECTION = 'ADDED_SECTION';
 export const REMOVED_SECTION = 'REMOVED_SECTION';
 
-export const RENAMED_SECTION_NAME = 'RENAMED_SECTION_NAME';
+export const RENAMED_SECTION = 'RENAMED_SECTION';
 
 export const UPDATED_SECTION_TEXT = 'UPDATED_SECTION_TEXT';
 
@@ -68,19 +67,26 @@ export function removedContactOption(optionType) {
 export function profileActionFailed() {
   return {
     type: PROFILE_ACTION_FAILED
-  }
+  };
 }
 
 export function addedSection(section) {
   return {
     type: ADDED_SECTION,
     section
-  }
+  };
 }
 
 export function removedSection(sectionIndex) {
   return {
     type: REMOVED_SECTION,
     sectionIndex
-  }
+  };
+}
+
+export function renamedSection(payload) {
+  return {
+    type: RENAMED_SECTION,
+    payload
+  };
 }

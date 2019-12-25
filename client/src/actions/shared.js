@@ -24,7 +24,8 @@ import {
   updatedContacOption,
   removedContactOption,
   addedSection,
-  removedSection
+  removedSection,
+  renamedSection
 } from './profile';
 
 // This function is used to load the currently
@@ -203,5 +204,14 @@ export const removeSection = (index) => (dispatch, getState) => {
 
   axios.delete(`/api/profile/section/${index}`, config)
     .then(() => dispatch(removedSection(index)))
+    .catch(() => dispatch(profileActionFailed()));
+}
+
+export const renameSection = (index, name) => (dispatch, getState) => {
+  const config = tokenConfig(getState);
+  const body = JSON.stringify({ index, name });
+
+  axios.put(`/api/profile/section/name`, body, config)
+    .then(() => dispatch(renamedSection({ index, name })))
     .catch(() => dispatch(profileActionFailed()));
 }
