@@ -8,7 +8,7 @@ This is my full stack web development project KnowMe! The backend to this projec
 ## Requirements
 
 * npm (Node Package Manager) latest version
-* MongoDB   - Local or Cloud
+* MongoDB   - Community server
 * RabbitMQ  - [download/tutorial](https://www.rabbitmq.com/#getstarted)
 * Mailtrap API - [link](https://mailtrap.io)
 
