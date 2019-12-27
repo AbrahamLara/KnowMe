@@ -1,6 +1,6 @@
 # KnowMe
 
-This is my full stack web development project KnowMe! The backend to this project exists in this directory. This project allows for user authentication with jsonWebTokens and an emailing service for sending confirmation emails to newly registered users. There are still more features planned for this project.
+This is my full stack web development project KnowMe! The backend to this project exists in this directory. This project allows for user authentication with jsonWebTokens and an emailing service for sending confirmation emails to newly registered users. There are still more features/improvements planned for this project.
 
 * Learn more about the client side [here](client/README.md).
 * Learn more about the emailing service [here](emailing/README.md).
@@ -10,6 +10,7 @@ This is my full stack web development project KnowMe! The backend to this projec
 * npm (Node Package Manager) latest version
 * MongoDB   - Local or Cloud
 * RabbitMQ  - [download/tutorial](https://www.rabbitmq.com/#getstarted)
+* Mailtrap API - [link](https://mailtrap.io)
 
 ## Database Setup
 
@@ -32,7 +33,9 @@ quit()
 
 * start RabbitMQ server: `rabbitmq-server`
 
-**The recievers are automatically intialized for you once you run the web app.**
+The recievers are automatically intialized for you once you run the web app.
+
+**The /emaliling folder has the more details on setting up mailtrap. Click [here](emailing/README.md).**
 
 ## Web App Setup
 

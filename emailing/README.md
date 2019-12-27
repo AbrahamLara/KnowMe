@@ -11,3 +11,17 @@ Since there are different exchange types in which a consumer can send a message 
 ## Receivers
 
 Receivers each have their own purpose and since they each also utilize their own exchange type we structure the receivers folder based each exchange types utilized by each receiver.
+
+## Mailtrap Setup
+
+Mailtrap is a tool for Email testing during development. [Here](https://mailtrap.io) is the link to find out more.
+
+Inside of the /utils folder you will need to add a js file and name it `mailtrap_creds.js`.
+It should look like the following with your API information:
+```js
+module.exports = {
+  email: 'MAILTRAP_API_EMAIL',
+  user: 'MAILTRAP_API_USER',
+  pass: 'MAILTRAP_API_PASSWORD'
+};
+```
