@@ -5,12 +5,13 @@ import {
   ADDED_CONTACT_OPTION,
   REMOVED_CONTACT_OPTION,
   UPDATED_CONTACT_OPTION,
-  PROFILE_ACTION,
   PROFILE_ACTION_FAILED,
   ADDED_SECTION,
   REMOVED_SECTION,
   RENAMED_SECTION,
-  UPDATED_SECTION_TEXT
+  UPDATED_SECTION_TEXT,
+  ADDED_SECTION_ITEM,
+  REMOVED_SECTION_ITEM
 } from '../actions/profile';
 
 const initialstate = {
@@ -100,9 +101,26 @@ export default function profile(state = initialstate, action) {
         ...state,
         sections: newSections
       };
+    case ADDED_SECTION_ITEM:
+      const addedItem = state.sections;
+      addedItem[action.payload.index].list
+        .splice(action.payload.data.index, 0, '');
+        
+      return {
+        ...state,
+        sections: addedItem
+      };
+    case REMOVED_SECTION_ITEM:
+      const removedItem = state.sections;
+      removedItem[action.payload.index].list
+        .splice(action.payload.data.index, 1);
+
+      return {
+        ...state,
+        sections: removedItem
+      };
     case RETRIEVING_PROFILE_FAILED:
     case RETRIEVING_PROFILE:
-    case PROFILE_ACTION:
     case PROFILE_ACTION_FAILED:
     default:
       return state;

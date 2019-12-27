@@ -75,13 +75,13 @@ class SectionText extends Component {
               onChange={this.handleChange}
               onBlur={this.toggleEdit}
             ></textarea>
-          : <div onClick={this.toggleEdit}><ExpandCollapse
+          : <ExpandCollapse
               className='pl-0'
               previewHeight='160px'
               id='userDescription'
             >
-              {text}
-            </ExpandCollapse></div>
+              <div onClick={this.toggleEdit}>{text}</div>
+            </ExpandCollapse>
         }
       </Fragment>
     );

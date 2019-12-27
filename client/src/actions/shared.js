@@ -25,7 +25,9 @@ import {
   removedContactOption,
   addedSection,
   removedSection,
-  renamedSection
+  renamedSection,
+  addedSectionItem,
+  removedSectionItem
 } from './profile';
 
 // This function is used to load the currently
@@ -218,7 +220,7 @@ export const renameSection = (index, name) => (dispatch, getState) => {
     .catch(() => dispatch(profileActionFailed()));
 }
 
-// This methiod is for renaming the text in each setcion type from
+// This method is for renaming the text in each setcion type from
 // a user profile
 export const renameSectionText = (type, payload) => (dispatch, getState) => {
   const config = tokenConfig(getState);
@@ -226,5 +228,29 @@ export const renameSectionText = (type, payload) => (dispatch, getState) => {
 
   axios.put(`/api/profile/section/${type}`, body, config)
     .then(() => dispatch(renamedSection(payload)))
+    .catch(() => dispatch(profileActionFailed()));
+}
+
+// This method is for adding a new item in a list section for
+// a user profile
+export const addSectionItem = ({index, itemIndex}, callback) => (dispatch, getState) => {
+  const config = tokenConfig(getState);
+  const body = JSON.stringify({ index: itemIndex });
+
+  axios.post(`/api/profile/section/list/${index}`, body, config)
+    .then((res) => dispatch(addedSectionItem(res.data)))
+    .then(callback)
+    .catch(() => dispatch(profileActionFailed()));
+}
+
+// This method is for removing an item in a list section for
+// a user profile
+export const removeSectionItem = ({index, itemIndex}, callback) => (dispatch, getState) => {
+  const config = tokenConfig(getState);
+  config.data = JSON.stringify({ index: itemIndex });
+
+  axios.delete(`/api/profile/section/list/${index}`, config)
+    .then((res) => dispatch(removedSectionItem(res.data)))
+    .then(callback)
     .catch(() => dispatch(profileActionFailed()));
 }

@@ -241,7 +241,7 @@ router.put('/section/:type', verifyToken, (req, res) => {
 });
 
 /**
- * @router  POST api/profile/section/list
+ * @router  POST api/profile/section/list/:index
  * @desc    Adds item to list section to user profile
  * @access  Public
  */
@@ -264,7 +264,7 @@ router.post('/section/list/:index', verifyToken, (req, res) => {
       
       profile.sections = sections;
       profile.save()
-        .then(() => res.json({ index: body.index }))
+        .then(() => res.json({ index, data: { index: body.index } }))
         .catch(() => res.status(500).json({ msg: 'Failed to add section' }));
     })
     .catch(() => res.status(404).json({ msg: 'Profile does not exist' }));
@@ -288,13 +288,17 @@ router.delete('/section/list/:index', verifyToken, (req, res) => {
         return res.status(409).json({ msg: 'Invalid update on type' });
       }
 
+      if (section.list.length === 1) {
+        return res.status(409).json({ msg: 'Cannot remove only item in list' });
+      }
+
       section.list.splice(body.index, 1);
       
       sections.splice(index, 1, section);
       
       profile.sections = sections;
       profile.save()
-        .then(() => res.json({ index: body.index }))
+        .then(() => res.json({ index, data: { index: body.index } }))
         .catch(() => res.status(500).json({ msg: 'Failed to add section' }));
     })
     .catch(() => res.status(404).json({ msg: 'Profile does not exist' }));
