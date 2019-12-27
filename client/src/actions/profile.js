@@ -7,14 +7,12 @@ export const UPDATED_CONTACT_OPTION = 'UPDATED_CONTACT_OPTION';
 export const REMOVED_CONTACT_OPTION = 'REMOVED_CONTACT_OPTION';
 export const ADDED_SECTION = 'ADDED_SECTION';
 export const REMOVED_SECTION = 'REMOVED_SECTION';
-
 export const RENAMED_SECTION = 'RENAMED_SECTION';
 
 export const UPDATED_SECTION_TEXT = 'UPDATED_SECTION_TEXT';
 
 export const ADDED_SECTION_ITEM = 'ADDED_SECTION_ITEM';
 export const REMOVED_SECTION_ITEM = 'REMOVED_SECTION_ITEM';
-export const UPDATED_SECTION_ITEM = 'UPDATED_SECTION_ITEM';
 
 export const PROFILE_ACTION_FAILED = 'PROFILE_ACTION_FAILED';
 
@@ -87,6 +85,13 @@ export function removedSection(sectionIndex) {
 export function renamedSection(payload) {
   return {
     type: RENAMED_SECTION,
+    payload
+  };
+}
+
+export function updateSectionText(payload) {
+  return {
+    type: UPDATED_SECTION_TEXT,
     payload
   };
 }

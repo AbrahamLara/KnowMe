@@ -30,6 +30,7 @@ class Sections extends Component {
     }));
   }
 
+  // Creates a section
   handleClick(type) {
     this.props.addSection(type);
   }
@@ -62,9 +63,9 @@ class Sections extends Component {
             let Section = null;
 
             if (section.type === 'text') {
-              Section = <SectionText isEditable={isEditable} text={section.value} />;
+              Section = <SectionText sectionIndex={i} isEditable={isEditable} text={section.value} />;
             } else if (section.type === 'list') {
-              Section = <SectionList isEditable={isEditable} list={section.list} />;
+              Section = <SectionList sectionIndex={i} isEditable={isEditable} list={section.list} />;
             }
 
             return (

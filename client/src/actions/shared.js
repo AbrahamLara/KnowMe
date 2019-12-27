@@ -207,11 +207,24 @@ export const removeSection = (index) => (dispatch, getState) => {
     .catch(() => dispatch(profileActionFailed()));
 }
 
+// This method is for renaming a sections name from a user
+// profile
 export const renameSection = (index, name) => (dispatch, getState) => {
   const config = tokenConfig(getState);
   const body = JSON.stringify({ index, name });
 
   axios.put(`/api/profile/section/name`, body, config)
     .then(() => dispatch(renamedSection({ index, name })))
+    .catch(() => dispatch(profileActionFailed()));
+}
+
+// This methiod is for renaming the text in each setcion type from
+// a user profile
+export const renameSectionText = (type, payload) => (dispatch, getState) => {
+  const config = tokenConfig(getState);
+  const body = JSON.stringify(payload);
+
+  axios.put(`/api/profile/section/${type}`, body, config)
+    .then(() => dispatch(renamedSection(payload)))
     .catch(() => dispatch(profileActionFailed()));
 }

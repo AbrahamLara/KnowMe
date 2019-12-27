@@ -2,7 +2,7 @@ import React from 'react';
 import SectionItem from './SectionItem';
 
 export default function SectionList(props) {
-  const { isEditable, list } = props;
+  const { isEditable, sectionIndex, list } = props;
 
   return (
     <div>
@@ -12,6 +12,7 @@ export default function SectionList(props) {
             key={i}
             isEditable={isEditable}
             index={i}
+            sectionIndex={sectionIndex}
             text={text}
           />
         ))}

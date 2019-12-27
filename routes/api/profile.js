@@ -210,7 +210,7 @@ router.put('/section/:type', verifyToken, (req, res) => {
 
   Profile.findOne({ user_id: ObjectId(payload.id) })
     .then(profile => {
-      const { index, data } = body.section;
+      const { index, data } = body;
       const type = params.type;
       const sections = profile.sections;
       const section = sections[index];

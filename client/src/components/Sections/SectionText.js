@@ -1,5 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import ExpandCollapse from 'react-expand-collapse';
+import { connect } from 'react-redux';
+import { renameSectionText } from '../../actions/shared';
 
 class SectionText extends Component {
   constructor(props) {
@@ -22,12 +24,15 @@ class SectionText extends Component {
   // also update the text of the section in state.
   toggleEdit() {
     const { newText, text, isEditing } = this.state;
+    const { sectionIndex, renameSectionText } = this.props;
 
     if (isEditing && newText && (newText !== text)) {
       this.setState(() => ({
         isEditing: false,
         text: newText
       }));
+
+      renameSectionText('text', { index: sectionIndex, data: { value: newText } });
     } else {
       this.setState(({ isEditing }) => ({
         isEditing: !isEditing,
@@ -103,4 +108,6 @@ class SectionText extends Component {
   }
 }
 
-export default SectionText;
+export default connect(null, {
+  renameSectionText
+})(SectionText);

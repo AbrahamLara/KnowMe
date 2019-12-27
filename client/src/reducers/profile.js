@@ -9,7 +9,8 @@ import {
   PROFILE_ACTION_FAILED,
   ADDED_SECTION,
   REMOVED_SECTION,
-  RENAMED_SECTION
+  RENAMED_SECTION,
+  UPDATED_SECTION_TEXT
 } from '../actions/profile';
 
 const initialstate = {
@@ -24,10 +25,8 @@ const initialstate = {
 export default function profile(state = initialstate, action) {
   switch(action.type) {
     case RETRIEVED_PROFILE:
-      const payload = action.payload;
-
       return {
-        ...payload
+        ...action.payload
       };
     case ADDED_CONTACT_OPTION:
       const contact_options = state.contact_options;
@@ -82,6 +81,24 @@ export default function profile(state = initialstate, action) {
       return {
         ...state,
         sections: updatedSections
+      };
+    case UPDATED_SECTION_TEXT:
+      const payload = action.payload;
+      const data = payload.data;
+      const newSections = state.sections;
+      const updatedSectionText = newSections[payload.index];
+
+      if (data.type === 'text') {
+        updatedSectionText.value = data.value;
+      } else if (data.type === 'list') {
+        updatedSectionText.list.splice(data.index, 1, data.value);
+      }
+
+      newSections.splice(payload.index, 1, updatedSectionText);
+
+      return {
+        ...state,
+        sections: newSections
       };
     case RETRIEVING_PROFILE_FAILED:
     case RETRIEVING_PROFILE:

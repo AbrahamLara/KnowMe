@@ -1,4 +1,6 @@
 import React, { Component, Fragment } from 'react';
+import { renameSectionText } from '../../actions/shared';
+import { connect } from 'react-redux';
 
 class SectionItem extends Component {
   constructor(props) {
@@ -22,12 +24,17 @@ class SectionItem extends Component {
   // also update the item text of the section in state.
   toggleEdit() {
     const { newText, text, isEditing } = this.state;
+    const { renameSectionText, sectionIndex, index } = this.props;
 
     if (isEditing && newText && (newText !== text)) {
       this.setState(() => ({
         isEditing: false,
         text: newText
       }));
+
+      console.log(sectionIndex, index);
+
+      renameSectionText('list', { index: sectionIndex, data: { index, value: newText } });
     } else {
       this.setState(({ isEditing }) => ({
         isEditing: !isEditing,
@@ -116,4 +123,6 @@ class SectionItem extends Component {
   }
 }
 
-export default SectionItem;
+export default connect(null, {
+  renameSectionText
+})(SectionItem);
