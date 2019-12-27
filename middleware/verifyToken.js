@@ -11,7 +11,8 @@ const decodeToken = require('../utils/helpers').decodeToken;
  * @param {Function} next 
  */
 function verifyToken(req, res, next) {
-  if (req.authorizationException) {
+  const { authorizationException, errorException } = req;
+  if (authorizationException) {
     next();
     return;
   }
@@ -32,6 +33,10 @@ function verifyToken(req, res, next) {
 
     next();
   } catch (e) {
+    if (errorException) {
+      return next();
+    }
+    
     res.status(400).json({ msg: 'Failed to verify token'});
   }
 }

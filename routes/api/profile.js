@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { verifyToken, authException } = require('../../middleware');
+const { verifyToken, authException, errorException } = require('../../middleware');
 const User = require('../../models/User');
 const Profile = require('../../models/Profile');
 const ObjectId = require('mongoose').Types.ObjectId;
@@ -11,7 +11,7 @@ const ObjectId = require('mongoose').Types.ObjectId;
  * @desc    Gets user profile to load on know page
  * @access  Public
  */
-router.get('/:profilePath', authException, verifyToken, (req, res) => {
+router.get('/:profilePath', authException, errorException, verifyToken, (req, res) => {
   const {
     payload,
     params: { profilePath }
