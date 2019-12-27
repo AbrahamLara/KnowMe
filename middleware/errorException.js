@@ -1,7 +1,7 @@
 /**
  * This adds status error exceptions for routes
- * that don't need to be send a response with
- * an error status.
+ * that don't need to be sent a response with
+ * an error message.
  * 
  * @param {Object} req 
  * @param {Object} res 
