@@ -1,6 +1,6 @@
 # KnowMe
 
-This is my full stack web development project KnowMe! The backend to this project exists in this directory. This project allows for user authentication with jsonWebTokens and an emailing service for sending confirmation emails to newly registered users. There are still more features/improvements planned for this project.
+This is my full stack web development project KnowMe! The backend to this project exists in this directory. This project allows for user authentication with jsonWebTokens and an emailing service for sending confirmation emails to newly registered users. Feedback is much appreciated!
 
 * Learn more about the client side [here](client/README.md).
 * Learn more about the emailing service [here](emailing/README.md).
@@ -14,7 +14,7 @@ This is my full stack web development project KnowMe! The backend to this projec
 
 ## Database Setup
 
-* create folder in root directory: `sudo mkdir data/db`
+* in your computer's root directory: `sudo mkdir data/db`
 * give ownership of directory to self: `sudo chown -R $USER data/db`
 * start mongod: `mongod --dbpath data/db`
 * start mongo in seperate window: `mongo`
